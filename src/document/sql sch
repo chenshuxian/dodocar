@@ -1,0 +1,34 @@
+create table users (
+         id varchar(50) not null,
+         email varchar(100) not null,
+         name varchar(100) not null,
+         passwd varchar(100) not null,
+         gender bool not null,
+         createdAt bigint not null,
+         updatedAt bigint not null,
+         version bigint not null,
+         primary key (id)
+) engine=innodb;
+
+// 一個考生可以有多筆考試成續
+create table score (
+    id varchar(50) not null,
+    studentId varchar(50) not null,
+    score bigint not null,
+    createdAt bigint not null,
+    primary key (id)
+) engine=innodb;
+
+// 考題區，分別有多個考題以考題型號區別
+// examId 用來區分考卷
+// question 問題
+// choice 選擇題目
+// answer 答案
+create table exam (
+    id varchar(50) not null,
+    examId bigint not null,
+    question varchar(200) not null,
+    choice varchar(200) not null,
+    answer varchar(50),
+    primary key(id)
+) engine=innodb;

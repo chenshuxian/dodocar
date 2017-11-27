@@ -1,0 +1,282 @@
+[
+    {
+        "examId": 1,
+        "question": "",
+        "choice": "1.左灣;2.右灣;3.連續灣路先向左",
+        "answer": "1",
+        "img": "static/images/car1.png"
+    },
+    {
+        "examId": 1,
+        "question": "",
+        "choice": "1.全部車輛停止;2.前後來車停止;3.左右來車通行",
+        "answer": "2",
+        "img": "static/images/car2.png"
+    },
+    {
+        "examId": 1,
+        "question": "",
+        "choice": "1.高(快)速公路交流道名稱;2.地名里程;3.高(快)速公路出口距離",
+        "answer": "2",
+        "img": "static/images/car3.png"
+    },
+    {
+        "examId": 1,
+        "question": "圖中白色倒三角型標線是：",
+        "choice": "1.讓路線;2.停止線;3.路中障礙物體線",
+        "answer": "1",
+        "img": "static/images/car4.png"
+    },
+    {
+        "examId": 1,
+        "question": "",
+        "choice": "1.右彎;2.左彎;3.連續灣路先向右",
+        "answer": "1",
+        "img": "static/images/car5.png"
+    },
+    {
+        "examId": 1,
+        "question": "圖中黃色單實線與黃色虛線併列部分為：",
+        "choice": "1.單向禁止超車;2.雙向禁止超車線;3.車道線",
+        "answer": "1",
+        "img": "static/images/car6.png"
+    },
+    {
+        "examId": 1,
+        "question": "限制出口匝道上最高行駛速度為每小時",
+        "choice": "1.60公里;2.40公里;3.80公里",
+        "answer": "2",
+        "img": "static/images/car7.png"
+    },
+    {
+        "examId": 1,
+        "question": "",
+        "choice": "1.道路專行車輛;2.禁行汔車;3.禁止任何車輛進入",
+        "answer": "1",
+        "img": "static/images/car8.png"
+    },
+    {
+        "examId": 1,
+        "question": "",
+        "choice": "1.前方來車停止通行;2.前後來車停止，左右來車通行;3.全部車輛停止",
+        "answer": "3",
+        "img": "static/images/car9.png"
+    },
+    {
+        "examId": 1,
+        "question": "圖中網狀線，用以告示車輛駕駛人在本標線範圍內：",
+        "choice": "1.可以臨時停車;2.禁止臨時停車;3.禁止停車",
+        "answer": "1",
+        "img": "static/images/car10.png"
+    },
+    {
+        "examId": 1,
+        "question": "遵行方向",
+        "choice": "1.O;2.X",
+        "answer": "1",
+        "img": "static/images/car11.png"
+    },
+    {
+        "examId": 1,
+        "question": "當心行人",
+        "choice": "1.O;2.X",
+        "answer": "1",
+        "img": "static/images/car12.png"
+    },
+    {
+        "examId": 1,
+        "question": "左面來車停止",
+        "choice": "1.O;2.X",
+        "answer": "1",
+        "img": "static/images/car13.png"
+    },
+    {
+        "examId": 1,
+        "question": "左圖標誌表示該標誌與前方交流道出口距離為2,000公尺",
+        "choice": "1.O;2.X",
+        "answer": "2",
+        "img": "static/images/car14.png"
+    },
+    {
+        "examId": 1,
+        "question": "左面來車右轉彎",
+        "choice": "1.O;2.X",
+        "answer": "1",
+        "img": "static/images/car15.png"
+    },
+    {
+        "examId": 1,
+        "question": "自車禍發生之日起，申請鑑定的期限為：",
+        "choice": "1.1個月;2.3個月;3.6個月",
+        "answer": "2",
+        "img": ""
+    },
+    {
+        "examId": 1,
+        "question": "逕行舉發汽車超速行駛時，其違規地點相距：",
+        "choice": "1.14公里以上;2.8公里以上;3.6公里以上;得連續舉發之，但其違規地點在隧道內者，不在此限",
+        "answer": "2",
+        "img": ""
+    },
+    {
+        "examId": 1,
+        "question": "汽車駕駛人，駕車闖紅燈除罰鍰外並記違規點數：",
+        "choice": "1.1點;2.2點;3.3點",
+        "answer": "2",
+        "img": ""
+    },
+    {
+        "examId": 1,
+        "question": "汽車須臨時停車時，應在無禁止臨時停車路段：",
+        "choice": "1.依車輛順方向緊靠道路右側停車;2.可以任意停車;3.顯示危險警告燈即可停車",
+        "answer": "1",
+        "img": ""
+    },
+    {
+        "examId": 1,
+        "question": "汽車變換車道時，應先：",
+        "choice": "1.按鳴喇叭;2.變換燈光;3.顯示方向燈或手勢",
+        "answer": "3",
+        "img": ""
+    },
+    {
+        "examId": 1,
+        "question": "計程車駕駛人對乘客繫安全帶之規定，已盡告知義務乘客仍不繫安全帶應處罰：",
+        "choice": "1.駕駛人;2.乘客;3.都不處罰",
+        "answer": "2",
+        "img": "static/images/car11.png"
+    },
+    {
+        "examId": 1,
+        "question": "汽缸總排氣量550立方公分以上之大型重型機車行駛於快速公路途中，因機件故障或其他緊急情況無法繼續行駛時滑離車道，應顯示危險警告燈，牽移離開車道，在故障車輛後方：",
+        "choice": "1.50公尺處;2.100公尺處;3.200公尺處;設置車輛故障警示設施",
+        "answer": "2",
+        "img": "static/images/car12.png"
+    },
+    {
+        "examId": 1,
+        "question": "行駛前發現煞車或方向盤失靈，駕駛人應：",
+        "choice": "1.減速慢行;2.照往常一樣行駛;3.停止行駛，車輛送修",
+        "answer": "1",
+        "img": "static/images/car13.png"
+    },
+    {
+        "examId": 1,
+        "question": "汽車下長坡時，最安全控制速度的方法，是使用：",
+        "choice": "1.腳煞車;2.手煞車;3.低速檔適時配合引擎煞車",
+        "answer": "3",
+        "img": "static/images/car14.png"
+    },
+    {
+        "examId": 1,
+        "question": "開車調整座椅之時機為：",
+        "choice": "1.車輛行駛前;2.車輛行駛中;3.車輛行駛後",
+        "answer": "1",
+        "img": "static/images/car15.png"
+    },
+    {
+        "examId": 1,
+        "question": "行駛高速或快速公路前，應蒐集並瞭解各項交通管制疏導措施及道路交通狀況。",
+        "choice": "",
+        "answer": "1",
+        "img": ""
+    },
+    {
+        "examId": 1,
+        "question": "大客車行駛高速或快速公路，駕駛人及前座乘客應繫安全帶。",
+        "choice": "",
+        "answer": "2",
+        "img": ""
+    },
+    {
+        "examId": 1,
+        "question": "曾違反兒童及少年性交易防制條例或槍砲彈藥刀械管制條例等相關法律，經判刑確定或曾依檢肅流氓條例裁定應為交付感訓確定者，不得辦理計程車駕駛人執業登記。",
+        "choice": "",
+        "answer": "1",
+        "img": ""
+    },
+    {
+        "examId": 1,
+        "question": "禁止臨時停車路段，全天任何時間都不准臨時停車，亦不得停車。",
+        "choice": "",
+        "answer": "1",
+        "img": ""
+    },
+    {
+        "examId": 1,
+        "question": "小型貨車裝載貨物，由地面算起，高度不得超過2.85公尺。",
+        "choice": "",
+        "answer": "1",
+        "img": ""
+    },
+    {
+        "examId": 1,
+        "question": "持有職業駕駛執照未滿60歲之駕駛人，應自發照之日起，每滿3年審驗1次。",
+        "choice": "",
+        "answer": "1",
+        "img": "static/images/car11.png"
+    },
+    {
+        "examId": 1,
+        "question": "汽車行至交通頻繁地區，為了行車安全，可以隨時按鳴喇叭。",
+        "choice": "",
+        "answer": "2",
+        "img": "static/images/car12.png"
+    },
+    {
+        "examId": 1,
+        "question": "已領有大貨車駕駛執照者，得駕駛小型車及輕型機車。",
+        "choice": "",
+        "answer": "1",
+        "img": "static/images/car13.png"
+    },
+    {
+        "examId": 1,
+        "question": "汽車行駛於隧道內，行車速度應依速限標誌指示。",
+        "choice": "",
+        "answer": "1",
+        "img": "static/images/car14.png"
+    },
+    {
+        "examId": 1,
+        "question": "汽車行駛高速或快速公路途中不得有缺水、缺電、缺燃料之情形。",
+        "choice": "",
+        "answer": "1",
+        "img": "static/images/car15.png"
+    },
+    {
+        "examId": 1,
+        "question": "汽車嚴重碰撞後，使用過的安全帶，其組件包含收縮器、附件等都必須全部換新。",
+        "choice": "",
+        "answer": "1",
+        "img": ""
+    },
+    {
+        "examId": 1,
+        "question": "行車時可使用超速傳動檔（O/D檔）來做引擎煞車。",
+        "choice": "",
+        "answer": "2",
+        "img": ""
+    },
+    {
+        "examId": 1,
+        "question": "冷車啟動後無須於空檔加油門進行暖車，以緩步行駛可加速達到引擎正常工作溫度。",
+        "choice": "",
+        "answer": "1",
+        "img": ""
+    },
+    {
+        "examId": 1,
+        "question": "汽車駛入加油站加油時，引擎應關閉，並不得抽菸或撥、接手機，以免發生危險。",
+        "choice": "",
+        "answer": "1",
+        "img": ""
+    },
+    {
+        "examId": 1,
+        "question": "如發現路上有傷患倒在地上時，應即撥打電話號碼110或119通知警察或救護醫療單位前往處理。",
+        "choice": "",
+        "answer": "1",
+        "img": ""
+    }
+]

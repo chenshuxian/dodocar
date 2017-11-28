@@ -1,6 +1,8 @@
 import user from '../modules/user';
 import { APIError } from '../rest';
 import model from '../model';
+import { uploadFile } from '../upload';
+import path from 'path';
 
 const User = model.Users;
 
@@ -21,7 +23,30 @@ module.exports = {
         }
     },
 
-    'POST /api/login':  async (ctx, next) => {
+    'POST /api/user': async (ctx, next) => {
+
+        let result = { success: false };
+        let serverFilePath = path.join(__dirname, '../static/');
+
+        // //console.log('modules:post');
+    
+        // 上传文件事件
+        try{
+            result = await uploadFile( ctx, {
+                fileType: 'json',
+                path: serverFilePath
+            })
+
+            result = await user.addUser('../static/json/' + result.fileName);
+        }catch(e) {
+            console.log(e);
+        }   
+
+        ctx.rest(result);
+    },
+
+
+    'POST /api/login': async (ctx, next) => {
         try{
             var 
             account = ctx.request.body.userNum,

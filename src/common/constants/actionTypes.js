@@ -25,6 +25,8 @@ export const SET_MODALMSG = 'SET_MODALMSG';
 export const SET_MODALTIT = 'SET_MODALTIT'; 
 export const WORKPAGE = 'WORKPAGE'; 
 export const ADDEXAM = 'ADDEXAM';
+export const ADDUSER = 'ADDUSER';
+
 
 
 

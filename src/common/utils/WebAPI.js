@@ -31,10 +31,10 @@ function getCookie(keyName) {
 }
 
 export default {
-  login: (dispatch, email, password) => {
+  login: (dispatch, userNum, password) => {
     //alert('login' + email);
     axios.post('/api/login', {
-      userNum: email,
+      userNum: userNum,
       exPwd: password
     })
     .then((response) => {
@@ -49,9 +49,6 @@ export default {
           d.setTime(d.getTime() + (24 * 60 * 60 * 1000));
           const expires = 'expires=' + d.toUTCString();
           document.cookie = 'token=' + response.data.token + '; ' + expires;
-          //dispatch(authComplete());
-          //dispatch(hideSpinner());  
-          //alert('login success');
           localStorage.setItem('userId',response.data.userId);
           dispatch(workpage('notice'));
           browserHistory.push('/notice');
@@ -77,6 +74,31 @@ export default {
     //alert(data);
     if(data) {
       axios.post('/api/exams',data,{
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+        })
+      .then((response) => {
+        if(response.data.success === false) {
+          //dispatch(authError()); 
+        } else {
+          //dispatch(modal());
+          alert("上傳成功");
+        }
+      })
+      .catch(function (error) {
+        dispatch(authError());
+      });
+    } else {
+      alert('請選擇上傳檔案');
+    }  
+  },
+  addUser: (dispatch) => {
+    var files = document.getElementById('stuFile').files[0];
+    var data = new FormData();
+    data.append('data', files);
+    if(data) {
+      axios.post('/api/user',data,{
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -147,66 +169,5 @@ export default {
     .catch((error) => {
       console.log(error);
     })
-  },
-  addRecipe: (dispatch, name, description, imagePath) => {
-    const id = uuid.v4();
-    axios.post('/api/recipes?token=' + getCookie('token'), {
-      id: id,
-      name: name,
-      description: description,
-      imagePath: imagePath,
-    })
-    .then((response) => {
-      if(response.data.success === false) {
-        dispatch(hideSpinner());  
-        alert('發生錯誤，請再試一次！');
-        browserHistory.push('/share');         
-      } else {
-        dispatch(hideSpinner());  
-        window.location.reload();        
-        browserHistory.push('/'); 
-      }
-    })
-    .catch(function (error) {
-    });
-  },
-  updateRecipe: (dispatch, recipeId, name, description, imagePath) => {
-    axios.put('/api/recipes/' + recipeId + '?token=' + getCookie('token'), {
-      id: recipeId,
-      name: name,
-      description: description,
-      imagePath: imagePath,
-    })
-    .then((response) => {
-      if(response.data.success === false) {
-        dispatch(hideSpinner());  
-        dispatch(setRecipe({ key: 'recipeId', value: '' }));
-        dispatch(setUi({ key: 'isEdit', value: false }));
-        alert('發生錯誤，請再試一次！');
-        browserHistory.push('/share');         
-      } else {
-        dispatch(hideSpinner());  
-        window.location.reload();        
-        browserHistory.push('/'); 
-      }
-    })
-    .catch(function (error) {
-    });
-  },
-  deleteRecipe: (dispatch, recipeId) => {
-    axios.delete('/api/recipes/' + recipeId + '?token=' + getCookie('token'))
-    .then((response) => {
-      if(response.data.success === false) {
-        dispatch(hideSpinner());  
-        alert('發生錯誤，請再試一次！');
-        browserHistory.push('/');         
-      } else {
-        dispatch(hideSpinner());  
-        window.location.reload();        
-        browserHistory.push('/'); 
-      }
-    })
-    .catch(function (error) {
-    });    
-  } 
+  }
 };

@@ -1,5 +1,7 @@
 // store user as database:
 import model from '../model';
+import fs from 'fs';
+import path from 'path';
 
 let User = model.Users;
 
@@ -19,36 +21,33 @@ module.exports = {
         
     },
 
-    getProduct: (id) => {
-        var i;
-        for (i = 0; i < products.length; i++) {
-            if (products[i].id === id) {
-                return products[i];
-            }
-        }
-        return null;
-    },
+    addUser: async (url) => {
+        let result = {
+            sucess: true,
+            message:'建檔成功'
+        };
 
-    createProduct: (name, manufacturer, price) => {
-        var p = new Product(name, manufacturer, price);
-        products.push(p);
-        return p;
-    },
+        console.log('modules:'+ result.message);
+        try {
+            fs.readFile(path.resolve(__dirname, url), async function(err, data){
+                var user = JSON.parse(data);
+                for(var i in user){
+                     await User.create({
+                        email: user[i].email || '',
+                        passwd: user[i].passwd,
+                        name: user[i].name,
+                        gender: false
+                    })
+                }
+            })
+            console.log('create success');
+        }
+        catch (e) {
+            console.log('there was an error');
+            console.log(e);
+            result.message = '建檔失敗';
+        }
 
-    deleteProduct: (id) => {
-        var
-            index = -1,
-            i;
-        for (i = 0; i < products.length; i++) {
-            if (products[i].id === id) {
-                index = i;
-                break;
-            }
-        }
-        if (index >= 0) {
-            // remove products[index]:
-            return products.splice(index, 1)[0];
-        }
-        return null;
-    }
+        return result;
+    } 
 };

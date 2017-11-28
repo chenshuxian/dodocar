@@ -7,6 +7,7 @@ import {
   AUTH_ERROR,
   LOGOUT_START,
   SET_USER,
+  ADD_USER
 } from '../../constants/actionTypes';
 
 const userReducers = handleActions({
@@ -41,6 +42,9 @@ const userReducers = handleActions({
   SET_USER: (state, { payload }) => (
     state.set(payload.key, payload.value)
   ),
+  ADD_USER: (state, { payload }) => (
+    state.set(payload.userNum, payload.passwd)
+  )
 }, UserState);
 
 export default userReducers;

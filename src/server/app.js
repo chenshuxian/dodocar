@@ -26,9 +26,9 @@ app.use(async (ctx, next) => {
 
 // Use this middleware to set up hot module reloading via webpack.
 // if (process.env.NODE_ENV !== 'test') {
-//     const compiler = webpack(webpackConfig);
-//     app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: webpackConfig.output.publicPath }));
-//     app.use(webpackHotMiddleware(compiler));
+    // const compiler = webpack(webpackConfig);
+    // app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: webpackConfig.output.publicPath }));
+    // app.use(webpackHotMiddleware(compiler));
 // }
 
 // static file support:

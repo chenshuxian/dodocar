@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "NODE_ENV=test nodemon src/server/index.js",
+    "start": "NODE_ENV=test nodemon src/server/indextest.js",
     "initDB": "NODE_ENV=test node src/server/init-db.js"
   },
   "dependencies": {

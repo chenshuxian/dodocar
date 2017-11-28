@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import AddExam from '../../components/AddExam';
 
 import {
-    addExam
+    addExam,
+    addUser
 } from '../../actions';
 
 export default connect(
@@ -12,8 +13,12 @@ export default connect(
   }),
   (dispatch) => ({
     addExam: () => {
-      var file = document.getElementById('examFile').files[0];
-      dispatch(addExam(dispatch, file))
+      //var file = document.getElementById('examFile').files[0];
+      dispatch(addExam(dispatch))
+    },
+    addStu: () => {
+      //var user = document.getElementById('stuFile').files[0];
+      dispatch(addUser(dispatch))
     }
   })
 )(AddExam);

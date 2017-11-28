@@ -34653,7 +34653,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.setUser = exports.checkAuth = exports.startLogout = exports.authError = exports.authComplete = exports.authStart = undefined;
+	exports.addUser = exports.setUser = exports.checkAuth = exports.startLogout = exports.authError = exports.authComplete = exports.authStart = undefined;
 
 	var _reduxActions = __webpack_require__(289);
 
@@ -34671,6 +34671,7 @@
 	var startLogout = exports.startLogout = (0, _reduxActions.createAction)('START_LOGOUT', _WebAPI2.default.logout);
 	var checkAuth = exports.checkAuth = (0, _reduxActions.createAction)('CHECK_AUTH');
 	var setUser = exports.setUser = (0, _reduxActions.createAction)('SET_USER');
+	var addUser = exports.addUser = (0, _reduxActions.createAction)('ADD_USER', _WebAPI2.default.addUser);
 
 /***/ }),
 /* 289 */
@@ -34924,10 +34925,10 @@
 	}
 
 	exports.default = {
-	  login: function login(dispatch, email, password) {
+	  login: function login(dispatch, userNum, password) {
 	    //alert('login' + email);
 	    _axios2.default.post('/api/login', {
-	      userNum: email,
+	      userNum: userNum,
 	      exPwd: password
 	    }).then(function (response) {
 	      if (response.data.success === false) {
@@ -34941,9 +34942,6 @@
 	          d.setTime(d.getTime() + 24 * 60 * 60 * 1000);
 	          var expires = 'expires=' + d.toUTCString();
 	          document.cookie = 'token=' + response.data.token + '; ' + expires;
-	          //dispatch(authComplete());
-	          //dispatch(hideSpinner());  
-	          //alert('login success');
 	          localStorage.setItem('userId', response.data.userId);
 	          dispatch((0, _actions.workpage)('notice'));
 	          _reactRouter.browserHistory.push('/notice');
@@ -34968,6 +34966,29 @@
 	    //alert(data);
 	    if (data) {
 	      _axios2.default.post('/api/exams', data, {
+	        headers: {
+	          'Content-Type': 'multipart/form-data'
+	        }
+	      }).then(function (response) {
+	        if (response.data.success === false) {
+	          //dispatch(authError()); 
+	        } else {
+	          //dispatch(modal());
+	          alert("上傳成功");
+	        }
+	      }).catch(function (error) {
+	        dispatch((0, _actions.authError)());
+	      });
+	    } else {
+	      alert('請選擇上傳檔案');
+	    }
+	  },
+	  addUser: function addUser(dispatch) {
+	    var files = document.getElementById('stuFile').files[0];
+	    var data = new FormData();
+	    data.append('data', files);
+	    if (data) {
+	      _axios2.default.post('/api/user', data, {
 	        headers: {
 	          'Content-Type': 'multipart/form-data'
 	        }
@@ -35030,58 +35051,6 @@
 	    }).catch(function (error) {
 	      console.log(error);
 	    });
-	  },
-	  addRecipe: function addRecipe(dispatch, name, description, imagePath) {
-	    var id = _uuid2.default.v4();
-	    _axios2.default.post('/api/recipes?token=' + getCookie('token'), {
-	      id: id,
-	      name: name,
-	      description: description,
-	      imagePath: imagePath
-	    }).then(function (response) {
-	      if (response.data.success === false) {
-	        dispatch((0, _actions.hideSpinner)());
-	        alert('發生錯誤，請再試一次！');
-	        _reactRouter.browserHistory.push('/share');
-	      } else {
-	        dispatch((0, _actions.hideSpinner)());
-	        window.location.reload();
-	        _reactRouter.browserHistory.push('/');
-	      }
-	    }).catch(function (error) {});
-	  },
-	  updateRecipe: function updateRecipe(dispatch, recipeId, name, description, imagePath) {
-	    _axios2.default.put('/api/recipes/' + recipeId + '?token=' + getCookie('token'), {
-	      id: recipeId,
-	      name: name,
-	      description: description,
-	      imagePath: imagePath
-	    }).then(function (response) {
-	      if (response.data.success === false) {
-	        dispatch((0, _actions.hideSpinner)());
-	        dispatch(setRecipe({ key: 'recipeId', value: '' }));
-	        dispatch(setUi({ key: 'isEdit', value: false }));
-	        alert('發生錯誤，請再試一次！');
-	        _reactRouter.browserHistory.push('/share');
-	      } else {
-	        dispatch((0, _actions.hideSpinner)());
-	        window.location.reload();
-	        _reactRouter.browserHistory.push('/');
-	      }
-	    }).catch(function (error) {});
-	  },
-	  deleteRecipe: function deleteRecipe(dispatch, recipeId) {
-	    _axios2.default.delete('/api/recipes/' + recipeId + '?token=' + getCookie('token')).then(function (response) {
-	      if (response.data.success === false) {
-	        dispatch((0, _actions.hideSpinner)());
-	        alert('發生錯誤，請再試一次！');
-	        _reactRouter.browserHistory.push('/');
-	      } else {
-	        dispatch((0, _actions.hideSpinner)());
-	        window.location.reload();
-	        _reactRouter.browserHistory.push('/');
-	      }
-	    }).catch(function (error) {});
 	  }
 	};
 
@@ -45477,6 +45446,7 @@
 	var SET_MODALTIT = exports.SET_MODALTIT = 'SET_MODALTIT';
 	var WORKPAGE = exports.WORKPAGE = 'WORKPAGE';
 	var ADDEXAM = exports.ADDEXAM = 'ADDEXAM';
+	var ADDUSER = exports.ADDUSER = 'ADDUSER';
 
 /***/ }),
 /* 333 */
@@ -47993,8 +47963,12 @@
 	}, function (dispatch) {
 	  return {
 	    addExam: function addExam() {
-	      var file = document.getElementById('examFile').files[0];
-	      dispatch((0, _actions.addExam)(dispatch, file));
+	      //var file = document.getElementById('examFile').files[0];
+	      dispatch((0, _actions.addExam)(dispatch));
+	    },
+	    addStu: function addStu() {
+	      //var user = document.getElementById('stuFile').files[0];
+	      dispatch((0, _actions.addUser)(dispatch));
 	    }
 	  };
 	})(_AddExam2.default);
@@ -48027,7 +48001,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+	    value: true
 	});
 
 	var _react = __webpack_require__(2);
@@ -48036,39 +48010,176 @@
 
 	var _reactstrap = __webpack_require__(320);
 
+	var _index = __webpack_require__(287);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	/*
-	  考題增加
-	*/
 	var AddExam = function AddExam(_ref) {
-	  var addExam = _ref.addExam,
-	      handleUploadData = _ref.handleUploadData;
-	  return _react2.default.createElement(
-	    'section',
-	    { className: 'examPage', id: 'exam' },
-	    _react2.default.createElement(
-	      _reactstrap.Form,
-	      null,
-	      _react2.default.createElement(
-	        _reactstrap.FormGroup,
-	        null,
+	    var addExam = _ref.addExam,
+	        addStu = _ref.addStu,
+	        handleUploadData = _ref.handleUploadData;
+	    return _react2.default.createElement(
+	        'section',
+	        { className: 'examPage', id: 'exam' },
 	        _react2.default.createElement(
-	          _reactstrap.Label,
-	          { 'for': 'exampleFile' },
-	          'File'
+	            'h2',
+	            { className: 'text-center' },
+	            '\u8A66\u984C\u53CA\u5B78\u54E1\u7BA1\u7406\u5340'
 	        ),
-	        _react2.default.createElement(_reactstrap.Input, { type: 'file', name: 'file', id: 'examFile' })
-	      ),
-	      _react2.default.createElement(
-	        _reactstrap.FormGroup,
-	        null,
-	        _react2.default.createElement(_reactstrap.Button, { onClick: addExam })
-	      )
-	    )
-	  );
-	};
-
+	        _react2.default.createElement('hr', { className: 'star-primary' }),
+	        _react2.default.createElement(
+	            'div',
+	            { className: 'col-lg-8 mx-auto' },
+	            _react2.default.createElement(
+	                _reactstrap.Form,
+	                null,
+	                _react2.default.createElement(
+	                    _reactstrap.FormGroup,
+	                    { row: true },
+	                    _react2.default.createElement(
+	                        _reactstrap.Label,
+	                        { 'for': 'exampleFile' },
+	                        '\u8A66\u984C\u7BA1\u7406'
+	                    ),
+	                    _react2.default.createElement(_reactstrap.Input, { type: 'file', name: 'file', id: 'examFile' }),
+	                    _react2.default.createElement(
+	                        _reactstrap.Button,
+	                        { onClick: addExam },
+	                        '\u5EFA\u7ACB'
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'p',
+	                    null,
+	                    ' \b\u4E0A\u50B3\u683C\u5F0F\u8AAA\u660E: ',
+	                    _react2.default.createElement(
+	                        'a',
+	                        { href: '/static/sql/exam.json', target: '_blank' },
+	                        'exam \u7BC4\u4F8B\u6A94'
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    _reactstrap.FormGroup,
+	                    { row: true },
+	                    _react2.default.createElement('img', { src: '/static/images/examJson.png' }),
+	                    _react2.default.createElement(
+	                        'ul',
+	                        null,
+	                        _react2.default.createElement(
+	                            'li',
+	                            null,
+	                            _react2.default.createElement(
+	                                'b',
+	                                null,
+	                                ' examId: \u984C\u5EABID '
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            null,
+	                            _react2.default.createElement(
+	                                'b',
+	                                null,
+	                                ' question: \u984C\u76EE '
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            null,
+	                            _react2.default.createElement(
+	                                'b',
+	                                null,
+	                                ' choice: \u9078\u64C7 '
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            null,
+	                            _react2.default.createElement(
+	                                'b',
+	                                null,
+	                                ' answer: \u7B54\u6848 '
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            null,
+	                            _react2.default.createElement(
+	                                'b',
+	                                null,
+	                                ' img: \u5716\u7247 '
+	                            )
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement('hr', null),
+	                _react2.default.createElement(
+	                    _reactstrap.FormGroup,
+	                    { row: true },
+	                    _react2.default.createElement(
+	                        _reactstrap.Label,
+	                        { 'for': 'exampleFile' },
+	                        '\u5B78\u54E1\u7BA1\u7406'
+	                    ),
+	                    _react2.default.createElement(_reactstrap.Input, { type: 'file', name: 'stufile', id: 'stuFile' }),
+	                    _react2.default.createElement(
+	                        _reactstrap.Button,
+	                        { onClick: _index.addUser },
+	                        '\u5EFA\u7ACB'
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'p',
+	                    null,
+	                    ' \b\u4E0A\u50B3\u683C\u5F0F\u8AAA\u660E: ',
+	                    _react2.default.createElement(
+	                        'a',
+	                        { href: '/static/sql/user.json', target: '_blank' },
+	                        'user \u7BC4\u4F8B\u6A94'
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    _reactstrap.FormGroup,
+	                    { row: true },
+	                    _react2.default.createElement('img', { src: '/static/images/userJson.png' }),
+	                    _react2.default.createElement(
+	                        'ul',
+	                        null,
+	                        _react2.default.createElement(
+	                            'li',
+	                            null,
+	                            _react2.default.createElement(
+	                                'b',
+	                                null,
+	                                ' name: \u5E33\u865F '
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            null,
+	                            _react2.default.createElement(
+	                                'b',
+	                                null,
+	                                ' passwd: \u5BC6\u78BC '
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            null,
+	                            _react2.default.createElement(
+	                                'b',
+	                                null,
+	                                ' email: \u53EF\u6709\u53EF\u7121 '
+	                            )
+	                        )
+	                    )
+	                )
+	            )
+	        )
+	    );
+	}; /*
+	     考題增加
+	   */
 	exports.default = AddExam;
 
 /***/ }),
@@ -50262,6 +50373,10 @@
 	  SET_USER: function SET_USER(state, _ref) {
 	    var payload = _ref.payload;
 	    return state.set(payload.key, payload.value);
+	  },
+	  ADD_USER: function ADD_USER(state, _ref2) {
+	    var payload = _ref2.payload;
+	    return state.set(payload.userNum, payload.passwd);
 	  }
 	}, _models.UserState);
 

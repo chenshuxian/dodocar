@@ -63,13 +63,17 @@ const handleRender = (ctx) => {
             <RouterContext {...renderProps} />
           </Provider>
         );
+        let test = "/static/dist/bundle.js";
+        if (process.env.NODE_ENV  == 'test')
+            test = "/static/bundle.js";
+
         let state = store.getState();
-        let page = renderFullPage(initView, state);
+        let page = renderFullPage(initView, state, test);
         return ctx.response.body = page;
     })
   }
   
-const renderFullPage = (html, preloadedState) => (`
+const renderFullPage = (html, preloadedState, test) => (`
     <!doctype html>
     <html lang="en">
     
@@ -100,7 +104,7 @@ const renderFullPage = (html, preloadedState) => (`
         <script>
         window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\x3c')}
         </script>
-        <script src="/static/dist/bundle.js"></script>
+        <script src="${test}"></script>
         <script src="/static/js/jquery/jquery.min.js"></script>
         <script src="/static/js/bootstrap.bundle.min.js"></script>
         <script src="/static/js/jqBootstrapValidation.js"></script>

@@ -34937,16 +34937,13 @@
 	        //alert('登入錯誤請重新登入!!');
 	        window.location.reload();
 	      } else {
-	        if (!document.cookie.token) {
-	          var d = new Date();
-	          d.setTime(d.getTime() + 24 * 60 * 60 * 1000);
-	          var expires = 'expires=' + d.toUTCString();
-	          document.cookie = 'token=' + response.data.token + '; ' + expires;
-	          localStorage.setItem('userId', response.data.userId);
-	          dispatch((0, _actions.workpage)('notice'));
-	          _reactRouter.browserHistory.push('/notice');
-	          window.scroll(0, 0);
-	        }
+	        //if (!document.cookie.token) {
+	        localStorage.setItem('token', response.data.token);
+	        localStorage.setItem('userId', response.data.userId);
+	        dispatch((0, _actions.workpage)('notice'));
+	        _reactRouter.browserHistory.push('/notice');
+	        window.scroll(0, 0);
+	        //}
 	      }
 	    }).catch(function (error) {
 	      //dispatch(authError());
@@ -34956,6 +34953,7 @@
 	  logout: function logout(dispatch) {
 	    document.cookie = 'token=; ' + 'expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 	    //dispatch(hideSpinner());  
+	    localStorage.removeItem('token');
 	    _reactRouter.browserHistory.push('/');
 	  },
 	  addExam: function addExam(dispatch, file) {
@@ -35046,6 +35044,8 @@
 	      examId: examId
 	    }).then(function (response) {
 	      console.log(response.data.score);
+	      localStorage.removeItem('answer');
+	      localStorage.removeItem('Exam');
 	      dispatch((0, _actions.score)(response.data.score));
 	      _reactRouter.browserHistory.push('/score');
 	    }).catch(function (error) {
@@ -50251,7 +50251,10 @@
 	    return state.set('questionID', payload.qID);
 	  },
 	  GET_EXAM: function GET_EXAM(state) {
-	    var exam = JSON.parse(localStorage.Exam);
+	    var exam = '';
+	    if (localStorage.Exam) {
+	      exam = JSON.parse(localStorage.Exam);
+	    }
 	    return state.set('exam', exam);
 	  },
 	  START_EXAM: function START_EXAM(state) {

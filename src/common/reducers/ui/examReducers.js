@@ -16,7 +16,10 @@ const examReducers = handleActions({
     state.set('questionID', payload.qID)
   ),
   GET_EXAM: (state) => {
-    let exam = JSON.parse(localStorage.Exam);
+    let exam = '';
+    if(localStorage.Exam){
+      exam = JSON.parse(localStorage.Exam);
+    }
     return state.set('exam', exam) 
   },
   START_EXAM: (state) => {

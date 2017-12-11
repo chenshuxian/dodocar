@@ -10,7 +10,11 @@ let Exam = model.Exams,
 module.exports = {
     getExam: async () => {
         try {
-            let exam = await Exam.findAll();
+            let exam = await Exam.findAll({
+                where:{
+                    examId: 1
+                }
+            });
             console.log('exam: ' + JSON.stringify(exam));
             return JSON.stringify(exam);
         }
@@ -56,14 +60,22 @@ module.exports = {
         try {
             fs.readFile(path.resolve(__dirname, url), async function(err, data){
                 var exam = JSON.parse(data);
+                //cosnole.log(exam);
+                //let success;
                 for(var i in exam){
-                     await Exam.create({
-                        examId: exam[i].examId,
-                        question: exam[i].question,
-                        choice: exam[i].choice,
-                        answer: exam[i].answer,
-                        img: exam[i].img
-                    })
+                    try {
+                        await Exam.create({
+                            examId: exam[i].examId,
+                            question: exam[i].question,
+                            choice: exam[i].choice,
+                            answer: exam[i].answer,
+                            img: exam[i].img
+                        })
+                    }catch (e) {
+                        console.log(e);
+                        console.log('fais');
+                    }
+                     
                 }
             })
             console.log('create success');

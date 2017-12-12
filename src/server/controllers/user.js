@@ -3,6 +3,7 @@ import { APIError } from '../rest';
 import model from '../model';
 import { uploadFile } from '../upload';
 import path from 'path';
+import auth from '../modules/auth';
 
 const User = model.Users;
 
@@ -27,17 +28,16 @@ module.exports = {
 
         let result = { success: false };
         let serverFilePath = path.join(__dirname, '../static/');
-
-        // //console.log('modules:post');
     
         // 上传文件事件
         try{
-            result = await uploadFile( ctx, {
+            let file = await uploadFile( ctx, {
                 fileType: 'json',
                 path: serverFilePath
             })
 
-            result = await user.addUser('../static/json/' + result.fileName);
+            result = await user.addUser('../static/json/' + file.fileName);
+            console.log('result:' + result);
         }catch(e) {
             console.log(e);
         }   
@@ -54,16 +54,32 @@ module.exports = {
             
             console.log('account:' + account + ', ' + password);
             
-            var p =  await user.getUser(account, password);
+            var p =  await user.getUser(account);
             var userJson = JSON.parse(p);
             
-            if(p) {
-                ctx.rest({
-                    success: true,
-                    userId: userJson.id
-                });
-            }else {
-                ctx.rest({success: false});
+            if (p) {
+                //console.log(userJson.passwd + '' + password  + '=' + p.passwd == password);
+                if (userJson.passwd == password){
+                    var 
+                        payload = { user: userJson.name },
+                        opts = { expiresIn: '1h' },
+                        token = await auth.sign(payload, opts),
+                        request = {
+                            success: true,
+                            userId: userJson.id,
+                            token: token
+                        };
+                } else {
+                        request = {
+                            success : 'false',
+                            message : '使用者密碼錯誤' 
+                        }
+
+                }
+                
+                ctx.rest(request);
+            } else {
+                ctx.rest({success: 'false', message: '驗證失敗，使用者不存在'});
             }
 
         }

@@ -12,7 +12,9 @@ import {
   completeLogout,
   getExam,
   score,
-  workpage
+  workpage,
+  startExam,
+  login
 } from '../actions';
 
 function getCookie(keyName) {
@@ -39,21 +41,27 @@ export default {
     })
     .then((response) => {
       if(response.data.success === false) {
-        //dispatch(authError()); 
-        //dispatch(hideSpinner());  
-        //alert('登入錯誤請重新登入!!');
+        //dispatch(login());
         window.location.reload();        
       } else {
-        if (!document.cookie.token) {
-          let d = new Date();
-          d.setTime(d.getTime() + (24 * 60 * 60 * 1000));
-          const expires = 'expires=' + d.toUTCString();
-          document.cookie = 'token=' + response.data.token + '; ' + expires;
+        //if (!document.cookie.token) {
+          // let d = new Date();
+          // d.setTime(d.getTime() + (24 * 60 * 60 * 1000));
+          // const expires = 'expires=' + d.toUTCString();
+          // document.cookie = 'token=' + response.data.token + '; ' + expires;
+          var token = response.data.token,
+              info;
           localStorage.setItem('userId',response.data.userId);
+          localStorage.setItem('token',token);
+          info = JSON.parse(atob(token.split('.')[1]));
+          localStorage.setItem('user',info.user);
+          localStorage.setItem('admin',info.admin);
+          dispatch(authComplete());
           dispatch(workpage('notice'));
+          //dispatch(login());
           browserHistory.push('/notice');
           window.scroll(0,0);
-        }
+        //}
       }
     })
     .catch(function (error) {
@@ -62,8 +70,7 @@ export default {
     });
   },
   logout: (dispatch) => {
-    document.cookie = 'token=; ' + 'expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-    //dispatch(hideSpinner());  
+    document.cookie = 'token=; ' + 'expires=Thu, 01 Jan 1970 00:00:01 GMT;'; 
     browserHistory.push('/'); 
   },
   addExam: (dispatch, file) => {
@@ -106,6 +113,7 @@ export default {
       .then((response) => {
         if(response.data.success === false) {
           //dispatch(authError()); 
+          alert(response.data.message);
         } else {
           //dispatch(modal());
           alert("上傳成功");
@@ -134,16 +142,27 @@ export default {
     });
   },
   getExam: (dispatch) => {
-    axios.get('/api/exams')
+    axios.get('/api/exams',{
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      },
+      params: {
+        studId: localStorage.getItem('userId')
+      }
+      })
     .then((response) => {
       if(response.data) {
         //將檔案存入store
-        console.log(response.data.exam);
+        //console.log(response.data.exam);
         var exam = JSON.parse(response.data.exam),
             answer = new Array(40).fill(0);
         localStorage.setItem('Exam', response.data.exam);
         localStorage.setItem('answer', answer);
-        localStorage.setItem('examId', exam[0].examId)
+        localStorage.setItem('examId', exam[0].examId);
+        dispatch(getExam());
+        dispatch(startExam());
+        dispatch(workpage('examPage'));
+        browserHistory.push('/examPage');
       }
     })
     .catch((error) => {

@@ -2,10 +2,10 @@ import Immutable from 'immutable';
 
 // initstate model
 export const UiState = Immutable.fromJS({
-  spinnerVisible: false,
   checked: false,
   isEdit: false,
-  workpage: '/'
+  workpage: '/',
+  login: false
 });
 
 export const RecipeState = Immutable.fromJS({
@@ -19,10 +19,10 @@ export const RecipeState = Immutable.fromJS({
 });
 
 export const UserState = Immutable.fromJS({
-  username: '',
+  userName: '',
   userNum: '',
   password: '',
-  isAuthorized: false,
+  isAuthorized: 0,
 });
 
 export const ExamState = Immutable.fromJS({

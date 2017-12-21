@@ -10,7 +10,8 @@ import AddExamContainer from '../containers/AddExamContainer';
 import auth from '../utils/auth';
 
 function requireAuth () {
-  if(!auth.isLoggedIn()) {
+  const token = localStorage.getItem('token');
+  if(!auth.isLoggedIn(token)) {
     browserHistory.push('/');
   }
 }
@@ -18,9 +19,9 @@ function requireAuth () {
 export default (
   <Route path='/' component={Main}>
     <IndexRoute component={HomePageContainer} />
-    <Route path="/notice" component={NoticePageContainer} onEnter={requireAuth} />
-    <Route path="/examPage" component={ExamPageContainer} onEnter={requireAuth} />
-    <Route path="/score" component={ScoreContainer} onEnter={requireAuth} />
-    <Route path="/addExam" component={AddExamContainer} onEnter={requireAuth} />
+    <Route path="/notice" component={NoticePageContainer}  />
+    <Route path="/examPage" component={ExamPageContainer}  />
+    <Route path="/score" component={ScoreContainer}  />
+    <Route path="/addExam" component={AddExamContainer}/>
   </Route>
 );

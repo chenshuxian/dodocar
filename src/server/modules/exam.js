@@ -2,18 +2,62 @@
 import model from '../model';
 import fs from 'fs';
 import path from 'path';
+import Sequelize from 'sequelize';
 
 
 let Exam = model.Exams,
     Score = model.Score;
 
+// 考題範圍，依考題取的 examId 分類
+// @param 要去除的題庫
+// return 考題範圍陣列
+var examArea = async (studId) => {
+    var readyEx = await readyExam(studId);
+    var area = await Exam.findAll({
+        attributes: ['examId'],
+        where:{
+            examId: {$notIn: readyEx}
+        },
+        group: 'examId'
+    });
+    console.log('examArea:' + area);
+    return area;
+}
+
+// 考生已考的考題題號，依考題取的 examId 分類
+// @param 學號
+// return 已考過之考題
+var readyExam = async (studId) => {
+    var area = await Score.findAll({
+        attributes: ['examId'],
+        where: {
+            studentId: studId
+        },
+        group: 'examId'
+    }),
+    arr = [];
+
+    console.log('readyExam:' + JSON.stringify(area));
+    
+    for (var x in area) {
+        // Shows only the explicitly set index of "5", and ignores 0-4
+        arr.push(area[x]['examId']);
+        //console.log(area[x]['examId']);
+    }
+    return arr;
+}
+
 module.exports = {
-    getExam: async () => {
+    // 取得考題，examId從題庫中的examId進行亂數取得
+    getExam: async (studId) => {
+        var ea = await examArea(studId);
+
         try {
             let exam = await Exam.findAll({
                 where:{
                     examId: 1
-                }
+                },
+                order: ['createdAt']
             });
             console.log('exam: ' + JSON.stringify(exam));
             return JSON.stringify(exam);
@@ -60,8 +104,16 @@ module.exports = {
         try {
             fs.readFile(path.resolve(__dirname, url), async function(err, data){
                 var exam = JSON.parse(data);
-                //cosnole.log(exam);
+                //console.log('examID:' + exam[1].examId);
+                var examId = exam[1].examId;
                 //let success;
+                // 若題庫存在，就先殺除
+                Exam.destroy({
+                    where: {
+                        examId: examId
+                    }
+                });
+
                 for(var i in exam){
                     try {
                         await Exam.create({
@@ -73,7 +125,7 @@ module.exports = {
                         })
                     }catch (e) {
                         console.log(e);
-                        console.log('fais');
+                        console.log('fails');
                     }
                      
                 }

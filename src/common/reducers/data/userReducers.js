@@ -13,14 +13,14 @@ import {
 const userReducers = handleActions({
   AUTH_START: (state) => (
     state.merge({
-      isAuthorized: false,      
+      isAuthorized: 0,      
     })
   ),  
   AUTH_COMPLETE: (state) => (
     state.merge({
       email: '',
       password: '',
-      isAuthorized: true,
+      isAuthorized: 1,
     })
   ),  
   AUTH_ERROR: (state) => (
@@ -28,16 +28,16 @@ const userReducers = handleActions({
       username: '',
       userNum: '',
       password: '',
-      isAuthorized: false,
+      isAuthorized: 0,
     })
   ),  
   START_LOGOUT: (state) => (
     state.merge({
-      isAuthorized: false,      
+      isAuthorized: 0,      
     })
   ), 
   CHECK_AUTH: (state) => (
-    state.set('isAuthorized', true)
+    state.set('isAuthorized', 1)
   ),
   SET_USER: (state, { payload }) => (
     state.set(payload.key, payload.value)

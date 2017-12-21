@@ -4,9 +4,9 @@ import { NAV, EXAM } from '../../constants/pageTitle';
 
 const AppBar = ({
   isAuthorized,
-  onToShare,
-  onLogout,
-  workpage
+  userName,
+  workpage,
+  onLogin
 }) => (
   <nav className="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
       <div className="container">
@@ -27,9 +27,13 @@ const AppBar = ({
                 <li className="nav-item">
                   <a className="nav-link js-scroll-trigger" href="#contact">{NAV.CONTACT}</a>
                 </li>
-                <li className="nav-item">
-                  <Link to='/notice' className="nav-link js-scroll-trigger" >{EXAM.NOTICE}</Link>
-                </li>
+                {/* <li className="nav-item">
+                  { isAuthorized == 0 ?
+                    <a className="nav-link js-scroll-trigger" onClick={onLogin}>登入</a>
+                    :
+                    <a className="nav-link js-scroll-trigger" >{userName}</a>
+                  }       
+                </li> */}
               </ul>
               :
               <ul className="navbar-nav ml-auto">

@@ -7,17 +7,23 @@ import {
   startLogout,
   setRecipe,
   setUi,
+  login
 } from '../../actions';
 
 export default connect(
   (state) => ({
-    //isAuthorized: state.getIn(['user', 'isAuthorized']),
-    workpage: state.getIn(['ui','workpage'])
+    isAuthorized: state.getIn(['user', 'isAuthorized']),
+    workpage: state.getIn(['ui','workpage']),
+    userName: state.getIn(['user', 'userName']),
+    login: state.getIn(['ui','login'])
   }),
   (dispatch) => ({
     onLogout: () => (
       dispatch(startLogout(dispatch))
     ),
+    onLogin: () => {
+      dispatch(login())
+    }
   })
 )(AppBar);
 

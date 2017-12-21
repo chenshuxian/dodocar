@@ -8,9 +8,11 @@ import webpack from 'webpack';
 import React from 'react';
 import webpackDevMiddleware from 'koa-webpack-dev-middleware';
 import webpackHotMiddleware from 'koa-webpack-hot-middleware';
-import { RouterContext, match } from 'react-router';
-import { renderToString } from 'react-dom/server';
-import { Provider } from 'react-redux';
+import jwtm from 'koa-jwt';
+import config from './config';
+// import { RouterContext, match } from 'react-router';
+// import { renderToString } from 'react-dom/server';
+// import { Provider } from 'react-redux';
 import Immutable, { fromJS } from 'immutable';
 /* Common Packages */
 import webpackConfig from '../../webpack.config';
@@ -25,11 +27,11 @@ app.use(async (ctx, next) => {
 });
 
 // Use this middleware to set up hot module reloading via webpack.
-// if (process.env.NODE_ENV !== 'test') {
-    // const compiler = webpack(webpackConfig);
-    // app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: webpackConfig.output.publicPath }));
-    // app.use(webpackHotMiddleware(compiler));
-// }
+if (process.env.NODE_ENV == 'test') {
+    const compiler = webpack(webpackConfig);
+    app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: webpackConfig.output.publicPath }));
+    app.use(webpackHotMiddleware(compiler));
+}
 
 // static file support:
 let staticFiles = require('./static-files');
@@ -37,6 +39,10 @@ app.use(staticFiles('/static/', __dirname + '/static'));
 
 // parse request body:
 app.use(bodyParser());
+
+//無需進行驗證的頁面
+let path = [/^\/api\/login/, /^\/api\/register/, /^\//];
+app.use(jwtm({secret: config.secret}).unless({path:path}));
 
 // bind .rest() for ctx:
 app.use(rest.restify());

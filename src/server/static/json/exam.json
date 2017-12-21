@@ -2,7 +2,7 @@
     {
         "examId": 1,
         "question": "",
-        "choice": "1.左灣;2.右灣;3.連續灣路先向左",
+        "choice": "1.test左灣;2.右灣;3.連續灣路先向左",
         "answer": "1",
         "img": "static/images/car1.png"
     },

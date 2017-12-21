@@ -33,7 +33,8 @@ module.exports = {
     'GET /api/exams': async (ctx, next) => {
         
         // 取得資料庫試題
-        var examList = await exam.getExam();
+        var studId = ctx.request.query.studId;
+        var examList = await exam.getExam(studId);
 
         ctx.rest({
             exam: examList

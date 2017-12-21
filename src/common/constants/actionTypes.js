@@ -4,8 +4,6 @@ export const AUTH_ERROR    = "AUTH_ERROR";
 export const START_LOGOUT    = "START_LOGOUT";
 export const CHECK_AUTH    = "CHECK_AUTH";
 export const SET_USER    = "SET_USER";
-export const SHOW_SPINNER    = "SHOW_SPINNER";
-export const HIDE_SPINNER    = "HIDE_SPINNER";
 export const SET_UI    = "SET_UI";
 export const GET_RECIPES = 'GET_RECIPES';
 export const SET_RECIPE = 'SET_RECIPE';
@@ -26,6 +24,7 @@ export const SET_MODALTIT = 'SET_MODALTIT';
 export const WORKPAGE = 'WORKPAGE'; 
 export const ADDEXAM = 'ADDEXAM';
 export const ADDUSER = 'ADDUSER';
+export const LOGIN = 'LOGIN';
 
 
 

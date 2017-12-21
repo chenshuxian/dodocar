@@ -1,7 +1,6 @@
 export default  {
-    isLoggedIn: () => {
-        // 当有token时还要检测是否过期
-        const token = localStorage.getItem('token');
+    isLoggedIn: (token) => {
+        // 当有token时还要检测是否过期  
         if( token ) {
             var info;
             try {

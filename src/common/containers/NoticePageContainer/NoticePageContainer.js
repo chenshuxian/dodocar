@@ -22,11 +22,7 @@ export default connect(
     },
     goExam: (event) => {
       //dispatch(getExam(dispatch));
-      WebAPI.getExam();
-      dispatch(getExam());
-      dispatch(startExam());
-      dispatch(workpage('examPage'));
-      browserHistory.push('/examPage');
+      WebAPI.getExam(dispatch);
     }
   })
 )(NoticePage);

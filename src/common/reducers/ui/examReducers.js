@@ -1,5 +1,6 @@
 import { handleActions } from 'redux-actions';
 import { ExamState } from '../../constants/models';
+import { EXAMTOTAL } from '../../constants/exam';
 
 import {
     CREATE_Q,
@@ -8,7 +9,8 @@ import {
     ANSWER_Q,
     MODAL,
     SET_MODALMSG,
-    SET_MODALTIT
+    SET_MODALTIT,
+    START_EXAM
 } from '../../constants/actionTypes';
 
 const examReducers = handleActions({
@@ -23,9 +25,7 @@ const examReducers = handleActions({
     return state.set('exam', exam) 
   },
   START_EXAM: (state) => {
-    let exam = JSON.parse(localStorage.Exam),
-        len = exam.length,
-        answer = new Array(len).fill('0');
+    var answer = new Array(EXAMTOTAL).fill('0');
     return state.set('answer', answer)
   },
   SET_TIME: (state, { payload }) => {

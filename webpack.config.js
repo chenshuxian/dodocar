@@ -2,13 +2,15 @@
 //import path from 'path';
 var webpack = require('webpack');
 var path = require('path');
+const WebpackBundleSizeAnalyzerPlugin = require('webpack-bundle-size-analyzer').WebpackBundleSizeAnalyzerPlugin;
+//const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
   entry: [
     './src/client/index.js',
   ],
   output: {
-    path: `${__dirname}/dist`,
+    path: `${__dirname}/src/server/static/dist`,
     filename: 'bundle.js',
     publicPath: '/static/'
   },

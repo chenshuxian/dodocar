@@ -22,5 +22,4 @@ const ModalEx = ({
   </div>
 )
 
-
 export default ModalEx;

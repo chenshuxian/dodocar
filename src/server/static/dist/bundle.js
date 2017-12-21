@@ -71,7 +71,7 @@
 
 	var _routes2 = _interopRequireDefault(_routes);
 
-	var _configureStore = __webpack_require__(395);
+	var _configureStore = __webpack_require__(400);
 
 	var _configureStore2 = _interopRequireDefault(_configureStore);
 
@@ -34294,27 +34294,39 @@
 
 	var _Main2 = _interopRequireDefault(_Main);
 
-	var _HomePageContainer = __webpack_require__(343);
+	var _HomePageContainer = __webpack_require__(347);
 
 	var _HomePageContainer2 = _interopRequireDefault(_HomePageContainer);
 
-	var _NoticePageContainer = __webpack_require__(367);
+	var _NoticePageContainer = __webpack_require__(371);
 
 	var _NoticePageContainer2 = _interopRequireDefault(_NoticePageContainer);
 
-	var _ExamPageContainer = __webpack_require__(371);
+	var _ExamPageContainer = __webpack_require__(375);
 
 	var _ExamPageContainer2 = _interopRequireDefault(_ExamPageContainer);
 
-	var _ScoreContainer = __webpack_require__(387);
+	var _ScoreContainer = __webpack_require__(391);
 
 	var _ScoreContainer2 = _interopRequireDefault(_ScoreContainer);
 
-	var _AddExamContainer = __webpack_require__(391);
+	var _AddExamContainer = __webpack_require__(395);
 
 	var _AddExamContainer2 = _interopRequireDefault(_AddExamContainer);
 
+	var _auth = __webpack_require__(399);
+
+	var _auth2 = _interopRequireDefault(_auth);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	//import CheckAuth from '../components/CheckAuth';
+	function requireAuth() {
+	  var token = localStorage.getItem('token');
+	  if (!_auth2.default.isLoggedIn(token)) {
+	    _reactRouter.browserHistory.push('/');
+	  }
+	}
 
 	exports.default = _react2.default.createElement(
 	  _reactRouter.Route,
@@ -34325,7 +34337,6 @@
 	  _react2.default.createElement(_reactRouter.Route, { path: '/score', component: _ScoreContainer2.default }),
 	  _react2.default.createElement(_reactRouter.Route, { path: '/addExam', component: _AddExamContainer2.default })
 	);
-	//import CheckAuth from '../components/CheckAuth';
 
 /***/ }),
 /* 280 */
@@ -34374,6 +34385,10 @@
 
 	var _ModalContainer2 = _interopRequireDefault(_ModalContainer);
 
+	var _LoginContainer = __webpack_require__(343);
+
+	var _LoginContainer2 = _interopRequireDefault(_LoginContainer);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Main = function Main(props) {
@@ -34383,7 +34398,8 @@
 	    _react2.default.createElement(_AppBarContainer2.default, null),
 	    props.children,
 	    _react2.default.createElement(_FooterContainer2.default, null),
-	    _react2.default.createElement(_ModalContainer2.default, null)
+	    _react2.default.createElement(_ModalContainer2.default, null),
+	    _react2.default.createElement(_LoginContainer2.default, null)
 	  );
 	};
 
@@ -34438,13 +34454,18 @@
 
 	exports.default = (0, _reactRedux.connect)(function (state) {
 	  return {
-	    //isAuthorized: state.getIn(['user', 'isAuthorized']),
-	    workpage: state.getIn(['ui', 'workpage'])
+	    isAuthorized: state.getIn(['user', 'isAuthorized']),
+	    workpage: state.getIn(['ui', 'workpage']),
+	    userName: state.getIn(['user', 'userName']),
+	    login: state.getIn(['ui', 'login'])
 	  };
 	}, function (dispatch) {
 	  return {
 	    onLogout: function onLogout() {
 	      return dispatch((0, _actions.startLogout)(dispatch));
+	    },
+	    onLogin: function onLogin() {
+	      dispatch((0, _actions.login)());
 	    }
 	  };
 	})(_AppBar2.default);
@@ -34492,9 +34513,9 @@
 
 	var AppBar = function AppBar(_ref) {
 	  var isAuthorized = _ref.isAuthorized,
-	      onToShare = _ref.onToShare,
-	      onLogout = _ref.onLogout,
-	      workpage = _ref.workpage;
+	      userName = _ref.userName,
+	      workpage = _ref.workpage,
+	      onLogin = _ref.onLogin;
 	  return _react2.default.createElement(
 	    'nav',
 	    { className: 'navbar navbar-expand-lg navbar-light fixed-top', id: 'mainNav' },
@@ -34543,15 +34564,6 @@
 	              'a',
 	              { className: 'nav-link js-scroll-trigger', href: '#contact' },
 	              _pageTitle.NAV.CONTACT
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'li',
-	            { className: 'nav-item' },
-	            _react2.default.createElement(
-	              _reactRouter.Link,
-	              { to: '/notice', className: 'nav-link js-scroll-trigger' },
-	              _pageTitle.EXAM.NOTICE
 	            )
 	          )
 	        ) : _react2.default.createElement(
@@ -34932,15 +34944,24 @@
 	      exPwd: password
 	    }).then(function (response) {
 	      if (response.data.success === false) {
-	        //dispatch(authError()); 
-	        //dispatch(hideSpinner());  
-	        //alert('登入錯誤請重新登入!!');
+	        //dispatch(login());
 	        window.location.reload();
 	      } else {
 	        //if (!document.cookie.token) {
-	        localStorage.setItem('token', response.data.token);
+	        // let d = new Date();
+	        // d.setTime(d.getTime() + (24 * 60 * 60 * 1000));
+	        // const expires = 'expires=' + d.toUTCString();
+	        // document.cookie = 'token=' + response.data.token + '; ' + expires;
+	        var token = response.data.token,
+	            info;
 	        localStorage.setItem('userId', response.data.userId);
+	        localStorage.setItem('token', token);
+	        info = JSON.parse(atob(token.split('.')[1]));
+	        localStorage.setItem('user', info.user);
+	        localStorage.setItem('admin', info.admin);
+	        dispatch((0, _actions.authComplete)());
 	        dispatch((0, _actions.workpage)('notice'));
+	        //dispatch(login());
 	        _reactRouter.browserHistory.push('/notice');
 	        window.scroll(0, 0);
 	        //}
@@ -34952,8 +34973,6 @@
 	  },
 	  logout: function logout(dispatch) {
 	    document.cookie = 'token=; ' + 'expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-	    //dispatch(hideSpinner());  
-	    localStorage.removeItem('token');
 	    _reactRouter.browserHistory.push('/');
 	  },
 	  addExam: function addExam(dispatch, file) {
@@ -34993,6 +35012,7 @@
 	      }).then(function (response) {
 	        if (response.data.success === false) {
 	          //dispatch(authError()); 
+	          alert(response.data.message);
 	        } else {
 	          //dispatch(modal());
 	          alert("上傳成功");
@@ -35018,15 +35038,26 @@
 	    });
 	  },
 	  getExam: function getExam(dispatch) {
-	    _axios2.default.get('/api/exams').then(function (response) {
+	    _axios2.default.get('/api/exams', {
+	      headers: {
+	        'Authorization': 'Bearer ' + localStorage.getItem('token')
+	      },
+	      params: {
+	        studId: localStorage.getItem('userId')
+	      }
+	    }).then(function (response) {
 	      if (response.data) {
 	        //將檔案存入store
-	        console.log(response.data.exam);
+	        //console.log(response.data.exam);
 	        var exam = JSON.parse(response.data.exam),
 	            answer = new Array(40).fill(0);
 	        localStorage.setItem('Exam', response.data.exam);
 	        localStorage.setItem('answer', answer);
 	        localStorage.setItem('examId', exam[0].examId);
+	        dispatch((0, _actions.getExam)());
+	        dispatch((0, _actions.startExam)());
+	        dispatch((0, _actions.workpage)('examPage'));
+	        _reactRouter.browserHistory.push('/examPage');
 	      }
 	    }).catch(function (error) {});
 	  },
@@ -35044,8 +35075,6 @@
 	      examId: examId
 	    }).then(function (response) {
 	      console.log(response.data.score);
-	      localStorage.removeItem('answer');
-	      localStorage.removeItem('Exam');
 	      dispatch((0, _actions.score)(response.data.score));
 	      _reactRouter.browserHistory.push('/score');
 	    }).catch(function (error) {
@@ -45425,8 +45454,6 @@
 	var START_LOGOUT = exports.START_LOGOUT = "START_LOGOUT";
 	var CHECK_AUTH = exports.CHECK_AUTH = "CHECK_AUTH";
 	var SET_USER = exports.SET_USER = "SET_USER";
-	var SHOW_SPINNER = exports.SHOW_SPINNER = "SHOW_SPINNER";
-	var HIDE_SPINNER = exports.HIDE_SPINNER = "HIDE_SPINNER";
 	var SET_UI = exports.SET_UI = "SET_UI";
 	var GET_RECIPES = exports.GET_RECIPES = 'GET_RECIPES';
 	var SET_RECIPE = exports.SET_RECIPE = 'SET_RECIPE';
@@ -45447,6 +45474,7 @@
 	var WORKPAGE = exports.WORKPAGE = 'WORKPAGE';
 	var ADDEXAM = exports.ADDEXAM = 'ADDEXAM';
 	var ADDUSER = exports.ADDUSER = 'ADDUSER';
+	var LOGIN = exports.LOGIN = 'LOGIN';
 
 /***/ }),
 /* 333 */
@@ -45457,7 +45485,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.buttonUseful = exports.setUi = exports.hideSpinner = exports.showSpinner = undefined;
+	exports.login = exports.buttonUseful = exports.setUi = undefined;
 
 	var _reduxActions = __webpack_require__(289);
 
@@ -45469,10 +45497,9 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var showSpinner = exports.showSpinner = (0, _reduxActions.createAction)('SHOW_SPINNER');
-	var hideSpinner = exports.hideSpinner = (0, _reduxActions.createAction)('HIDE_SPINNER');
 	var setUi = exports.setUi = (0, _reduxActions.createAction)('SET_UI');
 	var buttonUseful = exports.buttonUseful = (0, _reduxActions.createAction)('BUTTON_USEFUL');
+	var login = exports.login = (0, _reduxActions.createAction)('LOGIN');
 
 /***/ }),
 /* 334 */
@@ -45882,12 +45909,12 @@
 	  value: true
 	});
 
-	var _HomePageContainer = __webpack_require__(344);
+	var _LoginContainer = __webpack_require__(344);
 
 	Object.defineProperty(exports, 'default', {
 	  enumerable: true,
 	  get: function get() {
-	    return _interopRequireDefault(_HomePageContainer).default;
+	    return _interopRequireDefault(_LoginContainer).default;
 	  }
 	});
 
@@ -45909,19 +45936,48 @@
 
 	var _reactRedux = __webpack_require__(185);
 
-	var _HomePage = __webpack_require__(345);
+	var _Login = __webpack_require__(345);
 
-	var _HomePage2 = _interopRequireDefault(_HomePage);
+	var _Login2 = _interopRequireDefault(_Login);
+
+	var _actions = __webpack_require__(287);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = (0, _reactRedux.connect)(function (state) {
 	  return {
-	    recipes: state.getIn(['recipe', 'recipes'])
+	    isOpen: state.getIn(['ui', 'login']),
+	    userName: state.getIn(['user', 'userName']),
+	    password: state.getIn(['user', 'password']),
+	    modalTitle: '豆豆駕校'
 	  };
 	}, function (dispatch) {
-	  return {};
-	})(_HomePage2.default);
+	  return {
+	    onLogin: function onLogin() {
+	      return dispatch((0, _actions.login)());
+	    },
+	    onChangeNumInput: function onChangeNumInput(event) {
+	      return dispatch((0, _actions.setUser)({ key: 'userName', value: event.target.value }));
+	    },
+	    onChangePasswordInput: function onChangePasswordInput(event) {
+	      return dispatch((0, _actions.setUser)({ key: 'password', value: event.target.value }));
+	    },
+	    onLoginSubmit: function onLoginSubmit(userName, password) {
+	      return function () {
+	        console.log('loginModal' + userName + ' ' + password);
+	        dispatch((0, _actions.authStart)(dispatch, userName, password));
+	      };
+	    }
+	  };
+	}, function (stateProps, dispatchProps, ownProps) {
+	  var userName = stateProps.userName,
+	      password = stateProps.password;
+	  var onLoginSubmit = dispatchProps.onLoginSubmit;
+
+	  return Object.assign({}, stateProps, dispatchProps, ownProps, {
+	    onLoginSubmit: onLoginSubmit(userName, password)
+	  });
+	})(_Login2.default);
 
 /***/ }),
 /* 345 */
@@ -45933,12 +45989,12 @@
 	  value: true
 	});
 
-	var _HomePage = __webpack_require__(346);
+	var _Login = __webpack_require__(346);
 
 	Object.defineProperty(exports, 'default', {
 	  enumerable: true,
 	  get: function get() {
-	    return _interopRequireDefault(_HomePage).default;
+	    return _interopRequireDefault(_Login).default;
 	  }
 	});
 
@@ -45958,19 +46014,190 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _HeaderContainer = __webpack_require__(347);
+	var _reactstrap = __webpack_require__(320);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Login = function Login(_ref) {
+	  var onLogin = _ref.onLogin,
+	      isOpen = _ref.isOpen,
+	      onChangeNumInput = _ref.onChangeNumInput,
+	      onChangePasswordInput = _ref.onChangePasswordInput,
+	      onLoginSubmit = _ref.onLoginSubmit,
+	      modalTitle = _ref.modalTitle;
+	  return _react2.default.createElement(
+	    'div',
+	    null,
+	    _react2.default.createElement(
+	      _reactstrap.Modal,
+	      { isOpen: isOpen, toggle: onLogin, className: '' },
+	      _react2.default.createElement(
+	        _reactstrap.ModalHeader,
+	        { toggle: onLogin },
+	        modalTitle
+	      ),
+	      _react2.default.createElement(
+	        _reactstrap.ModalBody,
+	        null,
+	        _react2.default.createElement(
+	          'form',
+	          { name: 'Exam', id: 'Exam' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'control-group' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'form-group floating-label-form-group controls' },
+	              _react2.default.createElement(
+	                'label',
+	                null,
+	                '\u5B78\u865F'
+	              ),
+	              _react2.default.createElement('input', { className: 'form-control', id: 'userNum', name: 'userNum', type: 'text', placeholder: '\u8ACB\u8F38\u5165\u5B78\u865F',
+	                required: true, 'data-validation-required-message': '\u5B78\u865F\u4E0D\u53EF\u70BA\u7A7A', onChange: onChangeNumInput }),
+	              _react2.default.createElement('p', { className: 'help-block text-danger' })
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'control-group' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'form-group floating-label-form-group controls' },
+	              _react2.default.createElement(
+	                'label',
+	                null,
+	                '\u5BC6\u78BC'
+	              ),
+	              _react2.default.createElement('input', { className: 'form-control', id: 'exPwd', name: 'exPwd', type: 'password', placeholder: '\u8ACB\u8F38\u5165\u5BC6\u78BC',
+	                required: true, 'data-validation-required-message': '\u5BC6\u78BC\u4E0D\u53EF\u70BA\u7A7A', onChange: onChangePasswordInput }),
+	              _react2.default.createElement('p', { className: 'help-block text-danger' })
+	            )
+	          ),
+	          _react2.default.createElement('br', null),
+	          _react2.default.createElement('div', { id: 'success' })
+	        )
+	      ),
+	      _react2.default.createElement(
+	        _reactstrap.ModalFooter,
+	        null,
+	        _react2.default.createElement(
+	          _reactstrap.Button,
+	          { color: 'primary', onClick: onLoginSubmit },
+	          '\u767B\u5165'
+	        ),
+	        ' ',
+	        _react2.default.createElement(
+	          _reactstrap.Button,
+	          { color: 'secondary', onClick: onLogin },
+	          '\u53D6\u6D88'
+	        )
+	      )
+	    )
+	  );
+	};
+
+	exports.default = Login;
+
+/***/ }),
+/* 347 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _HomePageContainer = __webpack_require__(348);
+
+	Object.defineProperty(exports, 'default', {
+	  enumerable: true,
+	  get: function get() {
+	    return _interopRequireDefault(_HomePageContainer).default;
+	  }
+	});
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/***/ }),
+/* 348 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(185);
+
+	var _HomePage = __webpack_require__(349);
+
+	var _HomePage2 = _interopRequireDefault(_HomePage);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = (0, _reactRedux.connect)(function (state) {
+	  return {
+	    recipes: state.getIn(['recipe', 'recipes'])
+	  };
+	}, function (dispatch) {
+	  return {};
+	})(_HomePage2.default);
+
+/***/ }),
+/* 349 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _HomePage = __webpack_require__(350);
+
+	Object.defineProperty(exports, 'default', {
+	  enumerable: true,
+	  get: function get() {
+	    return _interopRequireDefault(_HomePage).default;
+	  }
+	});
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/***/ }),
+/* 350 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _HeaderContainer = __webpack_require__(351);
 
 	var _HeaderContainer2 = _interopRequireDefault(_HeaderContainer);
 
-	var _AboutContainer = __webpack_require__(351);
+	var _AboutContainer = __webpack_require__(355);
 
 	var _AboutContainer2 = _interopRequireDefault(_AboutContainer);
 
-	var _ExamContainer = __webpack_require__(357);
+	var _ExamContainer = __webpack_require__(361);
 
 	var _ExamContainer2 = _interopRequireDefault(_ExamContainer);
 
-	var _ContactContainer = __webpack_require__(363);
+	var _ContactContainer = __webpack_require__(367);
 
 	var _ContactContainer2 = _interopRequireDefault(_ContactContainer);
 
@@ -45995,7 +46222,7 @@
 	exports.default = HomePage;
 
 /***/ }),
-/* 347 */
+/* 351 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46004,7 +46231,7 @@
 	  value: true
 	});
 
-	var _HeaderContainer = __webpack_require__(348);
+	var _HeaderContainer = __webpack_require__(352);
 
 	Object.defineProperty(exports, 'default', {
 	  enumerable: true,
@@ -46016,7 +46243,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 348 */
+/* 352 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46031,7 +46258,7 @@
 
 	var _reactRedux = __webpack_require__(185);
 
-	var _Header = __webpack_require__(349);
+	var _Header = __webpack_require__(353);
 
 	var _Header2 = _interopRequireDefault(_Header);
 
@@ -46058,7 +46285,7 @@
 	})(_Header2.default);
 
 /***/ }),
-/* 349 */
+/* 353 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46067,7 +46294,7 @@
 	  value: true
 	});
 
-	var _Header = __webpack_require__(350);
+	var _Header = __webpack_require__(354);
 
 	Object.defineProperty(exports, 'default', {
 	  enumerable: true,
@@ -46079,7 +46306,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 350 */
+/* 354 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46129,7 +46356,7 @@
 	exports.default = Header;
 
 /***/ }),
-/* 351 */
+/* 355 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46138,7 +46365,7 @@
 	  value: true
 	});
 
-	var _AboutContainer = __webpack_require__(352);
+	var _AboutContainer = __webpack_require__(356);
 
 	Object.defineProperty(exports, 'default', {
 	  enumerable: true,
@@ -46150,7 +46377,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 352 */
+/* 356 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46165,7 +46392,7 @@
 
 	var _reactRedux = __webpack_require__(185);
 
-	var _About = __webpack_require__(353);
+	var _About = __webpack_require__(357);
 
 	var _About2 = _interopRequireDefault(_About);
 
@@ -46192,7 +46419,7 @@
 	})(_About2.default);
 
 /***/ }),
-/* 353 */
+/* 357 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46201,7 +46428,7 @@
 	  value: true
 	});
 
-	var _About = __webpack_require__(354);
+	var _About = __webpack_require__(358);
 
 	Object.defineProperty(exports, 'default', {
 	  enumerable: true,
@@ -46213,7 +46440,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 354 */
+/* 358 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46226,7 +46453,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Common = __webpack_require__(355);
+	var _Common = __webpack_require__(359);
 
 	var _Common2 = _interopRequireDefault(_Common);
 
@@ -46288,7 +46515,7 @@
 	exports.default = About;
 
 /***/ }),
-/* 355 */
+/* 359 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46297,7 +46524,7 @@
 	  value: true
 	});
 
-	var _Section = __webpack_require__(356);
+	var _Section = __webpack_require__(360);
 
 	Object.defineProperty(exports, 'default', {
 	  enumerable: true,
@@ -46309,7 +46536,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 356 */
+/* 360 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -46345,7 +46572,7 @@
 	exports.default = Section;
 
 /***/ }),
-/* 357 */
+/* 361 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46354,7 +46581,7 @@
 	  value: true
 	});
 
-	var _ExamContainer = __webpack_require__(358);
+	var _ExamContainer = __webpack_require__(362);
 
 	Object.defineProperty(exports, 'default', {
 	  enumerable: true,
@@ -46366,7 +46593,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 358 */
+/* 362 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46381,7 +46608,7 @@
 
 	var _reactRedux = __webpack_require__(185);
 
-	var _Exam = __webpack_require__(359);
+	var _Exam = __webpack_require__(363);
 
 	var _Exam2 = _interopRequireDefault(_Exam);
 
@@ -46422,7 +46649,7 @@
 	})(_Exam2.default);
 
 /***/ }),
-/* 359 */
+/* 363 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46431,7 +46658,7 @@
 	  value: true
 	});
 
-	var _Exam = __webpack_require__(360);
+	var _Exam = __webpack_require__(364);
 
 	Object.defineProperty(exports, 'default', {
 	  enumerable: true,
@@ -46443,7 +46670,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 360 */
+/* 364 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46456,13 +46683,13 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Common = __webpack_require__(355);
+	var _Common = __webpack_require__(359);
 
 	var _Common2 = _interopRequireDefault(_Common);
 
 	var _pageTitle = __webpack_require__(286);
 
-	var _Form = __webpack_require__(361);
+	var _Form = __webpack_require__(365);
 
 	var _Form2 = _interopRequireDefault(_Form);
 
@@ -46550,7 +46777,7 @@
 	exports.default = Exam;
 
 /***/ }),
-/* 361 */
+/* 365 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46559,7 +46786,7 @@
 	  value: true
 	});
 
-	var _Form = __webpack_require__(362);
+	var _Form = __webpack_require__(366);
 
 	Object.defineProperty(exports, 'default', {
 	  enumerable: true,
@@ -46571,7 +46798,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 362 */
+/* 366 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -46630,7 +46857,7 @@
 	exports.default = Form;
 
 /***/ }),
-/* 363 */
+/* 367 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46639,7 +46866,7 @@
 	  value: true
 	});
 
-	var _ContactContainer = __webpack_require__(364);
+	var _ContactContainer = __webpack_require__(368);
 
 	Object.defineProperty(exports, 'default', {
 	  enumerable: true,
@@ -46651,7 +46878,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 364 */
+/* 368 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46666,7 +46893,7 @@
 
 	var _reactRedux = __webpack_require__(185);
 
-	var _Contact = __webpack_require__(365);
+	var _Contact = __webpack_require__(369);
 
 	var _Contact2 = _interopRequireDefault(_Contact);
 
@@ -46695,7 +46922,7 @@
 	})(_Contact2.default);
 
 /***/ }),
-/* 365 */
+/* 369 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46704,7 +46931,7 @@
 	  value: true
 	});
 
-	var _Contact = __webpack_require__(366);
+	var _Contact = __webpack_require__(370);
 
 	Object.defineProperty(exports, 'default', {
 	  enumerable: true,
@@ -46716,7 +46943,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 366 */
+/* 370 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46729,11 +46956,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Common = __webpack_require__(355);
+	var _Common = __webpack_require__(359);
 
 	var _Common2 = _interopRequireDefault(_Common);
 
-	var _Form = __webpack_require__(361);
+	var _Form = __webpack_require__(365);
 
 	var _Form2 = _interopRequireDefault(_Form);
 
@@ -46768,7 +46995,7 @@
 	exports.default = Contact;
 
 /***/ }),
-/* 367 */
+/* 371 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46777,7 +47004,7 @@
 	  value: true
 	});
 
-	var _NoticePageContainer = __webpack_require__(368);
+	var _NoticePageContainer = __webpack_require__(372);
 
 	Object.defineProperty(exports, 'default', {
 	  enumerable: true,
@@ -46789,7 +47016,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 368 */
+/* 372 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46804,7 +47031,7 @@
 
 	var _reactRedux = __webpack_require__(185);
 
-	var _NoticePage = __webpack_require__(369);
+	var _NoticePage = __webpack_require__(373);
 
 	var _NoticePage2 = _interopRequireDefault(_NoticePage);
 
@@ -46830,17 +47057,13 @@
 	    },
 	    goExam: function goExam(event) {
 	      //dispatch(getExam(dispatch));
-	      _WebAPI2.default.getExam();
-	      dispatch((0, _actions.getExam)());
-	      dispatch((0, _actions.startExam)());
-	      dispatch((0, _actions.workpage)('examPage'));
-	      _reactRouter.browserHistory.push('/examPage');
+	      _WebAPI2.default.getExam(dispatch);
 	    }
 	  };
 	})(_NoticePage2.default);
 
 /***/ }),
-/* 369 */
+/* 373 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46849,7 +47072,7 @@
 	  value: true
 	});
 
-	var _NoticePage = __webpack_require__(370);
+	var _NoticePage = __webpack_require__(374);
 
 	Object.defineProperty(exports, 'default', {
 	  enumerable: true,
@@ -46861,7 +47084,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 370 */
+/* 374 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46876,7 +47099,7 @@
 
 	var _reactstrap = __webpack_require__(320);
 
-	var _Common = __webpack_require__(355);
+	var _Common = __webpack_require__(359);
 
 	var _Common2 = _interopRequireDefault(_Common);
 
@@ -46992,7 +47215,7 @@
 	exports.default = NoticePage;
 
 /***/ }),
-/* 371 */
+/* 375 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47001,7 +47224,7 @@
 	  value: true
 	});
 
-	var _ExamPageContainer = __webpack_require__(372);
+	var _ExamPageContainer = __webpack_require__(376);
 
 	Object.defineProperty(exports, 'default', {
 	  enumerable: true,
@@ -47013,7 +47236,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 372 */
+/* 376 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47028,7 +47251,7 @@
 
 	var _reactRedux = __webpack_require__(185);
 
-	var _ExamPage = __webpack_require__(373);
+	var _ExamPage = __webpack_require__(377);
 
 	var _ExamPage2 = _interopRequireDefault(_ExamPage);
 
@@ -47045,7 +47268,7 @@
 	})(_ExamPage2.default);
 
 /***/ }),
-/* 373 */
+/* 377 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47054,7 +47277,7 @@
 	  value: true
 	});
 
-	var _ExamPage = __webpack_require__(374);
+	var _ExamPage = __webpack_require__(378);
 
 	Object.defineProperty(exports, 'default', {
 	  enumerable: true,
@@ -47066,7 +47289,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 374 */
+/* 378 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47081,15 +47304,15 @@
 
 	var _reactstrap = __webpack_require__(320);
 
-	var _BtnAreaContainer = __webpack_require__(375);
+	var _BtnAreaContainer = __webpack_require__(379);
 
 	var _BtnAreaContainer2 = _interopRequireDefault(_BtnAreaContainer);
 
-	var _QuestionAreaContainer = __webpack_require__(379);
+	var _QuestionAreaContainer = __webpack_require__(383);
 
 	var _QuestionAreaContainer2 = _interopRequireDefault(_QuestionAreaContainer);
 
-	var _TimerContainer = __webpack_require__(383);
+	var _TimerContainer = __webpack_require__(387);
 
 	var _TimerContainer2 = _interopRequireDefault(_TimerContainer);
 
@@ -47133,7 +47356,7 @@
 	exports.default = ExamPage;
 
 /***/ }),
-/* 375 */
+/* 379 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47142,7 +47365,7 @@
 	  value: true
 	});
 
-	var _BtnAreaContainer = __webpack_require__(376);
+	var _BtnAreaContainer = __webpack_require__(380);
 
 	Object.defineProperty(exports, 'default', {
 	  enumerable: true,
@@ -47154,7 +47377,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 376 */
+/* 380 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47169,7 +47392,7 @@
 
 	var _reactRedux = __webpack_require__(185);
 
-	var _BtnArea = __webpack_require__(377);
+	var _BtnArea = __webpack_require__(381);
 
 	var _BtnArea2 = _interopRequireDefault(_BtnArea);
 
@@ -47216,7 +47439,7 @@
 	})(_BtnArea2.default);
 
 /***/ }),
-/* 377 */
+/* 381 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47225,7 +47448,7 @@
 	  value: true
 	});
 
-	var _BtnArea = __webpack_require__(378);
+	var _BtnArea = __webpack_require__(382);
 
 	Object.defineProperty(exports, 'default', {
 	  enumerable: true,
@@ -47237,7 +47460,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 378 */
+/* 382 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47358,7 +47581,7 @@
 	exports.default = BtnArea;
 
 /***/ }),
-/* 379 */
+/* 383 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47367,7 +47590,7 @@
 	  value: true
 	});
 
-	var _QuestionAreaContainer = __webpack_require__(380);
+	var _QuestionAreaContainer = __webpack_require__(384);
 
 	Object.defineProperty(exports, 'default', {
 	  enumerable: true,
@@ -47379,7 +47602,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 380 */
+/* 384 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47394,7 +47617,7 @@
 
 	var _reactRedux = __webpack_require__(185);
 
-	var _QuestionArea = __webpack_require__(381);
+	var _QuestionArea = __webpack_require__(385);
 
 	var _QuestionArea2 = _interopRequireDefault(_QuestionArea);
 
@@ -47439,7 +47662,7 @@
 	})(_QuestionArea2.default);
 
 /***/ }),
-/* 381 */
+/* 385 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47448,7 +47671,7 @@
 	  value: true
 	});
 
-	var _QuestionArea = __webpack_require__(382);
+	var _QuestionArea = __webpack_require__(386);
 
 	Object.defineProperty(exports, 'default', {
 	  enumerable: true,
@@ -47460,7 +47683,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 382 */
+/* 386 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47579,7 +47802,7 @@
 	exports.default = QuestionArea;
 
 /***/ }),
-/* 383 */
+/* 387 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47588,7 +47811,7 @@
 	  value: true
 	});
 
-	var _TimerContainer = __webpack_require__(384);
+	var _TimerContainer = __webpack_require__(388);
 
 	Object.defineProperty(exports, 'default', {
 	  enumerable: true,
@@ -47600,7 +47823,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 384 */
+/* 388 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47615,7 +47838,7 @@
 
 	var _reactRedux = __webpack_require__(185);
 
-	var _Timer = __webpack_require__(385);
+	var _Timer = __webpack_require__(389);
 
 	var _Timer2 = _interopRequireDefault(_Timer);
 
@@ -47643,7 +47866,7 @@
 	})(_Timer2.default);
 
 /***/ }),
-/* 385 */
+/* 389 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47652,7 +47875,7 @@
 	  value: true
 	});
 
-	var _Timer = __webpack_require__(386);
+	var _Timer = __webpack_require__(390);
 
 	Object.defineProperty(exports, 'default', {
 	  enumerable: true,
@@ -47664,7 +47887,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 386 */
+/* 390 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47759,7 +47982,7 @@
 	exports.default = Timer;
 
 /***/ }),
-/* 387 */
+/* 391 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47768,7 +47991,7 @@
 	  value: true
 	});
 
-	var _ScoreContainer = __webpack_require__(388);
+	var _ScoreContainer = __webpack_require__(392);
 
 	Object.defineProperty(exports, 'default', {
 	  enumerable: true,
@@ -47780,7 +48003,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 388 */
+/* 392 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47795,7 +48018,7 @@
 
 	var _reactRedux = __webpack_require__(185);
 
-	var _Score = __webpack_require__(389);
+	var _Score = __webpack_require__(393);
 
 	var _Score2 = _interopRequireDefault(_Score);
 
@@ -47810,7 +48033,7 @@
 	})(_Score2.default);
 
 /***/ }),
-/* 389 */
+/* 393 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47819,7 +48042,7 @@
 	  value: true
 	});
 
-	var _Score = __webpack_require__(390);
+	var _Score = __webpack_require__(394);
 
 	Object.defineProperty(exports, 'default', {
 	  enumerable: true,
@@ -47831,7 +48054,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 390 */
+/* 394 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47912,7 +48135,7 @@
 	exports.default = Score;
 
 /***/ }),
-/* 391 */
+/* 395 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47921,7 +48144,7 @@
 	  value: true
 	});
 
-	var _AddExamContainer = __webpack_require__(392);
+	var _AddExamContainer = __webpack_require__(396);
 
 	Object.defineProperty(exports, 'default', {
 	  enumerable: true,
@@ -47933,7 +48156,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 392 */
+/* 396 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47948,7 +48171,7 @@
 
 	var _reactRedux = __webpack_require__(185);
 
-	var _AddExam = __webpack_require__(393);
+	var _AddExam = __webpack_require__(397);
 
 	var _AddExam2 = _interopRequireDefault(_AddExam);
 
@@ -47974,7 +48197,7 @@
 	})(_AddExam2.default);
 
 /***/ }),
-/* 393 */
+/* 397 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47983,7 +48206,7 @@
 	  value: true
 	});
 
-	var _AddExam = __webpack_require__(394);
+	var _AddExam = __webpack_require__(398);
 
 	Object.defineProperty(exports, 'default', {
 	  enumerable: true,
@@ -47995,7 +48218,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 394 */
+/* 398 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48183,7 +48406,37 @@
 	exports.default = AddExam;
 
 /***/ }),
-/* 395 */
+/* 399 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = {
+	    isLoggedIn: function isLoggedIn(token) {
+	        // 当有token时还要检测是否过期  
+	        if (token) {
+	            var info;
+	            try {
+	                info = JSON.parse(atob(token.split('.')[1]));
+	            } catch (e) {
+	                return false;
+	            }
+	            var exp = info.exp;
+	            var now = Date.now() / 1000;
+	            //console.log(exp + ' ' + now);
+	            if (exp > now) {
+	                return true;
+	            }
+	        }
+	        return false;
+	    }
+	};
+
+/***/ }),
+/* 400 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48195,11 +48448,11 @@
 
 	var _redux = __webpack_require__(194);
 
-	var _reduxPromise = __webpack_require__(396);
+	var _reduxPromise = __webpack_require__(401);
 
 	var _reduxPromise2 = _interopRequireDefault(_reduxPromise);
 
-	var _reduxLogger = __webpack_require__(403);
+	var _reduxLogger = __webpack_require__(408);
 
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 
@@ -48207,7 +48460,7 @@
 
 	var _immutable2 = _interopRequireDefault(_immutable);
 
-	var _reducers = __webpack_require__(409);
+	var _reducers = __webpack_require__(414);
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -48226,7 +48479,7 @@
 	}
 
 /***/ }),
-/* 396 */
+/* 401 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48237,7 +48490,7 @@
 
 	exports['default'] = promiseMiddleware;
 
-	var _fluxStandardAction = __webpack_require__(397);
+	var _fluxStandardAction = __webpack_require__(402);
 
 	function isPromise(val) {
 	  return val && typeof val.then === 'function';
@@ -48264,7 +48517,7 @@
 	module.exports = exports['default'];
 
 /***/ }),
-/* 397 */
+/* 402 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48275,7 +48528,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _lodashIsplainobject = __webpack_require__(398);
+	var _lodashIsplainobject = __webpack_require__(403);
 
 	var _lodashIsplainobject2 = _interopRequireDefault(_lodashIsplainobject);
 
@@ -48294,7 +48547,7 @@
 	}
 
 /***/ }),
-/* 398 */
+/* 403 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -48305,9 +48558,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseFor = __webpack_require__(399),
-	    isArguments = __webpack_require__(400),
-	    keysIn = __webpack_require__(401);
+	var baseFor = __webpack_require__(404),
+	    isArguments = __webpack_require__(405),
+	    keysIn = __webpack_require__(406);
 
 	/** `Object#toString` result references. */
 	var objectTag = '[object Object]';
@@ -48403,7 +48656,7 @@
 
 
 /***/ }),
-/* 399 */
+/* 404 */
 /***/ (function(module, exports) {
 
 	/**
@@ -48457,7 +48710,7 @@
 
 
 /***/ }),
-/* 400 */
+/* 405 */
 /***/ (function(module, exports) {
 
 	/**
@@ -48692,7 +48945,7 @@
 
 
 /***/ }),
-/* 401 */
+/* 406 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -48703,8 +48956,8 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var isArguments = __webpack_require__(400),
-	    isArray = __webpack_require__(402);
+	var isArguments = __webpack_require__(405),
+	    isArray = __webpack_require__(407);
 
 	/** Used to detect unsigned integer values. */
 	var reIsUint = /^\d+$/;
@@ -48830,7 +49083,7 @@
 
 
 /***/ }),
-/* 402 */
+/* 407 */
 /***/ (function(module, exports) {
 
 	/**
@@ -49016,7 +49269,7 @@
 
 
 /***/ }),
-/* 403 */
+/* 408 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49028,11 +49281,11 @@
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _core = __webpack_require__(404);
+	var _core = __webpack_require__(409);
 
-	var _helpers = __webpack_require__(405);
+	var _helpers = __webpack_require__(410);
 
-	var _defaults = __webpack_require__(408);
+	var _defaults = __webpack_require__(413);
 
 	var _defaults2 = _interopRequireDefault(_defaults);
 
@@ -49154,7 +49407,7 @@
 
 
 /***/ }),
-/* 404 */
+/* 409 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49167,9 +49420,9 @@
 
 	exports.printBuffer = printBuffer;
 
-	var _helpers = __webpack_require__(405);
+	var _helpers = __webpack_require__(410);
 
-	var _diff = __webpack_require__(406);
+	var _diff = __webpack_require__(411);
 
 	var _diff2 = _interopRequireDefault(_diff);
 
@@ -49300,7 +49553,7 @@
 	}
 
 /***/ }),
-/* 405 */
+/* 410 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -49324,7 +49577,7 @@
 	var timer = exports.timer = typeof performance !== "undefined" && performance !== null && typeof performance.now === "function" ? performance : Date;
 
 /***/ }),
-/* 406 */
+/* 411 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49334,7 +49587,7 @@
 	});
 	exports.default = diffLogger;
 
-	var _deepDiff = __webpack_require__(407);
+	var _deepDiff = __webpack_require__(412);
 
 	var _deepDiff2 = _interopRequireDefault(_deepDiff);
 
@@ -49423,7 +49676,7 @@
 	module.exports = exports['default'];
 
 /***/ }),
-/* 407 */
+/* 412 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global) {/*!
@@ -49852,7 +50105,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 408 */
+/* 413 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -49903,7 +50156,7 @@
 	module.exports = exports["default"];
 
 /***/ }),
-/* 409 */
+/* 414 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49912,21 +50165,21 @@
 	  value: true
 	});
 
-	var _reduxImmutable = __webpack_require__(410);
+	var _reduxImmutable = __webpack_require__(415);
 
-	var _uiReducers = __webpack_require__(416);
+	var _uiReducers = __webpack_require__(421);
 
 	var _uiReducers2 = _interopRequireDefault(_uiReducers);
 
-	var _examReducers = __webpack_require__(418);
+	var _examReducers = __webpack_require__(423);
 
 	var _examReducers2 = _interopRequireDefault(_examReducers);
 
-	var _recipeReducers = __webpack_require__(419);
+	var _recipeReducers = __webpack_require__(424);
 
 	var _recipeReducers2 = _interopRequireDefault(_recipeReducers);
 
-	var _userReducers = __webpack_require__(420);
+	var _userReducers = __webpack_require__(425);
 
 	var _userReducers2 = _interopRequireDefault(_userReducers);
 
@@ -49944,7 +50197,7 @@
 	exports.default = rootReducer;
 
 /***/ }),
-/* 410 */
+/* 415 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49954,7 +50207,7 @@
 	});
 	exports.combineReducers = undefined;
 
-	var _combineReducers2 = __webpack_require__(411);
+	var _combineReducers2 = __webpack_require__(416);
 
 	var _combineReducers3 = _interopRequireDefault(_combineReducers2);
 
@@ -49964,7 +50217,7 @@
 	//# sourceMappingURL=index.js.map
 
 /***/ }),
-/* 411 */
+/* 416 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -49977,7 +50230,7 @@
 
 	var _immutable2 = _interopRequireDefault(_immutable);
 
-	var _utilities = __webpack_require__(412);
+	var _utilities = __webpack_require__(417);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -50020,7 +50273,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ }),
-/* 412 */
+/* 417 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50030,15 +50283,15 @@
 	});
 	exports.validateNextState = exports.getUnexpectedInvocationParameterMessage = exports.getStateName = undefined;
 
-	var _getStateName2 = __webpack_require__(413);
+	var _getStateName2 = __webpack_require__(418);
 
 	var _getStateName3 = _interopRequireDefault(_getStateName2);
 
-	var _getUnexpectedInvocationParameterMessage2 = __webpack_require__(414);
+	var _getUnexpectedInvocationParameterMessage2 = __webpack_require__(419);
 
 	var _getUnexpectedInvocationParameterMessage3 = _interopRequireDefault(_getUnexpectedInvocationParameterMessage2);
 
-	var _validateNextState2 = __webpack_require__(415);
+	var _validateNextState2 = __webpack_require__(420);
 
 	var _validateNextState3 = _interopRequireDefault(_validateNextState2);
 
@@ -50050,7 +50303,7 @@
 	//# sourceMappingURL=index.js.map
 
 /***/ }),
-/* 413 */
+/* 418 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -50067,7 +50320,7 @@
 	//# sourceMappingURL=getStateName.js.map
 
 /***/ }),
-/* 414 */
+/* 419 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50080,7 +50333,7 @@
 
 	var _immutable2 = _interopRequireDefault(_immutable);
 
-	var _getStateName = __webpack_require__(413);
+	var _getStateName = __webpack_require__(418);
 
 	var _getStateName2 = _interopRequireDefault(_getStateName);
 
@@ -50114,7 +50367,7 @@
 	//# sourceMappingURL=getUnexpectedInvocationParameterMessage.js.map
 
 /***/ }),
-/* 415 */
+/* 420 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -50134,7 +50387,7 @@
 	//# sourceMappingURL=validateNextState.js.map
 
 /***/ }),
-/* 416 */
+/* 421 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50145,17 +50398,11 @@
 
 	var _reduxActions = __webpack_require__(289);
 
-	var _models = __webpack_require__(417);
+	var _models = __webpack_require__(422);
 
 	var _actionTypes = __webpack_require__(332);
 
 	var uiReducers = (0, _reduxActions.handleActions)({
-	  SHOW_SPINNER: function SHOW_SPINNER(state) {
-	    return state.set('spinnerVisible', true);
-	  },
-	  HIDE_SPINNER: function HIDE_SPINNER(state) {
-	    return state.set('spinnerVisible', false);
-	  },
 	  SET_UI: function SET_UI(state, _ref) {
 	    var payload = _ref.payload;
 	    return state.set(payload.key, payload.value);
@@ -50167,13 +50414,16 @@
 	  WORKPAGE: function WORKPAGE(state, _ref3) {
 	    var payload = _ref3.payload;
 	    return state.set('workpage', payload);
+	  },
+	  LOGIN: function LOGIN(state) {
+	    return state.set('login', !state.get('login'));
 	  }
 	}, _models.UiState);
 
 	exports.default = uiReducers;
 
 /***/ }),
-/* 417 */
+/* 422 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50191,10 +50441,10 @@
 
 	// initstate model
 	var UiState = exports.UiState = _immutable2.default.fromJS({
-	  spinnerVisible: false,
 	  checked: false,
 	  isEdit: false,
-	  workpage: '/'
+	  workpage: '/',
+	  login: false
 	});
 
 	var RecipeState = exports.RecipeState = _immutable2.default.fromJS({
@@ -50208,10 +50458,10 @@
 	});
 
 	var UserState = exports.UserState = _immutable2.default.fromJS({
-	  username: '',
+	  userName: '',
 	  userNum: '',
 	  password: '',
-	  isAuthorized: false
+	  isAuthorized: 0
 	});
 
 	var ExamState = exports.ExamState = _immutable2.default.fromJS({
@@ -50230,7 +50480,7 @@
 	});
 
 /***/ }),
-/* 418 */
+/* 423 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50241,7 +50491,9 @@
 
 	var _reduxActions = __webpack_require__(289);
 
-	var _models = __webpack_require__(417);
+	var _models = __webpack_require__(422);
+
+	var _exam = __webpack_require__(331);
 
 	var _actionTypes = __webpack_require__(332);
 
@@ -50258,9 +50510,7 @@
 	    return state.set('exam', exam);
 	  },
 	  START_EXAM: function START_EXAM(state) {
-	    var exam = JSON.parse(localStorage.Exam),
-	        len = exam.length,
-	        answer = new Array(len).fill('0');
+	    var answer = new Array(_exam.EXAMTOTAL).fill('0');
 	    return state.set('answer', answer);
 	  },
 	  SET_TIME: function SET_TIME(state, _ref2) {
@@ -50300,7 +50550,7 @@
 	exports.default = examReducers;
 
 /***/ }),
-/* 419 */
+/* 424 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50311,7 +50561,7 @@
 
 	var _reduxActions = __webpack_require__(289);
 
-	var _models = __webpack_require__(417);
+	var _models = __webpack_require__(422);
 
 	var _actionTypes = __webpack_require__(332);
 
@@ -50329,7 +50579,7 @@
 	exports.default = recipeReducers;
 
 /***/ }),
-/* 420 */
+/* 425 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50340,21 +50590,21 @@
 
 	var _reduxActions = __webpack_require__(289);
 
-	var _models = __webpack_require__(417);
+	var _models = __webpack_require__(422);
 
 	var _actionTypes = __webpack_require__(332);
 
 	var userReducers = (0, _reduxActions.handleActions)({
 	  AUTH_START: function AUTH_START(state) {
 	    return state.merge({
-	      isAuthorized: false
+	      isAuthorized: 0
 	    });
 	  },
 	  AUTH_COMPLETE: function AUTH_COMPLETE(state) {
 	    return state.merge({
 	      email: '',
 	      password: '',
-	      isAuthorized: true
+	      isAuthorized: 1
 	    });
 	  },
 	  AUTH_ERROR: function AUTH_ERROR(state) {
@@ -50362,16 +50612,16 @@
 	      username: '',
 	      userNum: '',
 	      password: '',
-	      isAuthorized: false
+	      isAuthorized: 0
 	    });
 	  },
 	  START_LOGOUT: function START_LOGOUT(state) {
 	    return state.merge({
-	      isAuthorized: false
+	      isAuthorized: 0
 	    });
 	  },
 	  CHECK_AUTH: function CHECK_AUTH(state) {
-	    return state.set('isAuthorized', true);
+	    return state.set('isAuthorized', 1);
 	  },
 	  SET_USER: function SET_USER(state, _ref) {
 	    var payload = _ref.payload;

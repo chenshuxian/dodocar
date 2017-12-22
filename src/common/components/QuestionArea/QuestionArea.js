@@ -10,11 +10,12 @@ function strToArr(str) {
     var arr;
     if (str !== "") {
         arr = str.split("。");
+        arr = arr.pop();
     } else {
         arr = ['1.O','2.X'];
     }
 
-    return arr.pop();
+    return arr;
 }
 
 function ansBtn(str, qID, fn, ans) {

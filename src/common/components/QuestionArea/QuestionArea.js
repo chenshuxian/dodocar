@@ -9,7 +9,7 @@ import { Container, Row, Col, Button, Media } from 'reactstrap';
 function strToArr(str) {
     var arr;
     if (str !== "") {
-        arr = str.split(";");
+        arr = str.split("。");
     } else {
         arr = ['1.O','2.X'];
     }

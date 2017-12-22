@@ -8,25 +8,40 @@ import Sequelize from 'sequelize';
 let Exam = model.Exams,
     Score = model.Score;
 
+// 題庫資料轉換
+// @params 題庫資料陣列 [{examId:1},{examId:2}...]
+// return 轉轉後的列列 [1,2....]
+var examAT = (ea) => {
+    var arr = [];
+    for (var x in ea) {
+        arr.push(ea[x]['examId']);
+        //console.log(area[x]['examId']);
+    }
+
+    return arr;
+}
+
 // 考題範圍，依考題取的 examId 分類
-// @param 要去除的題庫
+// @param 學員id
 // return 考題範圍陣列
-var examArea = async (studId) => {
-    var readyEx = await readyExam(studId);
+var examArea = async (readyEx) => {
+    //var readyEx = await readyExam(studId);
     var area = await Exam.findAll({
         attributes: ['examId'],
         where:{
             examId: {$notIn: readyEx}
         },
         group: 'examId'
-    });
-    console.log('examArea:' + area);
-    return area;
+    }),
+    arr;
+
+    arr = examAT(area);
+    return arr;
 }
 
 // 考生已考的考題題號，依考題取的 examId 分類
 // @param 學號
-// return 已考過之考題
+// return 已考過之考題 [1,2...]
 var readyExam = async (studId) => {
     var area = await Score.findAll({
         attributes: ['examId'],
@@ -35,27 +50,34 @@ var readyExam = async (studId) => {
         },
         group: 'examId'
     }),
-    arr = [];
-
-    console.log('readyExam:' + JSON.stringify(area));
-    
-    for (var x in area) {
-        // Shows only the explicitly set index of "5", and ignores 0-4
-        arr.push(area[x]['examId']);
-        //console.log(area[x]['examId']);
-    }
+    arr;
+    arr = examAT(area);
+    console.log('readyExam:' + JSON.stringify(arr));
     return arr;
+}
+
+//亂數取得這次考題
+//若題庫只有一題，直接返回，不進行亂數
+//@params 題庫
+//return 題庫id
+var curExamId = (examArr) => {
+    var len = examArr.length,
+        index = Math.floor((Math.random() * len));
+
+    return examArr[index];
 }
 
 module.exports = {
     // 取得考題，examId從題庫中的examId進行亂數取得
     getExam: async (studId) => {
-        var ea = await examArea(studId);
+        var re = await readyExam(studId),
+            ea = await examArea(re),
+            examId = await curExamId(ea);
 
         try {
             let exam = await Exam.findAll({
                 where:{
-                    examId: 1
+                    examId: examId
                 },
                 order: ['createdAt']
             });

@@ -72,8 +72,7 @@ module.exports = {
     getExam: async (studId) => {
         var re = await readyExam(studId),
             ea = await examArea(re),
-            testea = [1],
-            examId = await curExamId(testea);
+            examId = await curExamId(ea);
 
         try {
             let exam = await Exam.findAll({

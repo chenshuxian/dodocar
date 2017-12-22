@@ -14,7 +14,7 @@ function strToArr(str) {
         arr = ['1.O','2.X'];
     }
 
-    return arr;
+    return arr.pop();
 }
 
 function ansBtn(str, qID, fn, ans) {

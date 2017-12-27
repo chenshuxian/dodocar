@@ -1,0 +1,67 @@
+2017/12/25 
+需求:
+新增學員管理、教師管理及考試期別管理。
+學員管理:
+新增:(users, trainBook)
+1. 新增學員時，選擇期班別、期別(下拉)、開訓日期及結訓日期由期別決定。(顯示的欄位)
+2. 輸入學號、姓名、性別、出生年月日、身分證字號、住址(郵地區號、地址)、電話(住家、行動電話)、來源
+   訓練時間(下拉)、教練(下拉)、下拉選單(手排、自排)、訓練、筆試、路考、備註。
+   2.1 選擇教練後，才可選訓練時間(由教練自動過濾出可book時間)。
+3. 每一個教練，一個時間只能對一個學生(練習時間會修改嗎，還是固定)。
+學生有沒有可能本期沒考中，於下期中又出現
+
+查詢:
+1. 用身份證字號查詢。
+刪除:(users, trainBook)
+1. 刪除使用者及book的時間。
+修改:
+1.
+
+
+每個期別對映14個訓練時間．
+每位學員可以配一個老師，一個老師可以配多個學員。
+一老師一個時段只配一個學員。
+每一期的練習時間固定，每個學生每天練習時間固定。
+每年12月會進行隔年度考試期別的設置(開班時間、結訓時間、考試時間、考試日期)。
+
+開發:
+MySql
+1. 新增一個 teachers、trainTime(訓練時間)、examDate(期別表)、trainBook(訓練時間預約表) 表 
+2. 於 users 表，新增一個 teacherId 的欄位，可為 null
+3. trainBook(id,time,examDateId,studentId)
+   
+4. teachers(id,name,born)
+出生年月日、身分證字號、住址(郵地區號、地址)、電話(住家、行動電話)、來源
+   訓練時間(下拉)、教練(下拉)、下拉選單(手排、自排)、訓練、筆試、路考、備註。
+5. users(
+    id: varchar(255),
+    stuNum: int(10),
+    name: varchar(100),
+    gender: int(2), 1: 男、 2:女 
+    born: bigint(20),
+    ids: varchar(12) pkey,
+    addr: varchar(120),
+    tel: bigint(16),
+    mobile: bigint(16), 
+    source: varchar(16),
+    trainId: FPK from trainBook,
+    carType: bigint(2), 1: 手排、 2:自排 
+    trainScore: bigint(4),
+    examScore: bigint(4),
+    roadScore: bigint(4),
+    memo: varchar(255)
+    )
+ReactJS
+1. 新增 action
+2. 新增 redex reducer
+3. containers 
+4. components
+5. rotues
+6. utils API 接口
+Server
+1. controllers
+   addStu, addTeacher
+2. models
+   users, trainBook, teachers, trainTime, examDate
+3. modules
+

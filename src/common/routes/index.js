@@ -7,6 +7,7 @@ import NoticePageContainer from '../containers/NoticePageContainer';
 import ExamPageContainer from '../containers/ExamPageContainer';
 import ScoreContainer from '../containers/ScoreContainer';
 import AddExamContainer from '../containers/AddExamContainer';
+import AddFormContainer from '../containers/Admin/AddFormContainer';
 import auth from '../utils/auth';
 
 function requireAuth () {
@@ -22,5 +23,6 @@ export default (
     <Route path="/examPage" component={ExamPageContainer} onEnter={requireAuth} />
     <Route path="/score" component={ScoreContainer} onEnter={requireAuth} />
     <Route path="/addExam" component={AddExamContainer} onEnter={requireAuth} />
+    <Route path="/admin" component={AddFormContainer} />
   </Route>
 );

@@ -7,6 +7,7 @@ import NoticePageContainer from '../containers/NoticePageContainer';
 import ExamPageContainer from '../containers/ExamPageContainer';
 import ScoreContainer from '../containers/ScoreContainer';
 import AddExamContainer from '../containers/AddExamContainer';
+import AddFormContainer from '../containers/Admin/AddFormContainer';
 import auth from '../utils/auth';
 
 function requireAuth () {
@@ -23,5 +24,6 @@ export default (
     <Route path="/examPage" component={ExamPageContainer}  />
     <Route path="/score" component={ScoreContainer}  />
     <Route path="/addExam" component={AddExamContainer}/>
+    <Route path="/admin" component={AddFormContainer} />
   </Route>
 );

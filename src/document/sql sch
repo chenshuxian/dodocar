@@ -1,13 +1,57 @@
 create table users (
          id varchar(50) not null,
-         email varchar(100) not null,
          name varchar(100) not null,
          passwd varchar(100) not null,
          gender bool not null,
+         born bigint(20),
+         addr varchar(255),
+         tel bigint,
+         mobile bigint,
+         source varchar(16),
+         carType bigint,
+         trainScore bigint,
+         examScore bigint,
+         roadScore bigint,
+         memo varchar(255),
+         trainId bigint,
          createdAt bigint not null,
          updatedAt bigint not null,
          version bigint not null,
          primary key (id)
+) engine=innodb;
+
+// 考試時間預約表 
+create table trainBook (
+    id varchar(50) not null,
+    trainTimeId bigint,
+    examDateId varchar(50),
+    studentId varchar(50),
+    primary key (id)
+) engine=innodb;
+
+// 教練表
+create table teachers (
+    id varchar(50) not null,
+    name varchar(100),
+    born bigint,
+    primary key (id)
+) engine=innodb;
+
+// 訓練時間
+create table trainTime (
+    id bigint not null,
+    time varchar(50),
+    primary key (id)
+) engine=innodb;
+
+// 年度期別表 
+create table examDate (
+    id varchar(50) not null,
+    season varchar(50),
+    startDate bigint,
+    finishDate bigint,
+    examDate bigint,
+    primary key(id)
 ) engine=innodb;
 
 // 一個考生可以有多筆考試成續

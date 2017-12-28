@@ -9,7 +9,7 @@ import {
 
 export default connect(
   (state) => ({
-      today: new Date(),
+      today: new Date().toISOString(),
       teacher: ['t1','t2'],
       trainTime: ['tt1','tt2']
     //isAuthorized: state.getIn(['user', 'isAuthorized']),

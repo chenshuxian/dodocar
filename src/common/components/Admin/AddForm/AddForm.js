@@ -5,6 +5,11 @@ import React from 'react';
 import DatePicker from 'react-bootstrap-date-picker';
 import { Container, Form, FormGroup, Label, Input, FormText, Button,
           Row, Col } from 'reactstrap';
+
+var styles = {
+    color:'red',
+    width: '100px'
+};
   
 const AddForm = ({
     addUser,
@@ -13,15 +18,15 @@ const AddForm = ({
     teacher,
     trainTime
 }) => (
+<section className='examPage' id='exam'>
   <Container>
       <Row className='toolbar'>
-        <Col xs={6} md={3}><Button bsStyle="success" onClick={addUser}>新增學員資料</Button></Col>
-        <Col xs={6} md={3}><Button bsStyle="warning" onClick={addUser}>修改學員資料</Button></Col>
-        <Col xs={6} md={3}><Button bsStyle="danger" onClick={addUser}>教練資料管理</Button></Col>
-        <Col xs={6} md={3}><Button bsStyle="primary" onClick={addUser}>匯出檔案</Button></Col>
+        <Col xs={6} md={3}><Button color="success" onClick={addUser}>新增學員資料</Button></Col>
+        <Col xs={6} md={3}><Button color="warning" onClick={addUser}>修改學員資料</Button></Col>
+        <Col xs={6} md={3}><Button color="danger" onClick={addUser}>教練資料管理</Button></Col>
+        <Col xs={6} md={3}><Button color="primary" onClick={addUser}>匯出檔案</Button></Col>
       </Row>
       <Row className='formCenter'>
-        <form>
             <Form inline>
                 <FormGroup>
                     <Label>訓練班別:</Label>{' '}
@@ -58,8 +63,8 @@ const AddForm = ({
                 </FormGroup>{' '}
                 <FormGroup>
                     <Label>出生年月日:</Label>{' '}
-                    <DatePicker name="born" id="born" value={today}/>
-                </FormGroup>
+                    <DatePicker id="born" value={today} onChange={addUser}/>
+                </FormGroup> 
                 <FormGroup>
                     <Label>身份證字號:</Label>{' '}
                     <Input type="text" name="id" id="id" />
@@ -136,12 +141,12 @@ const AddForm = ({
                     <Input type="textArea" name="memo" id="memo" />
                 </FormGroup>            
             </Form>
-        </form>
       </Row>
       <Row className='dataGrid'>
            datagrid
       </Row>
   </Container>
+  </section>
 );
 
 export default AddForm;

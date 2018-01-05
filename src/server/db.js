@@ -103,7 +103,7 @@ var exp = {
     sync: () => {
         // only allow create ddl in non-production environment:
         if (process.env.NODE_ENV !== 'production') {
-            sequelize.sync({ force: true });
+            //sequelize.sync({ force: true });
         } else {
             throw new Error('Cannot sync() when NODE_ENV is set to \'production\'.');
         }
@@ -116,5 +116,6 @@ for (let type of TYPES) {
 
 exp.ID = ID_TYPE;
 exp.generateId = generateId;
+exp.sql2 = sequelize.query;
 
 module.exports = exp;

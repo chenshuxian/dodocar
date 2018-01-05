@@ -3,8 +3,15 @@ import model from '../model';
 import {promisify} from 'util';
 import fs from 'fs';
 import path from 'path';
+import { getTeacher } from '../../common/actions/index';
+//const Sequelize = require('sequelize');
 
 let User = model.Users;
+let Teacher = model.Teachers;
+let TB = model.TrainBook;
+let TrainTime = model.TrainTime;
+let TypeClass = model.ExamDate;
+
 
 var haveUser = async (name) => {
 
@@ -60,6 +67,48 @@ var userReturn = () => {
     return result;
 }
 
+var getTrainBook = async (tId, eId) => {
+    var teacherId = tId ? tId : 'T001',
+        examId = eId ? eId : 'ED001' ;
+    
+    let tb = await TB.findAll({
+        where: {
+            teacherId: teacherId,
+            examDateId: examId,
+            studentId: ''
+        },
+        attributes: ['trainTimeId','id']
+    });
+
+    return tb;
+
+}
+
+// 陣列轉換
+var arrTrans = (arr) => {
+
+    let newArr = arr.map(function(name, i) {
+        return arr[i].trainTimeId;
+    });
+
+    return newArr;
+}
+
+//取得訓練時間 select option
+var getTrainTime = async (tId, eId) => {
+
+    let tb = await getTrainBook(tId, eId);
+    let id = await arrTrans(tb);
+    let tt = await TrainTime.findAll({
+        where:{
+            id: id
+        },
+        attributes: ["id", ["time", "name"]]
+    });
+
+    return tt;
+}
+
 module.exports = {
     getUser: async (name) => {
         try {
@@ -76,6 +125,30 @@ module.exports = {
         
     },
 
+    allDgInit: async () => {
+        
+        let dgData =  await User.findAll();
+        let teacher = await Teacher.findAll({attributes: ['name','id']});
+        let typeClass = await TypeClass.findAll({attributes: {exclude:['createdAt', 'updatedAt', 'version']}});
+        let tt = await getTrainTime();
+
+        let data = {
+            dgData: JSON.stringify(dgData),
+            teacher: JSON.stringify(teacher),
+            typeClass: JSON.stringify(typeClass),
+            trainTime: JSON.stringify(tt)
+        };
+        return JSON.stringify(data);
+               
+    },
+
+    trainTime: async (tId, eId) => {
+
+        console.log(`tId ${tId} eId ${eId}`);
+        let tt = await getTrainTime(tId, eId);
+        return JSON.stringify(tt);
+    },
+
     addUser: async (url) => {
 
         var fsAsync = promisify(fs.readFile);
@@ -85,5 +158,37 @@ module.exports = {
         var result = await addUser(data);
         return result;
        
-    } 
+    },
+
+    addSingleUser: async (user) => {
+        console.log(user.id);
+        var result = await User.create({
+            id: user.id,
+            passwd: user.passwd,
+            name: user.name,
+            gender: user.gender,
+            born: new Date(user.born).getTime(),
+            addr: user.addr,
+            tel: user.tel,
+            mobile: user.mobile,
+            source: user.source,
+            carType: user.carType,
+            trainScore: user.trainScore,
+            examScore: user.examScore,
+            roadScore: user.roadScore,
+            memo: user.memo,
+            trainId: 123
+        });
+
+        console.log("result:" + result);
+
+        if(result) {
+            return {'success': true}
+        }
+    },
+
+    getTeachers: () => {
+        let result = Teacher.findAll();
+        return JSON.stringify(result);
+    }
 };

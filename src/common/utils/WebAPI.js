@@ -14,7 +14,11 @@ import {
   score,
   workpage,
   startExam,
-  login
+  login,
+  getDgData,
+  getTeacher,
+  getTrainTime,
+  getClassType
 } from '../actions';
 
 function getCookie(keyName) {
@@ -126,6 +130,23 @@ export default {
       alert('請選擇上傳檔案');
     }  
   },
+  addSingleUser: (data) => {
+    if(data) {
+      axios.post('/api/singleUser',{data:data})
+      .then((response) => {
+        if(response.data.success === false) {
+          //dispatch(authError()); 
+          alert(response.data.message);
+        } else {
+          //dispatch(modal());
+          alert("新增成功");
+        }
+      })
+      .catch(function (error) {
+        //dispatch(authError());
+      });
+    } 
+  },
   checkAuth: (dispatch, token) => {
     axios.post('/api/authenticate', {
       token: token,
@@ -139,6 +160,23 @@ export default {
     })
     .catch(function (error) {
       dispatch(authError());
+    });
+  },
+  getDataStore: (dispatch) => {
+    axios.get('/api/init').then((response) => {
+      //dispatch(workpage('examPage'));
+      let dgData = JSON.parse(response.data.data),
+      dgDataNew = JSON.parse(dgData.dgData),
+      typeClass = JSON.parse(dgData.typeClass),
+      teacher = JSON.parse(dgData.teacher),
+      trainTime = JSON.parse(dgData.trainTime);
+      dispatch(getDgData({dg:dgDataNew}));
+      dispatch(getTeacher({teacher:teacher}));
+      dispatch(getClassType(typeClass));
+      dispatch(getTrainTime(trainTime));
+      //localStorage.setItem('dataStore',JSON.stringify(response.data.dgData));
+    }).catch((error) => {
+      console.log(error);
     });
   },
   getExam: (dispatch) => {
@@ -188,5 +226,15 @@ export default {
     .catch((error) => {
       console.log(error);
     })
-  }
+  },
+  getTrainTime: (dispatch,tId,eId) => {
+    axios.get('/api/trainTime',{
+      params: {
+        tId: tId,
+        eId: eId
+      }
+    }).then((response) => {
+        dispatch(getTrainTime(JSON.parse(response.data.data)));
+      })
+    }
 };

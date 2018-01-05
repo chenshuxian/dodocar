@@ -7,7 +7,10 @@ import {
   AUTH_ERROR,
   LOGOUT_START,
   SET_USER,
-  ADD_USER
+  ADD_USER,
+  GETDGDATA,
+  GETTEACHER,
+  GET_TRAIN_TIME
 } from '../../constants/actionTypes';
 
 const userReducers = handleActions({
@@ -44,6 +47,24 @@ const userReducers = handleActions({
   ),
   ADD_USER: (state, { payload }) => (
     state.set(payload.userNum, payload.passwd)
+  ),
+  GETDGDATA: (state, { payload }) => (
+    state.set('dgData', payload.dg)
+  ),
+  GETTEACHER: (state, { payload }) => (
+    state.set('teacher', payload.teacher)
+  ),
+  GET_TRAIN_TIME: (state, { payload }) => (
+    state.set('trainTime', payload )
+  ),
+  GET_CLASS_TYPE: (state, { payload }) => (
+    state.set('classType', payload )
+  ),
+  CHANGE_CLASS_TYPE: (state, { payload }) => (
+    state.set('classTypeIndex', payload )
+  ),
+  CHANGE_TEACHER_INDEX: (state, { payload }) => (
+    state.set('teacherIndex', payload)
   )
 }, UserState);
 

@@ -2,21 +2,60 @@
   考題增加
 */
 import React from 'react';
-import DatePicker from 'react-bootstrap-date-picker';
+//import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+//import 'node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import { Container, Form, FormGroup, Label, Input, FormText, Button,
           Row, Col } from 'reactstrap';
-
+import DataGridContainer from '../../../containers/Admin/DataGridContainer';
 var styles = {
     color:'red',
     width: '100px'
 };
+
+
+function Field(props) {
+    return (
+    <Row>
+    <Label>{props.label}</Label>
+    <Col>
+    <Input type={props.type == "" ? text : props.type} name={props.name} style={props.styles} value={props.value} />
+    </Col>
+    </Row>
+    );
+}
+
+function FieldSelect(props) {
+    return (
+    <Row>
+    <Label>{props.label}</Label>
+    <Col>
+    <Input type="select" name={props.name} onChange={props.changeFn ? props.changeFn : ''} style={props.styles}>
+        {props.options.map(function(name, i) {
+            return (<option key={i} value={props.options[i].id}>{props.options[i].name}</option>);
+        })}
+    </Input>
+    </Col>
+    </Row>
+    );
+}
   
 const AddForm = ({
     addUser,
     today,
     teacherTime,
-    teacher,
-    trainTime
+    teachers,
+    trainTime,
+    submit,
+    gender,
+    source,
+    carType,
+    handleSubmit,
+    teacherFn,
+    classTypeFn,
+    classType,
+    classTypeIndex,
+    teacherIndex,
+    season
 }) => (
 <section className='examPage' id='exam'>
   <Container>
@@ -27,123 +66,47 @@ const AddForm = ({
         <Col xs={6} md={3}><Button color="primary" onClick={addUser}>匯出檔案</Button></Col>
       </Row>
       <Row className='formCenter'>
-            <Form inline>
-                <FormGroup>
-                    <Label>訓練班別:</Label>{' '}
-                    <Input type="text" name="classType" id="classType"/>
-                </FormGroup>{' '}
-                <FormGroup>
-                    <Label>期別:</Label>{' '}
-                    <Input type="text" name="season" id="season"/>
+            <Form id="adduser" onSubmit={handleSubmit}>
+                <FormGroup row>
+                    <FieldSelect label="訓練班別:" name="classType" options={classType} changeFn={classTypeFn(teachers[teacherIndex] ? teachers[teacherIndex].id : '' )} />
+                    <Field label="期別:" name="season" value={classType[classTypeIndex] ? classType[classTypeIndex].season : ""}/>
+                    <Field label="開訓日期:" name="startDate" value={classType[classTypeIndex] ? classType[classTypeIndex].startDate : ""} />
+                    <Field label="結訓日期:" name="finishDate" value={classType[classTypeIndex] ? classType[classTypeIndex].finishDate : ""} />
+                    <Field label="考試日期:" name="examDate" value={classType[classTypeIndex] ? classType[classTypeIndex].examDate : ""} />
                 </FormGroup>
-                <FormGroup>
-                    <Label>開訓日期:</Label>{' '}
-                    <Input type="text" name="startDate" id="startDate"/>
-                </FormGroup>{' '}
-                <FormGroup>
-                    <Label>結訓日期:</Label>{' '}
-                    <Input type="text" name="finishDate" id="finishDate"/>
+                <FormGroup row>
+                    <Field label="學號:" name="stuNum" />
+                    <Field label="密碼:" name="passwd" />
+                    <Field label="姓名:" name="name" />
+                    <FieldSelect label="性別:" name="gender" options={gender} />
+                    <Field label="出生年月日:" type="date" name="born" styles={{width:'160px'}}/>
                 </FormGroup>
-            </Form>
-            <Form inline>
-                <FormGroup>
-                    <Label>學號:</Label>{' '}
-                    <Input type="text" name="stuNum" id="stuNum"/>
-                </FormGroup>{' '}
-                <FormGroup>
-                    <Label>姓名:</Label>{' '}
-                    <Input type="text" name="name" id="name"/>
+                <FormGroup row>
+                    <Field label="身份證:" name="id" styles={{width:'120px'}}/>
+                    <Field label="郵地區號:" name="addrNum" />
+                    <Field label="地址:" name="addr" styles={{width:'495px'}}/>
                 </FormGroup>
-                <FormGroup>
-                    <Label>性別:</Label>{' '}
-                    <Input type="select" name="gender" id="gender">
-                        <option>男</option>
-                        <option>女</option>
-                    </Input>
-                </FormGroup>{' '}
-                <FormGroup>
-                    <Label>出生年月日:</Label>{' '}
-                    <DatePicker id="born" value={today} onChange={addUser}/>
-                </FormGroup> 
-                <FormGroup>
-                    <Label>身份證字號:</Label>{' '}
-                    <Input type="text" name="id" id="id" />
+                <FormGroup row>
+                    <Field label="行動電話:" name="tel" />
+                    <Field label="住家電話:" name="mobile" />
+                    <FieldSelect label="來源:" name="source" options={source} />
+                    <FieldSelect label="教練姓名:" name="teacher" options={teachers} changeFn={teacherFn(classType[classTypeIndex] ? classType[classTypeIndex].id : '' )}/>
+                    <FieldSelect label="選訓時間:" name="trainBook" options={trainTime} styles={{width:'120px'}} />
                 </FormGroup>
-            </Form>
-            <Form inline>
-                <FormGroup>
-                    <Label>郵地區號:</Label>{' '}
-                    <Input type="text" name="addrNum" id="addrNum"/>
-                </FormGroup>{' '}
-                <FormGroup>
-                    <Label>地址:</Label>{' '}
-                    <Input type="text" name="addr" id="addr"/>
+                <FormGroup row>
+                    <FieldSelect label="手、自排:" name="carType" options={carType} />      
+                    <Field label="訓練:" name="trainScore" />
+                    <Field label="筆試:" name="examScore" />
+                    <Field label="路試:" name="roadScore" />
                 </FormGroup>
-            </Form>
-            <Form inline>
-                <FormGroup>
-                    <Label>行動電話:</Label>{' '}
-                    <Input type="text" name="tel" id="tel"/>
-                </FormGroup>{' '}
-                <FormGroup>
-                    <Label>住家電話:</Label>{' '}
-                    <Input type="text" name="mobile" id="mobile"/>
+                <FormGroup row>
+                    <Field label="備註:" type="textarea" name="memo" styles={{width:'450px'}}/>
+                    <input type="submit" value="新增"/>
                 </FormGroup>
-                <FormGroup>
-                    <Label>來源:</Label>{' '}
-                    <Input type="text" name="source" id="source"/>
-                </FormGroup>{' '}
-                <FormGroup>
-                    <Label>教練姓名:</Label>{' '}
-                    <Input type="select" name="teacher" id="teacher" onChange={teacherTime}>
-                        {   
-                            teacher.forEach(function(name, i) {
-                                return <option key={i}>name</option>;
-                            })
-                        }
-                    </Input>
-                </FormGroup>
-                <FormGroup>
-                    <Label>選訓時間:</Label>{' '}
-                    <Input type="select" name="trainBook" id="trainBook" onChange={teacherTime}>
-                        {   
-                            trainTime.forEach(function(time, i) {
-                                return <option key={i}>time</option>;
-                            })
-                        }
-                    </Input>
-                </FormGroup>
-            </Form>
-            <Form inline>
-                <FormGroup>
-                    <Label>手、自排:</Label>{' '}
-                    <Input type="select" name="carType" id="carType" >
-                       <option value="1">手排</option>
-                       <option value="2">自排</option> 
-                    </Input>
-                </FormGroup>
-                <FormGroup>
-                    <Label>訓練:</Label>{' '}
-                    <Input type="text" name="trainScore" id="trainScore" />
-                </FormGroup>
-                <FormGroup>
-                    <Label>筆試:</Label>{' '}
-                    <Input type="text" name="examScore" id="examScore" />
-                </FormGroup>
-                <FormGroup>
-                    <Label>路試:</Label>{' '}
-                    <Input type="text" name="roadScore" id="roadScore" />
-                </FormGroup>             
-            </Form>
-            <Form inline>
-                <FormGroup>
-                    <Label>備註:</Label>{' '}
-                    <Input type="textArea" name="memo" id="memo" />
-                </FormGroup>            
             </Form>
       </Row>
       <Row className='dataGrid'>
-           datagrid
+        <DataGridContainer />
       </Row>
   </Container>
   </section>

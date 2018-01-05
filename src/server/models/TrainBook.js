@@ -5,5 +5,6 @@ import db from '../db';
 module.exports = db.defineModel('trainBook', {
    trainTimeId: db.BIGINT(4),
    examDateId: db.STRING(50),
-   studentId: db.STRING(50)
+   studentId: db.STRING(50),
+   teacherId: db.STRING(50)
 });

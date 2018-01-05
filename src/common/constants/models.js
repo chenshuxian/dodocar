@@ -23,6 +23,12 @@ export const UserState = Immutable.fromJS({
   userNum: '',
   password: '',
   isAuthorized: 0,
+  dgData: [],
+  teachers: [],
+  trainTime: [],
+  classType: [],
+  classTypeIndex: 0,
+  teacherIndex: 0
 });
 
 export const ExamState = Immutable.fromJS({

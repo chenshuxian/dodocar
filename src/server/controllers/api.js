@@ -1,8 +1,8 @@
 //const products = require('../products');
 const APIError = require('../rest').APIError;
 import {browserHistory} from 'react-router';
-import model from '../model';
-
+import user from '../modules/user';
+import { read } from 'fs';
 
 module.exports = {
 
@@ -10,6 +10,35 @@ module.exports = {
         ctx.rest({
             page: 'noitce'
         });
+    },
+
+    'GET /api/init': async (ctx, next) => {
+        
+        console.log('/api/init');
+        try {
+            var result = await user.allDgInit()
+        } catch (e) {
+            console.log(e);
+        }    
+        
+        ctx.rest({data:result});
+        
+    },
+
+    'GET /api/trainTime': async (ctx, next) => {
+        
+        let tId = ctx.request.query.tId,
+            eId = ctx.request.query.eId;
+
+            console.log("tid1"+ tId + " eID1" + eId);
+        try {
+            var result = await user.trainTime(tId, eId);
+        } catch (e) {
+            console.log(e);
+        }    
+        
+        ctx.rest({data:result});
+        
     },
 
     'DELETE /api/products/:id': async (ctx, next) => {

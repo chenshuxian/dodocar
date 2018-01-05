@@ -24,8 +24,14 @@ export const SET_MODALTIT = 'SET_MODALTIT';
 export const WORKPAGE = 'WORKPAGE'; 
 export const ADDEXAM = 'ADDEXAM';
 export const ADDUSER = 'ADDUSER';
+export const ADDSINGLEUSER = 'ADDSINGLEUSER';
 export const LOGIN = 'LOGIN';
-
+export const GETDGDATA = 'GETDGDATA';
+export const GETTEACHER = 'GETTEACHER';
+export const GET_TRAIN_TIME = 'GET_TRAIN_TIME';
+export const GET_CLASS_TYPE = 'GET_CLASS_TYPE';
+export const CHANGE_CLASS_TYPE = 'CHANGE_CLASS_TYPE';
+export const CHANGE_TEACHER_INDEX = 'CHANGE_TEACHER_INDEX';
 
 
 

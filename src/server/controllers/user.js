@@ -23,6 +23,17 @@ module.exports = {
             console.log(e);
         }
     },
+    
+
+    'POST /api/singleUser': async (ctx, next) => {
+        var formData = ctx.request.body.data;
+        //console.log('singleUser:' + formData.id);
+        var result = await user.addSingleUser(formData);
+        //console.log('result:' + result);
+
+        ctx.rest(result);
+
+    },
 
     'POST /api/user': async (ctx, next) => {
 

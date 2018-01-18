@@ -59,6 +59,7 @@ const handleRender = (ctx) => {
                   teacher:[],
                   trainTime: [],
                   classType: [],
+                  formData: {},
                   classTypeIndex: 0,
                   teacherIndex: 0
                 }

@@ -4,6 +4,7 @@ import { browserHistory } from 'react-router';
 import uuid from 'uuid';
 import { Alert } from 'reactstrap';
 import EXAMTOTAL from '../constants/exam';
+import { UserState } from '../constants/models';
 
 import { 
   authComplete,
@@ -18,7 +19,10 @@ import {
   getDgData,
   getTeacher,
   getTrainTime,
-  getClassType
+  getClassType,
+  setFormData,
+  changeClassType,
+  changeFormState
 } from '../actions';
 
 function getCookie(keyName) {
@@ -36,11 +40,33 @@ function getCookie(keyName) {
   return "";
 }
 
+var getInit = (dispatch) => {
+  axios.get('/api/init').then((response) => {
+    //dispatch(workpage('examPage'));
+    let formData = UserState.get('formData').toObject();
+    formData.classType = 'ED001';
+    formData.teacher = 'T001';
+    dispatch(setFormData(formData))
+    let dgData = JSON.parse(response.data.data),
+    dgDataNew = JSON.parse(dgData.dgData),
+    typeClass = JSON.parse(dgData.typeClass),
+    teacher = JSON.parse(dgData.teacher),
+    trainTime = JSON.parse(dgData.trainTime);
+    dispatch(getDgData({dg:dgDataNew}));
+    dispatch(getTeacher({teacher:teacher}));
+    dispatch(getClassType(typeClass));
+    dispatch(getTrainTime(trainTime));
+    
+  }).catch((error) => {
+    console.log(error);
+  });
+}
+
 export default {
   login: (dispatch, userNum, password) => {
     //alert('login' + email);
     axios.post('/api/login', {
-      userNum: userNum,
+      userId: userNum,
       exPwd: password
     })
     .then((response) => {
@@ -48,11 +74,7 @@ export default {
         //dispatch(login());
         window.location.reload();        
       } else {
-        //if (!document.cookie.token) {
-          // let d = new Date();
-          // d.setTime(d.getTime() + (24 * 60 * 60 * 1000));
-          // const expires = 'expires=' + d.toUTCString();
-          // document.cookie = 'token=' + response.data.token + '; ' + expires;
+      
           var token = response.data.token,
               info;
           localStorage.setItem('userId',response.data.userId);
@@ -130,7 +152,7 @@ export default {
       alert('請選擇上傳檔案');
     }  
   },
-  addSingleUser: (data) => {
+  addSingleUser: (data,dispatch) => {
     if(data) {
       axios.post('/api/singleUser',{data:data})
       .then((response) => {
@@ -139,6 +161,7 @@ export default {
           alert(response.data.message);
         } else {
           //dispatch(modal());
+          getInit(dispatch);
           alert("新增成功");
         }
       })
@@ -146,6 +169,17 @@ export default {
         //dispatch(authError());
       });
     } 
+  },
+  updateUser: (data, dispatch) => {
+    if(data) {
+      axios.put('/api/singleUser',{data:data})
+      .then((response) => {
+        if(response.data.success === true){
+          getInit(dispatch);
+          alert('更新成功');
+        }
+      })
+    }
   },
   checkAuth: (dispatch, token) => {
     axios.post('/api/authenticate', {
@@ -163,21 +197,7 @@ export default {
     });
   },
   getDataStore: (dispatch) => {
-    axios.get('/api/init').then((response) => {
-      //dispatch(workpage('examPage'));
-      let dgData = JSON.parse(response.data.data),
-      dgDataNew = JSON.parse(dgData.dgData),
-      typeClass = JSON.parse(dgData.typeClass),
-      teacher = JSON.parse(dgData.teacher),
-      trainTime = JSON.parse(dgData.trainTime);
-      dispatch(getDgData({dg:dgDataNew}));
-      dispatch(getTeacher({teacher:teacher}));
-      dispatch(getClassType(typeClass));
-      dispatch(getTrainTime(trainTime));
-      //localStorage.setItem('dataStore',JSON.stringify(response.data.dgData));
-    }).catch((error) => {
-      console.log(error);
-    });
+    getInit(dispatch);
   },
   getExam: (dispatch) => {
     axios.get('/api/exams',{
@@ -236,5 +256,21 @@ export default {
     }).then((response) => {
         dispatch(getTrainTime(JSON.parse(response.data.data)));
       })
-    }
+  },
+  getTeacherTime: (dispatch, row) => {
+    // 取得學員對映期別所有可訓練時間
+    axios.get('/api/trainTime',{
+      params: {
+        tId: row.teacher,
+        eId: row.classType,
+        sId: row.id
+      }
+    }).then((response) => {
+        dispatch(getTrainTime(JSON.parse(response.data.data)));
+        dispatch(changeFormState('update'));
+        dispatch(setFormData(row));
+        // 設定考期時間
+        dispatch(changeClassType(row.classType.substr(-1) -1));
+    })
+  }
 };

@@ -1,5 +1,6 @@
 import { handleActions } from 'redux-actions';
 import { UserState } from '../../constants/models';
+import { fromJS } from 'immutable';
 
 import {
   AUTH_START,
@@ -10,7 +11,10 @@ import {
   ADD_USER,
   GETDGDATA,
   GETTEACHER,
-  GET_TRAIN_TIME
+  GET_TRAIN_TIME,
+  SET_FORM_DATA,
+  SET_FIELD_VALUE,
+  FIX_TRAIN_TIME
 } from '../../constants/actionTypes';
 
 const userReducers = handleActions({
@@ -54,9 +58,15 @@ const userReducers = handleActions({
   GETTEACHER: (state, { payload }) => (
     state.set('teacher', payload.teacher)
   ),
-  GET_TRAIN_TIME: (state, { payload }) => (
-    state.set('trainTime', payload )
-  ),
+  GET_TRAIN_TIME: (state, { payload }) => {
+    if(!Array.isArray(payload)){
+      let tt = state.get('trainTime');
+      tt.push(payload);
+      return state.set('trainTime', tt);
+    } else {
+      return state.set('trainTime', payload );
+    }
+  },
   GET_CLASS_TYPE: (state, { payload }) => (
     state.set('classType', payload )
   ),
@@ -65,6 +75,18 @@ const userReducers = handleActions({
   ),
   CHANGE_TEACHER_INDEX: (state, { payload }) => (
     state.set('teacherIndex', payload)
+  ),
+  SET_FORM_DATA: (state, { payload }) => (
+    state.set('formData', fromJS(payload) )
+  ),
+  SET_FIELD_VALUE: (state, { payload }) => {
+    let key = payload.key,
+        value = payload.value;
+        //console.log(state);
+    return state.mergeIn(['formData',key], value);
+  },
+  FIX_TRAIN_TIME: (state, { payload }) => (
+    state.merge({trainTime: payload })
   )
 }, UserState);
 

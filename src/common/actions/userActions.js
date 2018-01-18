@@ -15,8 +15,12 @@ import {
   GET_TRAIN_TIME,
   GET_CLASS_TYPE,
   CHANGE_CLASS_TYPE,
-  CHANGE_TEACHER_INDEX
+  CHANGE_TEACHER_INDEX,
+  SET_FORM_DATA,
+  SET_FIELD_VALUE,
+  FIX_TRAIN_TIME
 } from '../constants/actionTypes';
+import { create } from 'domain';
 
 export const authStart = createAction('AUTH_START', WebAPI.login);
 export const authComplete = createAction('AUTH_COMPLETE');
@@ -32,3 +36,6 @@ export const getTrainTime = createAction('GET_TRAIN_TIME');
 export const getClassType = createAction('GET_CLASS_TYPE');
 export const changeClassType = createAction('CHANGE_CLASS_TYPE');
 export const changeTeacherIndex = createAction('CHANGE_TEACHER_INDEX');
+export const setFormData = createAction('SET_FORM_DATA');
+export const setFieldValue = createAction('SET_FIELD_VALUE');
+export const fixTrainTime = createAction('FIX_TRAIN_TIME');

@@ -67,15 +67,16 @@ var userReturn = () => {
     return result;
 }
 
-var getTrainBook = async (tId, eId) => {
+var getTrainBook = async (tId, eId, sId) => {
     var teacherId = tId ? tId : 'T001',
         examId = eId ? eId : 'ED001' ;
+        sId = sId !== "" ? sId : '';
     
     let tb = await TB.findAll({
         where: {
             teacherId: teacherId,
             examDateId: examId,
-            studentId: ''
+            studentId: { $or: [sId, ''] }
         },
         attributes: ['trainTimeId','id']
     });
@@ -95,9 +96,9 @@ var arrTrans = (arr) => {
 }
 
 //取得訓練時間 select option
-var getTrainTime = async (tId, eId) => {
+var getTrainTime = async (tId, eId, sId) => {
 
-    let tb = await getTrainBook(tId, eId);
+    let tb = await getTrainBook(tId, eId, sId);
     let id = await arrTrans(tb);
     let tt = await TrainTime.findAll({
         where:{
@@ -110,10 +111,10 @@ var getTrainTime = async (tId, eId) => {
 }
 
 module.exports = {
-    getUser: async (name) => {
+    getUser: async (id) => {
         try {
             let user = await User.findOne({
-                where: {name: name}
+                where: {id: id}
             });
             console.log('user: ' + JSON.stringify(user));
             return JSON.stringify(user);
@@ -142,10 +143,10 @@ module.exports = {
                
     },
 
-    trainTime: async (tId, eId) => {
+    trainTime: async (tId, eId, sId) => {
 
-        console.log(`tId ${tId} eId ${eId}`);
-        let tt = await getTrainTime(tId, eId);
+        console.log(`tId ${tId} eId ${eId} sid ${sId}`);
+        let tt = await getTrainTime(tId, eId, sId);
         return JSON.stringify(tt);
     },
 
@@ -162,12 +163,15 @@ module.exports = {
 
     addSingleUser: async (user) => {
         console.log(user.id);
-        var result = await User.create({
+        try{
+             var result = await User.create({
             id: user.id,
             passwd: user.passwd,
+            stuNum: user.stuNum,
             name: user.name,
             gender: user.gender,
             born: new Date(user.born).getTime(),
+            addrNum: user.addrNum,
             addr: user.addr,
             tel: user.tel,
             mobile: user.mobile,
@@ -177,13 +181,96 @@ module.exports = {
             examScore: user.examScore,
             roadScore: user.roadScore,
             memo: user.memo,
-            trainId: 123
+            trainTimeId: user.trainBook,
+            teacher: user.teacher,
+            classType: user.classType,
+            trainId: '000'
         });
+
+        }catch(e){
+            console.log(e);
+        }
+       
 
         console.log("result:" + result);
 
         if(result) {
-            return {'success': true}
+            // 修改 trainBook 
+            let tbUpdate = await TB.update(
+                { studentId: user.id },
+                { 
+                    where: { 
+                        examDateId: user.classType,
+                        teacherId: user.teacher,
+                        trainTimeId: user.trainBook
+                    }
+                } /* where criteria */
+              );
+
+              console.log("TBUPDATE:" + JSON.stringify(tbUpdate));
+            if(tbUpdate){
+                return {'success': true}
+            }
+           
+            
+        }
+    },
+
+    updateSingleUser: async (user) => {
+        console.log(user.id);
+        try{
+             var result = await User.update({
+                passwd: user.passwd,
+                stuNum: user.stuNum,
+                name: user.name,
+                gender: user.gender,
+                born: new Date(user.born).getTime(),
+                addrNum: user.addrNum,
+                addr: user.addr,
+                tel: user.tel,
+                mobile: user.mobile,
+                source: user.source,
+                carType: user.carType,
+                trainScore: user.trainScore,
+                examScore: user.examScore,
+                roadScore: user.roadScore,
+                memo: user.memo,
+                trainTimeId: user.trainBook,
+                teacher: user.teacher,
+                classType: user.classType,
+                trainId: '000'
+            },
+            {
+                where: {id: user.id}
+            }
+            );
+
+        }catch(e){
+            console.log(e);
+        }
+       
+
+        console.log("result:" + result);
+
+        if(result) {
+            // 修改 trainBook 
+            let tbUpdate = await TB.update(
+                { studentId: user.id },
+                { 
+                    where: { 
+                        examDateId: user.classType,
+                        teacherId: user.teacher,
+                        trainTimeId: user.trainBook
+                    }
+                } /* where criteria */
+              );
+
+              console.log("TBUPDATE:" + JSON.stringify(tbUpdate));
+            if(tbUpdate){
+                return {'success': true}
+            }
+           
+            
         }
     },
 

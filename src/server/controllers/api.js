@@ -28,11 +28,12 @@ module.exports = {
     'GET /api/trainTime': async (ctx, next) => {
         
         let tId = ctx.request.query.tId,
-            eId = ctx.request.query.eId;
+            eId = ctx.request.query.eId,
+            sId = ctx.request.query.sId;
 
             console.log("tid1"+ tId + " eID1" + eId);
         try {
-            var result = await user.trainTime(tId, eId);
+            var result = await user.trainTime(tId, eId, sId);
         } catch (e) {
             console.log(e);
         }    

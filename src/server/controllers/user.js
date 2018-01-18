@@ -35,6 +35,16 @@ module.exports = {
 
     },
 
+    'PUT /api/singleUser': async (ctx, next) => {
+        var formData = ctx.request.body.data;
+        //console.log('singleUser:' + formData.id);
+        var result = await user.updateSingleUser(formData);
+        //console.log('result:' + result);
+
+        ctx.rest(result);
+
+    },
+
     'POST /api/user': async (ctx, next) => {
 
         let result = { success: false };
@@ -60,7 +70,7 @@ module.exports = {
     'POST /api/login': async (ctx, next) => {
         try{
             var 
-            account = ctx.request.body.userNum,
+            account = ctx.request.body.userId,
             password = ctx.request.body.exPwd;
             
             console.log('account:' + account + ', ' + password);

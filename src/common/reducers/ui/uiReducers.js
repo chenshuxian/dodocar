@@ -5,7 +5,8 @@ import {
   SET_UI,
   BUTTON_USEFUL,
   WORKPAGE,
-  LOGIN
+  LOGIN,
+  CHANGE_FORM_STATE
 } from '../../constants/actionTypes';
 
 const uiReducers = handleActions({
@@ -23,6 +24,9 @@ const uiReducers = handleActions({
   ),
   LOGIN: (state) => (
     state.set('login', !state.get('login'))
+  ),
+  CHANGE_FORM_STATE: (state, { payload }) => (
+    state.set('formState', payload )
   )
 }, UiState);
 

@@ -5,7 +5,8 @@ export const UiState = Immutable.fromJS({
   checked: false,
   isEdit: false,
   workpage: '/',
-  login: false
+  login: false,
+  formState: 'insert'
 });
 
 export const RecipeState = Immutable.fromJS({
@@ -24,6 +25,24 @@ export const UserState = Immutable.fromJS({
   password: '',
   isAuthorized: 0,
   dgData: [],
+  formData: {
+    stuNum : '',
+    passwd : '',
+    name : '',
+    gender : '',
+    born : '',
+    addr : '',
+    tel : '',
+    mobile : '',
+    source : '',
+    carType : '',
+    trainScore : '',
+    examScore : '',
+    roadScore : '',
+    memo : '',
+    id : '',
+    addrNum: ''
+  },
   teachers: [],
   trainTime: [],
   classType: [],

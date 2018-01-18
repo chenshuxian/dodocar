@@ -25,7 +25,7 @@ var examAT = (ea) => {
 // @param 學員id
 // return 考題範圍陣列
 var examArea = async (readyEx) => {
-    //var readyEx = await readyExam(studId);
+    //var readyEx = await readyExam(studId)
     var area = await Exam.findAll({
         attributes: ['examId'],
         where:{
@@ -53,6 +53,8 @@ var readyExam = async (studId) => {
     arr;
     arr = examAT(area);
     console.log('readyExam:' + JSON.stringify(arr));
+    if (arr.length == 0) 
+        arr = [99];
     return arr;
 }
 

@@ -24,7 +24,7 @@ function Field(props) {
         style={props.styles} 
         value={props.value ? props.value[props.name] : ''}
         onChange={props.chFn}
-        disabled = {props.disabled}
+        readOnly = {props.readonly}
         />
     </Col>
     </Row>
@@ -83,10 +83,10 @@ const AddForm = ({
                     <FieldSelect label="訓練班別:" name="classType"  options={classType} chFn={classTypeFn(teachers[teacherIndex] ? teachers[teacherIndex].id : '' )} 
                     value={formData}
                     />
-                    <Field label="期別:" name="season" value={classType[classTypeIndex]} disabled="true"/>
-                    <Field label="開訓日期:" name="startDate" value={classType[classTypeIndex]} disabled="true"/>
-                    <Field label="結訓日期:" name="finishDate" value={classType[classTypeIndex]} disabled="true"/>
-                    <Field label="考試日期:" name="examDate" value={classType[classTypeIndex]} disabled="true"/>
+                    <Field label="期別:" name="season" value={classType[classTypeIndex]} readonly="true"/>
+                    <Field label="開訓日期:" name="startDate" value={classType[classTypeIndex]} readonly="true"/>
+                    <Field label="結訓日期:" name="finishDate" value={classType[classTypeIndex]} readonly="true"/>
+                    <Field label="考試日期:" name="examDate" value={classType[classTypeIndex]} readonly="true"/>
                 </FormGroup>
                 <FormGroup row>
                     <Field label="學號:" name="stuNum" value={formData} chFn={fieldChangeFn}/>
@@ -97,7 +97,7 @@ const AddForm = ({
                 </FormGroup>
                 <FormGroup row>
                     <Field label="身份證:" name="id" styles={{width:'120px'}} value={formData} chFn={fieldChangeFn} 
-                        disabled = {formState == "update" ? true : false}/>
+                        readonly = {formState == "update" ? true : false}/>
                     <Field label="郵地區號:" name="addrNum" value={formData} chFn={fieldChangeFn}/>
                     <Field label="地址:" name="addr" styles={{width:'495px'}} value={formData} chFn={fieldChangeFn}/>
                 </FormGroup>
@@ -107,7 +107,8 @@ const AddForm = ({
                     <FieldSelect label="來源:" name="source" options={source} value={formData} chFn={fieldChangeFn}/>
                     <FieldSelect label="教練姓名:" name="teacher" options={teachers} chFn={teacherFn(classType[classTypeIndex] ? classType[classTypeIndex].id : '' )} 
                     value={formData}/>
-                    <FieldSelect label="選訓時間:" name="trainBook" options={trainTime} styles={{width:'120px'}} value={formData}/>
+                    <FieldSelect label="選訓時間:" name="trainTimeId" options={trainTime} styles={{width:'120px'}} 
+                    value={formData} chFn={fieldChangeFn}/>
                 </FormGroup>
                 <FormGroup row>
                     <FieldSelect label="手、自排:" name="carType" options={carType} value={formData} chFn={fieldChangeFn}/>      

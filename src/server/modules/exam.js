@@ -52,6 +52,9 @@ var readyExam = async (studId) => {
     }),
     arr;
     arr = examAT(area);
+    if ( arr.length == 0 )
+	arr = [1];
+
     console.log('readyExam:' + JSON.stringify(arr));
     if (arr.length == 0) 
         arr = [99];
@@ -91,11 +94,15 @@ module.exports = {
             console.log(e);
         }
     },
-    score: async () => {
+    score: async (eId) => {
         try {
             let score = await Exam.findAll(
                 {
-                    attributes: ['answer']
+		    where:{
+		    	examId: eId
+		    },
+                    attributes: ['answer'],
+		    order: ['createdAt']
                 }
             );
             console.log('exam: ' + JSON.stringify(score));

@@ -8401,3 +8401,12 @@ form label {
   border-style: solid;
   padding: 10px;
 }
+
+.media img {
+ width: 230px;
+}
+
+.media-body ul li {
+ font-size: 22px
+}
+

@@ -1,3 +1,5 @@
 /node_modules/*
 .DS_Store
 /src/server/static/json/*
+src/server/static/images/*
+src/server/static/*

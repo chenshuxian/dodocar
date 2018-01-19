@@ -65,12 +65,13 @@ module.exports = {
     'POST /api/score': async (ctx, next) => {
         try {
             var ansC = ctx.request.body.ansC;
-            var ansS = await exam.score(),
+            var examId = ctx.request.body.examId;
+	    var ansS = await exam.score(examId),
                 props = {
                     userId: ctx.request.body.userId,
                     score: 0,
                     wrong: [],
-                    examId: ctx.request.body.examId
+                    examId: examId
                 };
 
             ansS = JSON.parse(ansS);

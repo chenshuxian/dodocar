@@ -52,6 +52,7 @@ var getInit = (dispatch) => {
     typeClass = JSON.parse(dgData.typeClass),
     teacher = JSON.parse(dgData.teacher),
     trainTime = JSON.parse(dgData.trainTime);
+    localStorage.setItem('dataStore', dgData.dgData);
     dispatch(getDgData({dg:dgDataNew}));
     dispatch(getTeacher({teacher:teacher}));
     dispatch(getClassType(typeClass));

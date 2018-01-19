@@ -46,6 +46,7 @@ export const UserState = Immutable.fromJS({
   teachers: [],
   trainTime: [],
   classType: [],
+  selected: [],
   classTypeIndex: 0,
   teacherIndex: 0
 });

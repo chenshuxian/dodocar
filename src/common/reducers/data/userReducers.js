@@ -87,6 +87,9 @@ const userReducers = handleActions({
   },
   FIX_TRAIN_TIME: (state, { payload }) => (
     state.merge({trainTime: payload })
+  ),
+  SET_SELECTED: (state, { payload }) => (
+    state.set('selected', payload )
   )
 }, UserState);
 

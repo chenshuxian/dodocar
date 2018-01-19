@@ -258,7 +258,7 @@ module.exports = {
                 {studentId: ''},
                 {
                     where: {
-                        studentId: user.Id
+                        studentId: user.id
                     }
                 }
             )
@@ -269,7 +269,7 @@ module.exports = {
                     where: { 
                         examDateId: user.classType,
                         teacherId: user.teacher,
-                        trainTimeId: user.trainBook
+                        trainTimeId: user.trainTimeId
                     }
                 } /* where criteria */
               );

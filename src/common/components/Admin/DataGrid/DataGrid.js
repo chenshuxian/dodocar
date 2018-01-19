@@ -22,12 +22,6 @@ const teacher = {
 
 const PT = TRIANTIME;
 
-const selectRowProp = {
-    mode: 'checkbox',
-    bgColor: 'pink',
-    clickToSelect: true  // enable click to select
-};
-
 function genderFn(cell, row, enumObject) {
     return enumObject[cell];
 }
@@ -46,6 +40,12 @@ class DataGrid extends React.Component {
     render() {
         const options = {
             onRowClick: this.props.onRowClick
+        };
+        const selectRowProp = {
+            mode: 'checkbox',
+            bgColor: 'pink',
+            selected: [this.props.selected],
+            clickToSelect: true  // enable click to select
         };
         return (
             <BootstrapTable data={ this.props.columns } version='4' selectRow={ selectRowProp } options={ options } >

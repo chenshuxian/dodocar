@@ -181,7 +181,7 @@ module.exports = {
             examScore: user.examScore,
             roadScore: user.roadScore,
             memo: user.memo,
-            trainTimeId: user.trainBook,
+            trainTimeId: user.trainTimeId,
             teacher: user.teacher,
             classType: user.classType,
             trainId: '000'
@@ -217,7 +217,7 @@ module.exports = {
     },
 
     updateSingleUser: async (user) => {
-        console.log(user.id);
+
         try{
              var result = await User.update({
                 passwd: user.passwd,
@@ -235,7 +235,7 @@ module.exports = {
                 examScore: user.examScore,
                 roadScore: user.roadScore,
                 memo: user.memo,
-                trainTimeId: user.trainBook,
+                trainTimeId: user.trainTimeId,
                 teacher: user.teacher,
                 classType: user.classType,
                 trainId: '000'
@@ -253,6 +253,15 @@ module.exports = {
         console.log("result:" + result);
 
         if(result) {
+            // 刪除 舊的book
+            await TB.update(
+                {studentId: ''},
+                {
+                    where: {
+                        studentId: user.Id
+                    }
+                }
+            )
             // 修改 trainBook 
             let tbUpdate = await TB.update(
                 { studentId: user.id },

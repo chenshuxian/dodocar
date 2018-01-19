@@ -18,7 +18,8 @@ import {
   CHANGE_TEACHER_INDEX,
   SET_FORM_DATA,
   SET_FIELD_VALUE,
-  FIX_TRAIN_TIME
+  FIX_TRAIN_TIME,
+  SET_SELECTED
 } from '../constants/actionTypes';
 import { create } from 'domain';
 
@@ -39,3 +40,4 @@ export const changeTeacherIndex = createAction('CHANGE_TEACHER_INDEX');
 export const setFormData = createAction('SET_FORM_DATA');
 export const setFieldValue = createAction('SET_FIELD_VALUE');
 export const fixTrainTime = createAction('FIX_TRAIN_TIME');
+export const setSelected = createAction('SET_SELECTED');

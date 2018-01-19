@@ -13,7 +13,8 @@ import {
     getDgData,
     setFormData,
     changeFormState,
-    getTrainTime
+    getTrainTime,
+    setSelected
 } from '../../../actions';
 
 function dateFormat(date) {
@@ -40,7 +41,8 @@ function dateFormat(date) {
 
 export default connect(
   (state) => ({
-      columns: state.getIn(['user', 'dgData'])
+      columns: state.getIn(['user', 'dgData']),
+      selected: state.getIn(['user', 'selected'])
     //isAuthorized: state.getIn(['user', 'isAuthorized']),
   }),
   (dispatch) => ({
@@ -50,6 +52,7 @@ export default connect(
     onRowClick: (row) => {
       // 取得老師的預約時間
       row.born = dateFormat(row.born);
+      dispatch(setSelected(row.id))
       WebAPI.getTeacherTime(dispatch, row);
       // let ttId = row.trainTimeId;
       // row.born = dateFormat(row.born);

@@ -66,6 +66,47 @@ export default connect(
         
         //document.getElementById[key].value = value;
       }
+    },
+    onSearchChange: (searchText, colInfos, multiColumnSearch) => {
+      const text = searchText.trim();
+      const initDG = JSON.parse(localStorage.getItem('dataStore'));
+      if (text === '') {
+        dispatch(getDgData({dg:initDG}));
+        return;
+      }
+  
+      let searchTextArray = [];
+      if (multiColumnSearch) {
+        searchTextArray = text.split(' ');
+      } else {
+        searchTextArray.push(text);
+      }
+  
+      const data = initDG.filter((product) => {
+        const keys = Object.keys(product);
+        let valid = false;
+        for (let i = 0, keysLength = keys.length; i < keysLength; i++) {
+          const key = keys[i];
+          if (colInfos[key] && product[key]) {
+            const { format, filterFormatted, formatExtraData, searchable, hidden } = colInfos[key];
+            let targetVal = product[key];
+            if (!hidden && searchable) {
+              if (filterFormatted && format) {
+                targetVal = format(targetVal, product, formatExtraData);
+              }
+              for (let j = 0, textLength = searchTextArray.length; j < textLength; j++) {
+                const filterVal = searchTextArray[j].toLowerCase();
+                if (targetVal.toString().toLowerCase().indexOf(filterVal) !== -1) {
+                  valid = true;
+                  break;
+                }
+              }
+            }
+          }
+        }
+        return valid;
+      });
+      dispatch(getDgData({dg:data}));
     }
   })
 )(DataGrid);

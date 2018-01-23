@@ -45,7 +45,7 @@ var getInit = (dispatch) => {
   axios.get('/api/init').then((response) => {
     //dispatch(workpage('examPage'));
     let formData = UserState.get('formData').toObject();
-    formData.classType = 'ED001';
+    formData.classType = 'ED10701';
     formData.teacher = 'T001';
     dispatch(setFormData(formData))
     let dgData = JSON.parse(response.data.data),

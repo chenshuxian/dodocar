@@ -6,8 +6,26 @@ import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import {TRIANTIME} from '../../../constants/exam';
 
 const classType  = {
-    'ED001': '第一期',
-    'ED002': '第二期'
+    'ED10701': '第1期',
+    'ED10702': '第2期',
+    'ED10703': '第3期',
+    'ED10704': '第4期',
+    'ED10705': '第5期',
+    'ED10706': '第6期',
+    'ED10707': '第7期',
+    'ED10708': '第8期',
+    'ED10709': '第9期',
+    'ED10710': '第10期',
+    'ED10711': '第11期',
+    'ED10712': '第12期',
+    'ED10713': '第13期',
+    'ED10714': '第14期',
+    'ED10715': '第15期',
+    'ED10716': '第16期',
+    'ED10717': '第17期',
+    'ED10718': '第18期',
+    'ED10719': '第19期',
+    'ED10720': '第20期'
 };
 
 const genderType = {

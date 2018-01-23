@@ -11,13 +11,6 @@ import AddFormContainer from '../containers/Admin/AddFormContainer';
 import auth from '../utils/auth';
 import WebAPI from '../utils/WebAPI';
 
-function requireAuth () {
-  const token = localStorage.getItem('token');
-  if(!auth.isLoggedIn(token)) {
-    browserHistory.push('/');
-  }
-}
-
 export default (
   <Route path='/' component={Main}>
     <IndexRoute component={HomePageContainer} />

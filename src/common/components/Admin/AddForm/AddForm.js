@@ -2,8 +2,6 @@
   考題增加
 */
 import React from 'react';
-//import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
-//import 'node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import { Container, Form, FormGroup, Label, Input, FormText, Button,
           Row, Col } from 'reactstrap';
 import DataGridContainer from '../../../containers/Admin/DataGridContainer';
@@ -73,9 +71,7 @@ const AddForm = ({
 <section className='examPage' id='exam'>
   <Container>
       <Row className='toolbar'>
-        <Col xs={6} md={3}><Button color="success" onClick={changeState}>新增學員資料</Button></Col>
-        {/* <Col xs={6} md={3}><Button color="danger" onClick={addUser}>教練資料管理</Button></Col>
-        <Col xs={6} md={3}><Button color="primary" onClick={addUser}>匯出檔案</Button></Col> */}
+        <Col xs={6} md={3}><Button color="success" className="glyphicon glyphicon-user" onClick={changeState}>新增學員資料</Button></Col>
       </Row>
       <Row className='formCenter'>
             <Form id="adduser">

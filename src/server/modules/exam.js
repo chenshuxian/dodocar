@@ -93,11 +93,7 @@ module.exports = {
     },
     score: async () => {
         try {
-            let score = await Exam.findAll(
-                {
-                    attributes: ['answer']
-                }
-            );
+            let score = await Exam.findAll();
             console.log('exam: ' + JSON.stringify(score));
             return JSON.stringify(score);
         }

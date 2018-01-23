@@ -55,7 +55,7 @@ const handleRender = (ctx) => {
                 },
                 user: {
                   isAuthorized: '',
-                  dgData: [],
+                  dgData: '',
                   teacher:[],
                   trainTime: [],
                   classType: [],

@@ -4,7 +4,8 @@ import Score from '../../components/Score';
 
 export default connect(
   (state) => ({
-    score: state.getIn(['exam','score'])
+    score: state.getIn(['exam','score']),
+    data: state.getIn(['exam','finishData'])
   }),
   (dispatch) => ({
 

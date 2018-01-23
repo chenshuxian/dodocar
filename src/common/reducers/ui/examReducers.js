@@ -10,7 +10,8 @@ import {
     MODAL,
     SET_MODALMSG,
     SET_MODALTIT,
-    START_EXAM
+    START_EXAM,
+    FINISHDATA
 } from '../../constants/actionTypes';
 
 const examReducers = handleActions({
@@ -53,6 +54,9 @@ const examReducers = handleActions({
   SET_MODALTIT: (state, { payload }) => (
     state.set('modalTitle', payload)
   ),
+  FINISHDATA: (state, { payload }) => (
+    state.set('finishData' , payload)
+  )
 }, ExamState);
 
 export default examReducers;

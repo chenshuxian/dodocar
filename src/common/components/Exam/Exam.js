@@ -26,7 +26,7 @@ const Exam = ({
             <div className="form-group floating-label-form-group controls">
               <label>學號</label>
                 <input className="form-control" id='userNum' name='userNum' type='text' placeholder='請輸入學號'  
-                required  data-validation-required-message='學號不可為空' onChange={onChangeNumInput} />
+                required  data-validation-required-message='學號不可為空' style={{width:'150px'}} onChange={onChangeNumInput} />
                 <p className="help-block text-danger"></p>
             </div>
           </div>
@@ -34,7 +34,7 @@ const Exam = ({
             <div className="form-group floating-label-form-group controls">
               <label>密碼</label>
                 <input className="form-control" id='exPwd' name='exPwd' type='password' placeholder='請輸入密碼'  
-                required  data-validation-required-message='密碼不可為空' onChange={onChangePasswordInput}/>
+                required  data-validation-required-message='密碼不可為空' style={{width:'150px'}} onChange={onChangePasswordInput}/>
                 <p className="help-block text-danger"></p>
             </div>
           </div>

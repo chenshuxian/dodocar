@@ -36,8 +36,9 @@ class DataGrid extends React.Component {
     componentDidMount() {
         this.props.getUserData();
     }
-
+        
     render() {
+        console.log('render2');
         const options = {
             onRowClick: this.props.onRowClick,
             onSearchChange: this.props.onSearchChange, 
@@ -49,9 +50,12 @@ class DataGrid extends React.Component {
             selected: [this.props.selected],
             clickToSelect: true  // enable click to select
         };
+        const data = this.props.columns;
+  
         return (
-            <BootstrapTable data={ this.props.columns } version='4' selectRow={ selectRowProp } options={ options }
-            striped hover condensed height='300' scrollTop={ 'Bottom' } search multiColumnSearch >
+            <div>
+            <BootstrapTable data={ data } version='4' selectRow={ selectRowProp } options={ options }
+            striped hover condensed scrollTop={ 'Bottom' } search multiColumnSearch pagination>
                 <TableHeaderColumn isKey dataField='id'>身份證字號</TableHeaderColumn>
                 <TableHeaderColumn dataField='name'>姓名</TableHeaderColumn>
                 <TableHeaderColumn dataField='gender' dataFormat={ genderFn } formatExtraData={ genderType }
@@ -63,20 +67,10 @@ class DataGrid extends React.Component {
                 <TableHeaderColumn dataField='trainTimeId' dataFormat={ genderFn } formatExtraData={ PT } 
                 filterFormatted filter={ { type: 'SelectFilter', options: PT } }>練習時間</TableHeaderColumn>
             </BootstrapTable>
+            </div>
         )
     }
 
 }
-  
-// const DataGrid = ({
-//     getDataStore,
-//     columns
-// }) => (
-//     <BootstrapTable data={columns} version='4' selectRow={ selectRowProp } insertRow={ true }>
-//         <TableHeaderColumn isKey dataField='id'>身份證字號</TableHeaderColumn>
-//         <TableHeaderColumn dataField='name'>姓名</TableHeaderColumn>
-//         <TableHeaderColumn dataField='gender' dataFormat={ genderFn } formatExtraData={ genderType }>性別</TableHeaderColumn>
-//     </BootstrapTable>
-// );
 
 export default DataGrid;

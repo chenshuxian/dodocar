@@ -72,7 +72,8 @@ module.exports = {
                     score: 0,
                     wrong: [],
                     examId: examId
-                };
+                },
+                answer = {};
 
             ansS = JSON.parse(ansS);
 
@@ -84,7 +85,8 @@ module.exports = {
                     props.score++;
                 } else {
                     // 記錄錯誤題目
-                    props.wrong.push(i);
+                    answer = {id: i, img: ansS[i].img, q: ansS[i].question, choice: ansS[i].choice, ansC: ansC[i] , ans:ansS[i].answer};
+                    props.wrong.push(answer);
                 }
             }
 
@@ -94,7 +96,8 @@ module.exports = {
             await exam.record(props);
 
             ctx.rest({
-                score: props.score
+                score: props.score,
+                wrong: props.wrong
             })
 
         }

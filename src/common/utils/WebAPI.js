@@ -22,7 +22,8 @@ import {
   getClassType,
   setFormData,
   changeClassType,
-  changeFormState
+  changeFormState,
+  finishData
 } from '../actions';
 
 function getCookie(keyName) {
@@ -80,9 +81,9 @@ export default {
               info;
           localStorage.setItem('userId',response.data.userId);
           localStorage.setItem('token',token);
-          info = JSON.parse(atob(token.split('.')[1]));
-          localStorage.setItem('user',info.user);
-          localStorage.setItem('admin',info.admin);
+          //info = JSON.parse(atob(token.split('.')[1]));
+          //localStorage.setItem('user',info.user);
+          //localStorage.setItem('admin',info.admin);
           dispatch(authComplete());
           dispatch(workpage('notice'));
           //dispatch(login());
@@ -242,6 +243,7 @@ export default {
     }).then((response) => {
       console.log(response.data.score);
       dispatch(score(response.data.score));
+      dispatch(finishData(response.data.wrong));
       browserHistory.push('/score'); 
     })
     .catch((error) => {

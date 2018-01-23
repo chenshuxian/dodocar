@@ -24,7 +24,7 @@ export const UserState = Immutable.fromJS({
   userNum: '',
   password: '',
   isAuthorized: 0,
-  dgData: [],
+  dgData: '',
   formData: {
     stuNum : '',
     passwd : '',
@@ -63,6 +63,7 @@ export const ExamState = Immutable.fromJS({
   score:'',
   modal: false,
   modalMsg: '是否提前結束考試',
-  modalTitle: '提示'
+  modalTitle: '提示',
+  finishData: []
 });
 

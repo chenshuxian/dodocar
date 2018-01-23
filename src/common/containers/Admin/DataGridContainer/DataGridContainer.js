@@ -42,7 +42,7 @@ function dateFormat(date) {
 export default connect(
   (state) => ({
       columns: state.getIn(['user', 'dgData']),
-      selected: state.getIn(['user', 'selected'])
+      selected: state.getIn(['user', 'selected']),
     //isAuthorized: state.getIn(['user', 'isAuthorized']),
   }),
   (dispatch) => ({
@@ -54,11 +54,6 @@ export default connect(
       row.born = dateFormat(row.born);
       dispatch(setSelected(row.id))
       WebAPI.getTeacherTime(dispatch, row);
-      // let ttId = row.trainTimeId;
-      // row.born = dateFormat(row.born);
-      // dispatch(changeFormState('update'));
-      // dispatch(setFormData(row));
-      //dispatch(getTrainTime({id:ttId,name:TRIANTIME[ttId]}));
    
       //console.log(row);
       for (const [key, value] of Object.entries(row)) {

@@ -13,7 +13,8 @@ import {
     SET_MODALMSG,
     SET_MODALTIT,
     WORKPAGE,
-    ADDEXAM
+    ADDEXAM,
+    FINISHDATA
 } from '../constants/actionTypes';
 
 export const createQ = createAction('CREATE_Q');
@@ -28,3 +29,4 @@ export const setModalMsg = createAction('SET_MODALMSG');
 export const setModalTit = createAction('SET_MODALTIT');
 export const workpage = createAction('WORKPAGE');
 export const addExam = createAction('ADDEXAM',WebAPI.addExam);
+export const finishData = createAction('FINISHDATA');

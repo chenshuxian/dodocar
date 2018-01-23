@@ -4,3 +4,7 @@ export const TRIANTIME = {
     2: "07:50~08:40",
     3: "08:40~09:30"
 };
+export const TRAINBOOK = {
+    initTeacher: 'T001',
+    initExam: 'ED10701'
+}

@@ -5,6 +5,7 @@ import uuid from 'uuid';
 import { Alert } from 'reactstrap';
 import EXAMTOTAL from '../constants/exam';
 import { UserState } from '../constants/models';
+import { TRAINBOOK } from '../constants/exam';
 
 import { 
   authComplete,
@@ -45,8 +46,8 @@ var getInit = (dispatch) => {
   axios.get('/api/init').then((response) => {
     //dispatch(workpage('examPage'));
     let formData = UserState.get('formData').toObject();
-    formData.classType = 'ED10701';
-    formData.teacher = 'T001';
+    formData.classType = TRAINBOOK.initExam;
+    formData.teacher = TRAINBOOK.initTeacher;
     dispatch(setFormData(formData))
     let dgData = JSON.parse(response.data.data),
     dgDataNew = JSON.parse(dgData.dgData),

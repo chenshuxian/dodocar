@@ -4,6 +4,7 @@ import {promisify} from 'util';
 import fs from 'fs';
 import path from 'path';
 import { getTeacher } from '../../common/actions/index';
+import { TRAINBOOK } from '../../common/constants/exam';
 //const Sequelize = require('sequelize');
 
 let User = model.Users;
@@ -68,8 +69,8 @@ var userReturn = () => {
 }
 
 var getTrainBook = async (tId, eId, sId) => {
-    var teacherId = tId ? tId : 'T001',
-        examId = eId ? eId : 'ED001' ;
+    var teacherId = tId ? tId : TRAINBOOK.initTeacher,
+        examId = eId ? eId : TRAINBOOK.initExam ;
         sId = sId !== "" ? sId : '';
     
     let tb = await TB.findAll({

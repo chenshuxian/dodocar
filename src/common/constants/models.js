@@ -1,5 +1,7 @@
 import Immutable from 'immutable';
 
+let today = new Date();
+today = `${today.getFullYear()}-${today.getMonth() < 9 ? "0" + (today.getMonth() + 1) : today.getMonth() +1}-${today.getDate()}`;
 // initstate model
 export const UiState = Immutable.fromJS({
   checked: false,
@@ -41,7 +43,9 @@ export const UserState = Immutable.fromJS({
     roadScore : '',
     memo : '',
     id : '',
-    addrNum: ''
+    addrNum: '',
+    payment: '',
+    payDate: today
   },
   teachers: [],
   trainTime: [],

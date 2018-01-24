@@ -185,6 +185,8 @@ module.exports = {
             trainTimeId: user.trainTimeId,
             teacher: user.teacher,
             classType: user.classType,
+            payment: user.payment,
+            payDate: new Date(user.payDate).getTime(),
             trainId: '000'
         });
 
@@ -239,6 +241,8 @@ module.exports = {
                 trainTimeId: user.trainTimeId,
                 teacher: user.teacher,
                 classType: user.classType,
+                payment: user.payment,
+                payDate: new Date(user.payDate).getTime(),
                 trainId: '000'
             },
             {

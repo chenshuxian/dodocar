@@ -73,7 +73,8 @@ const AddForm = ({
       <Row className='toolbar'>
         <Col xs={6} md={3}><Button color="success" className="glyphicon glyphicon-user" onClick={changeState}>新增學員資料</Button></Col>
       </Row>
-      <Row className='formCenter'>
+      <Row>
+      <Col className='formCenter'>
             <Form id="adduser">
                 <FormGroup row>
                     <FieldSelect label="訓練班別:" name="classType"  options={classType} chFn={classTypeFn(teachers[teacherIndex] ? teachers[teacherIndex].id : '' )} 
@@ -81,6 +82,8 @@ const AddForm = ({
                     />
                     <Field label="期別:" name="season" value={classType[classTypeIndex]} readonly="true"/>
                     <Field label="開訓日期:" name="startDate" value={classType[classTypeIndex]} readonly="true"/>
+                </FormGroup>
+                <FormGroup row>
                     <Field label="結訓日期:" name="finishDate" value={classType[classTypeIndex]} readonly="true"/>
                     <Field label="考試日期:" name="examDate" value={classType[classTypeIndex]} readonly="true"/>
                 </FormGroup>
@@ -88,6 +91,8 @@ const AddForm = ({
                     <Field label="學號:" name="stuNum" value={formData} chFn={fieldChangeFn}/>
                     <Field label="密碼:" name="passwd" value={formData} chFn={fieldChangeFn}/>
                     <Field label="姓名:" name="name" value={formData} chFn={fieldChangeFn}/>
+                </FormGroup>
+                <FormGroup row>
                     <FieldSelect label="性別:" name="gender" options={gender} value={formData} chFn={fieldChangeFn}/>
                     <Field label="出生年月日:" type="date" name="born" styles={{width:'160px'}} value={formData} chFn={fieldChangeFn}/>
                 </FormGroup>
@@ -95,6 +100,8 @@ const AddForm = ({
                     <Field label="身份證:" name="id" styles={{width:'120px'}} value={formData} chFn={fieldChangeFn} 
                         readonly = {formState == "update" ? true : false}/>
                     <Field label="郵地區號:" name="addrNum" value={formData} chFn={fieldChangeFn}/>
+                </FormGroup>
+                <FormGroup row>
                     <Field label="地址:" name="addr" styles={{width:'495px'}} value={formData} chFn={fieldChangeFn}/>
                 </FormGroup>
                 <FormGroup row>
@@ -110,7 +117,11 @@ const AddForm = ({
                     <FieldSelect label="手、自排:" name="carType" options={carType} value={formData} chFn={fieldChangeFn}/>      
                     <Field label="訓練:" name="trainScore" value={formData} chFn={fieldChangeFn}/>
                     <Field label="筆試:" name="examScore" value={formData} chFn={fieldChangeFn}/>
+                </FormGroup>
+                <FormGroup row>
                     <Field label="路試:" name="roadScore" value={formData} chFn={fieldChangeFn}/>
+                    <Field label="繳費:" name="payment" value={formData} chFn={fieldChangeFn}/>
+                    <Field label="繳費日期:" type="date" styles={{width:'160px'}} name="payDate" value={formData} chFn={fieldChangeFn}/>              
                 </FormGroup>
                 <FormGroup row>
                     <Field label="備註:" type="textarea" name="memo" styles={{width:'450px'}} value={formData} chFn={fieldChangeFn}/>
@@ -122,10 +133,14 @@ const AddForm = ({
                     }
                 </FormGroup>
             </Form>
+        </Col>
+        <Col>
+            <DataGridContainer />
+        </Col>
       </Row>
-      <Row className='dataGrid'>
-        <DataGridContainer />
-      </Row>
+      {/* <Row className='dataGrid'>
+       
+      </Row> */}
   </Container>
   </section>
 );

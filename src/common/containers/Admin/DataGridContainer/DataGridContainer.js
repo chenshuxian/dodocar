@@ -52,15 +52,19 @@ export default connect(
     onRowClick: (row) => {
       // 取得老師的預約時間
       row.born = dateFormat(row.born);
+      row.payDate = dateFormat(row.payDate);
+      for (const [key, value] of Object.entries(row)) {
+        //console.log(`${key} : ${value}`); // "a 5", "b 7", "c 9"
+        if(value == null) {
+          row[key] = "";
+        }
+        //document.getElementById[key].value = value;
+      }
       dispatch(setSelected(row.id))
       WebAPI.getTeacherTime(dispatch, row);
    
       //console.log(row);
-      for (const [key, value] of Object.entries(row)) {
-        console.log(`${key} : ${value}`); // "a 5", "b 7", "c 9"
-        
-        //document.getElementById[key].value = value;
-      }
+      
     },
     onSearchChange: (searchText, colInfos, multiColumnSearch) => {
       const text = searchText.trim();

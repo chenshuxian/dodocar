@@ -76,7 +76,7 @@ class DataGrid extends React.Component {
             striped hover condensed scrollTop={ 'Bottom' } search multiColumnSearch pagination>
                 <TableHeaderColumn isKey dataField='id'>身份證字號</TableHeaderColumn>
                 <TableHeaderColumn dataField='name'>姓名</TableHeaderColumn>
-                <TableHeaderColumn dataField='gender' dataFormat={ genderFn } formatExtraData={ genderType }
+                <TableHeaderColumn width="46"dataField='gender' dataFormat={ genderFn } formatExtraData={ genderType }
                 filterFormatted >性別</TableHeaderColumn>
                 <TableHeaderColumn dataField='classType' dataFormat={ genderFn } formatExtraData={ classType }
                 filterFormatted filter={ { type: 'SelectFilter', options: classType } }>期別</TableHeaderColumn>

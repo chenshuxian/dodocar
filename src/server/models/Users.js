@@ -19,5 +19,7 @@ module.exports = db.defineModel('users', {
     trainTimeId: db.STRING(16),
     teacher: db.STRING(16),
     classType: db.STRING(16),
-    addrNum: db.STRING(16)
+    addrNum: db.STRING(16),
+    payment: {allowNull: true, type: db.BIGINT(20)},
+    payDate: {allowNull: true, type: db.BIGINT(20)}
 });

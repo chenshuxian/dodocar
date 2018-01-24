@@ -6,7 +6,7 @@ module.exports = db.defineModel('users', {
     name: db.STRING(100),
     gender: db.BIGINT(16),
     born: db.BIGINT(20),
-    addr: db.STRING(255),
+    addr: {allowNull: true, type:db.STRING(255)},
     tel: {allowNull: true, type:db.BIGINT(16)},
     mobile: {allowNull: true, type:db.BIGINT(16)},
     source: db.STRING(16),
@@ -19,7 +19,7 @@ module.exports = db.defineModel('users', {
     trainTimeId: db.STRING(16),
     teacher: db.STRING(16),
     classType: db.STRING(16),
-    addrNum: db.STRING(16),
+    addrNum: {allowNull: true, type:db.STRING(16)},
     payment: {allowNull: true, type: db.BIGINT(20)},
     payDate: {allowNull: true, type: db.BIGINT(20)}
 });

@@ -276,5 +276,13 @@ export default {
         // 設定考期時間
         dispatch(changeClassType(row.classType.substr(-1) -1));
     })
+  },
+  deleteRow: (dispatch,rows) => {
+    axios.delete('/api/user',{
+      data: {rows: rows}
+    }).then((response) => {
+      getInit(dispatch);
+      alert('刪除成功');
+    })
   }
 };

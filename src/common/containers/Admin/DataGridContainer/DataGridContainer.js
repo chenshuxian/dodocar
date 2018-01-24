@@ -60,11 +60,14 @@ export default connect(
         }
         //document.getElementById[key].value = value;
       }
-      dispatch(setSelected(row.id))
+      //dispatch(setSelected(row.id))
       WebAPI.getTeacherTime(dispatch, row);
    
       //console.log(row);
       
+    },
+    onDeleteRow: (rows) => {
+      WebAPI.deleteRow(dispatch,rows);
     },
     onSearchChange: (searchText, colInfos, multiColumnSearch) => {
       const text = searchText.trim();

@@ -161,6 +161,23 @@ module.exports = {
         return result;
        
     },
+    delete: async (ids) => {
+        try{
+            let result = await User.destroy({
+                where:{id:ids}
+            });
+            await TB.update(
+                { studentId: '' },
+                { 
+                    where: { 
+                       studentId: ids
+                    }
+                } /* where criteria */
+              );
+        }catch(e){
+            console.log(e);
+        }
+    },
 
     addSingleUser: async (user) => {
         console.log(user.id);

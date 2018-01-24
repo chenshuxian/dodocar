@@ -60,20 +60,21 @@ class DataGrid extends React.Component {
         const options = {
             onRowClick: this.props.onRowClick,
             onSearchChange: this.props.onSearchChange, 
+            onDeleteRow: this.props.onDeleteRow,
             clearSearch: true 
         };
         const selectRowProp = {
             mode: 'checkbox',
-            bgColor: 'pink',
-            selected: [this.props.selected],
-            clickToSelect: true  // enable click to select
+            bgColor: 'pink'
+            //selected: [this.props.selected],
+            //clickToSelect: true  // enable click to select
         };
         const data = this.props.columns;
   
         return (
             <div>
             <BootstrapTable data={ data } version='4' selectRow={ selectRowProp } options={ options }
-            striped hover condensed scrollTop={ 'Bottom' } search multiColumnSearch pagination>
+            striped hover condensed scrollTop={ 'Bottom' } search multiColumnSearch pagination deleteRow>
                 <TableHeaderColumn isKey dataField='id'>身份證字號</TableHeaderColumn>
                 <TableHeaderColumn dataField='name'>姓名</TableHeaderColumn>
                 <TableHeaderColumn width="46"dataField='gender' dataFormat={ genderFn } formatExtraData={ genderType }

@@ -86,7 +86,8 @@ module.exports = {
                     props.score++;
                 } else {
                     // 記錄錯誤題目
-                    answer = {id: i, img: ansS[i].img, q: ansS[i].question, choice: ansS[i].choice, ansC: ansC[i] , ans:ansS[i].answer};
+		    let img = ansS[i].img ? ansS[i].img : 'static/images/yesno.png';
+                    answer = {id: i, img:img, q: ansS[i].question, choice: ansS[i].choice, ansC: ansC[i] , ans:ansS[i].answer};
                     wrongAns.push(answer);
                     props.wrong.push(i);
                 }

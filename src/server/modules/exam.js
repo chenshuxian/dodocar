@@ -101,7 +101,6 @@ module.exports = {
 		    where:{
 		    	examId: eId
 		    },
-                    attributes: ['answer'],
 		    order: ['createdAt']
                 }
             );

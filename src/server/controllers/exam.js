@@ -62,6 +62,9 @@ module.exports = {
         ctx.rest(result);
 
     },
+    'GET /api/trainBook': async (ctx, next) => {
+        exam.trainBook();
+    },
     'POST /api/score': async (ctx, next) => {
         try {
             var ansC = ctx.request.body.ansC;

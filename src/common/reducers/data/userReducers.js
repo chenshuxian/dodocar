@@ -14,7 +14,8 @@ import {
   GET_TRAIN_TIME,
   SET_FORM_DATA,
   SET_FIELD_VALUE,
-  FIX_TRAIN_TIME
+  FIX_TRAIN_TIME,
+  SET_SEASON_TYPE
 } from '../../constants/actionTypes';
 
 const userReducers = handleActions({
@@ -70,6 +71,9 @@ const userReducers = handleActions({
   GET_CLASS_TYPE: (state, { payload }) => (
     state.set('classType', payload )
   ),
+  SET_SEASON_TYPE: (state, { payload }) => (
+    state.set('seasonType', payload )
+  ),  
   CHANGE_CLASS_TYPE: (state, { payload }) => (
     state.set('classTypeIndex', payload )
   ),

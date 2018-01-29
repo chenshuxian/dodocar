@@ -202,6 +202,7 @@ module.exports = {
             trainTimeId: user.trainTimeId,
             teacher: user.teacher,
             classType: user.classType,
+            seasonType: user.seasonType,
             payment: user.payment,
             payDate: new Date(user.payDate).getTime(),
             trainId: '000'
@@ -220,7 +221,7 @@ module.exports = {
                 { studentId: user.id },
                 { 
                     where: { 
-                        examDateId: user.classType,
+                        examDateId: user.seasonType,
                         teacherId: user.teacher,
                         trainTimeId: user.trainTimeId
                     }
@@ -258,6 +259,7 @@ module.exports = {
                 trainTimeId: user.trainTimeId,
                 teacher: user.teacher,
                 classType: user.classType,
+                seasonType: user.seasonType,
                 payment: user.payment,
                 payDate: new Date(user.payDate).getTime(),
                 trainId: '000'
@@ -289,7 +291,7 @@ module.exports = {
                 { studentId: user.id },
                 { 
                     where: { 
-                        examDateId: user.classType,
+                        examDateId: user.seasonType,
                         teacherId: user.teacher,
                         trainTimeId: user.trainTimeId
                     }

@@ -41,6 +41,7 @@ export const UserState = Immutable.fromJS({
     trainScore : '',
     examScore : '',
     roadScore : '',
+    seasonType: '',
     memo : '',
     id : '',
     addrNum: '',
@@ -50,6 +51,7 @@ export const UserState = Immutable.fromJS({
   teachers: [],
   trainTime: [],
   classType: [],
+  seasonType:[],
   selected: [],
   classTypeIndex: 0,
   teacherIndex: 0

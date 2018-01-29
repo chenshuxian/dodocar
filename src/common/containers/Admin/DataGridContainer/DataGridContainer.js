@@ -43,6 +43,7 @@ export default connect(
   (state) => ({
       columns: state.getIn(['user', 'dgData']),
       selected: state.getIn(['user', 'selected']),
+      seasonType: state.getIn(['user', 'seasonType'])
     //isAuthorized: state.getIn(['user', 'isAuthorized']),
   }),
   (dispatch) => ({
@@ -69,6 +70,12 @@ export default connect(
     onDeleteRow: (rows) => {
       WebAPI.deleteRow(dispatch,rows);
     },
+    onExportToCSV: (row) => {
+      let data = [
+        { id:1, name:'test'}
+      ];
+      return data;
+    },  
     onSearchChange: (searchText, colInfos, multiColumnSearch) => {
       const text = searchText.trim();
       const initDG = JSON.parse(localStorage.getItem('dataStore'));

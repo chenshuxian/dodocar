@@ -24,7 +24,8 @@ import {
   setFormData,
   changeClassType,
   changeFormState,
-  finishData
+  finishData,
+  setSeasonType
 } from '../actions';
 
 function getCookie(keyName) {
@@ -57,7 +58,7 @@ var getInit = (dispatch) => {
     localStorage.setItem('dataStore', dgData.dgData);
     dispatch(getDgData({dg:dgDataNew}));
     dispatch(getTeacher({teacher:teacher}));
-    dispatch(getClassType(typeClass));
+    dispatch(setSeasonType(typeClass));
     dispatch(getTrainTime(trainTime));
     
   }).catch((error) => {
@@ -266,7 +267,7 @@ export default {
     axios.get('/api/trainTime',{
       params: {
         tId: row.teacher,
-        eId: row.classType,
+        eId: row.seasonType,
         sId: row.id
       }
     }).then((response) => {

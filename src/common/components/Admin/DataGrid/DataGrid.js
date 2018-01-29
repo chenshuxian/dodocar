@@ -3,7 +3,7 @@
 */
 import React from 'react';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
-import {TRIANTIME} from '../../../constants/exam';
+import { TRAINTIME } from '../../../constants/exam';
 
 const classType  = {
     'ED10701': '第1期',
@@ -38,7 +38,7 @@ const teacher = {
     'T002': 'jacky'
 };
 
-const PT = TRIANTIME;
+const PT = TRAINTIME;
 
 function genderFn(cell, row, enumObject) {
     return enumObject[cell];
@@ -61,6 +61,7 @@ class DataGrid extends React.Component {
             onRowClick: this.props.onRowClick,
             onSearchChange: this.props.onSearchChange, 
             onDeleteRow: this.props.onDeleteRow,
+            onExportToCSV: this.props.onExportToCSV,
             clearSearch: true 
         };
         const selectRowProp = {
@@ -70,17 +71,17 @@ class DataGrid extends React.Component {
             //clickToSelect: true  // enable click to select
         };
         const data = this.props.columns;
+        const seasonType =  this.props.seasonType.map((x) => x.name);
   
         return (
             <div>
             <BootstrapTable data={ data } version='4' selectRow={ selectRowProp } options={ options }
-            striped hover condensed scrollTop={ 'Bottom' } search multiColumnSearch pagination deleteRow>
+            striped hover condensed scrollTop={ 'Bottom' } search multiColumnSearch pagination deleteRow exportCSV>
                 <TableHeaderColumn isKey dataField='id'>身份證字號</TableHeaderColumn>
                 <TableHeaderColumn dataField='name'>姓名</TableHeaderColumn>
                 <TableHeaderColumn width="46"dataField='gender' dataFormat={ genderFn } formatExtraData={ genderType }
                 filterFormatted >性別</TableHeaderColumn>
-                <TableHeaderColumn dataField='classType' dataFormat={ genderFn } formatExtraData={ classType }
-                filterFormatted filter={ { type: 'SelectFilter', options: classType } }>期別</TableHeaderColumn>
+                <TableHeaderColumn dataField='seasonType' filter={ { type: 'SelectFilter', options:seasonType} }>期別</TableHeaderColumn>
                 <TableHeaderColumn dataField='teacher' dataFormat={ genderFn } formatExtraData={ teacher }
                 filterFormatted filter={ { type: 'SelectFilter', options: teacher } }>教練</TableHeaderColumn>
                 <TableHeaderColumn dataField='trainTimeId' dataFormat={ genderFn } formatExtraData={ PT } 

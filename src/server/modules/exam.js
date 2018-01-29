@@ -3,10 +3,14 @@ import model from '../model';
 import fs from 'fs';
 import path from 'path';
 import Sequelize from 'sequelize';
+import { TRAINTIME } from '../../common/constants/exam';
 
 
 let Exam = model.Exams,
-    Score = model.Score;
+    Score = model.Score,
+    TB = model.TrainBook,
+    ExamDate = model.ExamDate,
+    Teacher = model.Teachers;
 
 // 題庫資料轉換
 // @params 題庫資料陣列 [{examId:1},{examId:2}...]
@@ -124,6 +128,36 @@ module.exports = {
         catch (e) {
             console.log('there was an error');
             console.log(e);
+        }
+    },
+    trainBook: async (props) => {
+        let teacher = await Teacher.findAll({
+            attributes: ['id']
+        });
+        let exam = await ExamDate.findAll({
+            attributes: ['name']
+        });
+        let year = new Date().getFullYear();
+        let i = 0;
+
+        console.log(JSON.stringify(teacher));
+        console.log(JSON.stringify(exam));
+
+        for (var id in teacher) {
+            console.log(teacher[id]['id']);
+            for (var name in exam) {
+                for (var k in TRAINTIME) {
+                    i++;
+                    console.log(`tId:${teacher[id]['id']},eId:${exam[name]['name']},i:${i}`);
+                    TB.create({
+                        id:`TB${year}${i}`,
+                        trainTimeId: k,
+                        examDateId: exam[name]['name'],
+                        studentId: '',
+                        teacherId: teacher[id]['id']
+                    });
+                }
+            }
         }
     },
     createExam: async (url) => {

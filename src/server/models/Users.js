@@ -21,5 +21,6 @@ module.exports = db.defineModel('users', {
     classType: db.STRING(16),
     addrNum: {allowNull: true, type:db.STRING(16)},
     payment: {allowNull: true, type: db.BIGINT(20)},
-    payDate: {allowNull: true, type: db.BIGINT(20)}
+    payDate: {allowNull: true, type: db.BIGINT(20)},
+    seasonType: db.STRING(15)
 });

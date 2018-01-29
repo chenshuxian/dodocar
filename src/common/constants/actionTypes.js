@@ -38,3 +38,4 @@ export const CHANGE_FORM_STATE = 'CHANGE_FORM_STATE';
 export const FIX_TRAIN_TIME = 'FIX_TRAIN_TIME';
 export const SET_SELECTED = 'SET_SELECTED';
 export const FINISHDATA = 'FINISHDATA';
+export const SET_SEASON_TYPE = 'SET_SEASON_TYPE';

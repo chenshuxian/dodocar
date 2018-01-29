@@ -23,10 +23,11 @@ export default connect(
       today: new Date().toISOString(),
       trainTime: state.getIn(['user', 'trainTime']),
       gender:[{id:'1',name:'男'},{id:'2',name:'女'}],
-      source: [{name:'網站',id:'1'},{name:'朋友', id:'2'}],
-      carType: [{id:'1',name:'手排'},{id:'2',name:'自排'}],
+      source: [{name:'學照',id:'1'},{name:'當期團報', id:'2'}],
+      carType: [{id:'1',name:'自排'},{id:'2',name:'手排'}],
       teachers: state.getIn(['user','teacher']),
-      classType: state.getIn(['user','classType']),
+      classType: [{id:'1',name:'普小'}],
+      seasonType: state.getIn(['user','seasonType']),
       season: state.getIn(['user','classType','season']),
       classTypeIndex: state.getIn(['user','classTypeIndex']),
       teacherIndex : state.getIn(['user','teacherIndex']),
@@ -36,7 +37,6 @@ export default connect(
   }),
   (dispatch) => ({
     addUser: () => {
-      //var file = document.getElementById('examFile').files[0];
       dispatch(addUser(dispatch))
     },
     teacherTime: () => {
@@ -86,23 +86,11 @@ export default connect(
       let data = { key: e.target.name, value: e.target.value};
       dispatch(setFieldValue(data));
     },
-    changeState: () => {
+    newAdd: () => {
       //let formData = UserState.get('formData').toObject();
       //dispatch(setFormData(formData))
       WebAPI.getDataStore(dispatch);
       dispatch(changeFormState('insert'))
-    },
-    rowGetter: (index) => {
-      let rows = [];
-      for (let i = 1; i < 1000; i++) {
-        rows.push({
-          id: i,
-          title: 'Title ' + i,
-          count: i * 1000,
-          active: i % 2
-        });
-      }
-      return rows[index];
     }
   })
 )(AddForm);

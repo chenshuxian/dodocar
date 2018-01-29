@@ -19,7 +19,8 @@ import {
   SET_FORM_DATA,
   SET_FIELD_VALUE,
   FIX_TRAIN_TIME,
-  SET_SELECTED
+  SET_SELECTED,
+  SET_SEASON_TYPE
 } from '../constants/actionTypes';
 import { create } from 'domain';
 
@@ -35,6 +36,7 @@ export const getDgData = createAction('GETDGDATA');
 export const getTeacher = createAction('GETTEACHER');
 export const getTrainTime = createAction('GET_TRAIN_TIME');
 export const getClassType = createAction('GET_CLASS_TYPE');
+export const setSeasonType = createAction('SET_SEASON_TYPE');
 export const changeClassType = createAction('CHANGE_CLASS_TYPE');
 export const changeTeacherIndex = createAction('CHANGE_TEACHER_INDEX');
 export const setFormData = createAction('SET_FORM_DATA');

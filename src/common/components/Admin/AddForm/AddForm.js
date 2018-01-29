@@ -44,6 +44,22 @@ function FieldSelect(props) {
     </Row>
     );
 }
+
+function FieldSelectSeason(props) {
+    return (
+    <Row>
+    <Label>{props.label}</Label>
+    <Col>
+    <Input type="select" name={props.name} onChange={props.chFn ? props.chFn : ''} style={props.styles} 
+        value={props.value ? props.value[props.name] : ''}>
+        {props.options.map(function(name, i) {
+            return (<option key={i} value={props.options[i].name}>{props.options[i].name}</option>);
+        })}
+    </Input>
+    </Col>
+    </Row>
+    );
+}
   
 const AddForm = ({
     addUser,
@@ -64,28 +80,28 @@ const AddForm = ({
     teacherIndex,
     formData,
     fieldChangeFn,
-    changeState,
+    newAdd,
     season,
-    formState
+    formState,
+    seasonType
 }) => (
 <section className='examPage' id='exam'>
   <Container>
       <Row className='toolbar'>
-        <Col xs={6} md={3}><Button color="success" className="glyphicon glyphicon-user" onClick={changeState}>新增學員資料</Button></Col>
+        <Col xs={6} md={3}><Button color="success" className="glyphicon glyphicon-user" onClick={newAdd}>新增學員資料</Button></Col>
       </Row>
       <Row>
       <Col className='formCenter'>
             <Form id="adduser">
                 <FormGroup row>
-                    <FieldSelect label="訓練班別:" name="classType"  options={classType} chFn={classTypeFn(teachers[teacherIndex] ? teachers[teacherIndex].id : '' )} 
-                    value={formData}
-                    />
-                    <Field label="期別:" name="season" value={classType[classTypeIndex]} readonly="true"/>
-                    <Field label="開訓日期:" name="startDate" value={classType[classTypeIndex]} readonly="true"/>
+                    <FieldSelect label="訓練班別:" name="classType"  options={classType} chFn={fieldChangeFn} value={formData} />
+                    <FieldSelectSeason label="訓練期別:" name="seasonType"  options={seasonType} chFn={classTypeFn(teachers[teacherIndex] ? teachers[teacherIndex].id : '' )} 
+                    value={formData}/>
                 </FormGroup>
                 <FormGroup row>
-                    <Field label="結訓日期:" name="finishDate" value={classType[classTypeIndex]} readonly="true"/>
-                    <Field label="考試日期:" name="examDate" value={classType[classTypeIndex]} readonly="true"/>
+                    <Field label="開訓日期:" name="startDate" value={seasonType[classTypeIndex]} readonly="true"/>
+                    <Field label="結訓日期:" name="finishDate" value={seasonType[classTypeIndex]} readonly="true"/>
+                    <Field label="考試日期:" name="examDate" value={seasonType[classTypeIndex]} readonly="true"/>
                 </FormGroup>
                 <FormGroup row>
                     <Field label="學號:" name="stuNum" value={formData} chFn={fieldChangeFn}/>
@@ -108,7 +124,7 @@ const AddForm = ({
                     <Field label="行動電話:" name="tel" value={formData} chFn={fieldChangeFn}/>
                     <Field label="住家電話:" name="mobile" value={formData} chFn={fieldChangeFn}/>
                     <FieldSelect label="來源:" name="source" options={source} value={formData} chFn={fieldChangeFn}/>
-                    <FieldSelect label="教練姓名:" name="teacher" options={teachers} chFn={teacherFn(classType[classTypeIndex] ? classType[classTypeIndex].id : '' )} 
+                    <FieldSelect label="教練姓名:" name="teacher" options={teachers} chFn={teacherFn(seasonType[classTypeIndex] ? seasonType[classTypeIndex].name : '' )} 
                     value={formData}/>
                     <FieldSelect label="選訓時間:" name="trainTimeId" options={trainTime} styles={{width:'120px'}} 
                     value={formData} chFn={fieldChangeFn}/>

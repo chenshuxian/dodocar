@@ -83,12 +83,14 @@ const AddForm = ({
     newAdd,
     season,
     formState,
-    seasonType
+    seasonType,
+    delScore
 }) => (
 <section className='examPage' id='exam'>
   <Container>
       <Row className='toolbar'>
         <Col xs={6} md={3}><Button color="success" className="glyphicon glyphicon-user" onClick={newAdd}>新增學員資料</Button></Col>
+        <Col xs={6} md={3}><Button color="danger" className="glyphicon glyphicon-user" onClick={delScore}>刪除測試帳號成績</Button></Col>
       </Row>
       <Row>
       <Col className='formCenter'>

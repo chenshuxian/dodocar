@@ -65,6 +65,9 @@ module.exports = {
     'GET /api/trainBook': async (ctx, next) => {
         exam.trainBook();
     },
+    'DELETE /api/score': async (ctx, next) => {
+        exam.delScore();
+    },
     'POST /api/score': async (ctx, next) => {
         try {
             var ansC = ctx.request.body.ansC;

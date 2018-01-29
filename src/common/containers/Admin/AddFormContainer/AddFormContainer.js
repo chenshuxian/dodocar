@@ -91,6 +91,9 @@ export default connect(
       //dispatch(setFormData(formData))
       WebAPI.getDataStore(dispatch);
       dispatch(changeFormState('insert'))
+    },
+    delScore: () => {
+      WebAPI.delScore();
     }
   })
 )(AddForm);

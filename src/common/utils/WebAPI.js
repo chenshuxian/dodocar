@@ -285,5 +285,10 @@ export default {
       getInit(dispatch);
       alert('刪除成功');
     })
+  },
+  delScore: () => {
+    axios.delete('/api/score').then((response) => {
+      alert('刪除成功');
+    })
   }
 };

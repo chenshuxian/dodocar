@@ -116,6 +116,24 @@ module.exports = {
             console.log(e);
         }
     },
+    delScore: async () => {
+        let result = {
+            sucess: true,
+            message:'建檔成功'
+        };
+        try{
+            await Score.destroy({
+                where: {
+                    studentId: 'test'
+                }
+            });
+
+            return result;
+
+        }catch (e) {
+            console.log(e);
+        }
+    },
     record: async (props) => {
         try {
              await Score.create({

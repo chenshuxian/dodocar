@@ -43,7 +43,8 @@ export default connect(
   (state) => ({
       columns: state.getIn(['user', 'dgData']),
       selected: state.getIn(['user', 'selected']),
-      seasonType: state.getIn(['user', 'seasonType'])
+      seasonType: state.getIn(['user', 'seasonType']),
+      teacher: state.getIn(['user','teacher'])
     //isAuthorized: state.getIn(['user', 'isAuthorized']),
   }),
   (dispatch) => ({

@@ -33,11 +33,6 @@ const genderType = {
     '2': '女'
 };
 
-const teacher = {
-    'T001': 'eric',
-    'T002': 'jacky'
-};
-
 const PT = TRAINTIME;
 
 function genderFn(cell, row, enumObject) {
@@ -72,6 +67,7 @@ class DataGrid extends React.Component {
         };
         const data = this.props.columns;
         const seasonType =  this.props.seasonType.map((x) => x.name);
+        const teacher = this.props.teacher.map((x) => x.name);
   
         return (
             <div>

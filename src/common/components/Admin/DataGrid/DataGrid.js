@@ -33,6 +33,16 @@ const genderType = {
     '2': '女'
 };
 
+const teacher = {
+    'A223851606': '徐思綺',
+    'W100124542': '周國隆',
+    'W100158684': '黃邦培',
+    'W100229257': '薛海平',
+    'W100356062': '何正傑',
+    'W100364582': '李焯燦',
+    'W100371863': '薛逸華'
+};
+
 const PT = TRAINTIME;
 
 function genderFn(cell, row, enumObject) {
@@ -67,8 +77,11 @@ class DataGrid extends React.Component {
         };
         const data = this.props.columns;
         const seasonType =  this.props.seasonType.map((x) => x.name);
-        const teacher = this.props.teacher.map((x) => x.name);
   
+        // for (var i in teacher) {
+        //     var t = {};
+        //     t[teacher[i].id] = teacher[i].name; 
+        // }
         return (
             <div>
             <BootstrapTable data={ data } version='4' selectRow={ selectRowProp } options={ options }

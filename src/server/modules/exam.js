@@ -190,7 +190,7 @@ module.exports = {
                 var examId = exam[1].examId;
                 //let success;
                 // 若題庫存在，就先殺除
-                Exam.destroy({
+                await Exam.destroy({
                     where: {
                         examId: examId
                     }

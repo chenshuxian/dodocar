@@ -13,6 +13,33 @@ let TB = model.TrainBook;
 let TrainTime = model.TrainTime;
 let TypeClass = model.ExamDate;
 
+var userCreate = async (user) => {
+    User.create({
+        id: user.id,
+        passwd: user.passwd,
+        stuNum: user.stuNum,
+        name: user.name,
+        gender: user.gender,
+        born: new Date(user.born).getTime(),
+        addrNum: user.addrNum,
+        addr: user.addr,
+        tel: user.tel,
+        mobile: user.mobile,
+        source: user.source,
+        carType: user.carType,
+        trainScore: user.trainScore,
+        examScore: user.examScore,
+        roadScore: user.roadScore,
+        memo: user.memo,
+        trainTimeId: user.trainTimeId,
+        teacher: user.teacher,
+        classType: user.classType,
+        seasonType: user.seasonType,
+        payment: user.payment,
+        payDate: new Date(user.payDate).getTime(),
+        trainId: '000'
+    });
+}
 
 var haveUser = async (name) => {
 
@@ -46,12 +73,7 @@ var addUser = async (user) => {
                 }
                 break;
             }else{
-                await User.create({
-                    email: user[i].email || '',
-                    passwd: user[i].passwd,
-                    name: user[i].name,
-                    gender: false
-                })
+                await userCreate(user);
             }  
         }
 
@@ -182,32 +204,7 @@ module.exports = {
     addSingleUser: async (user) => {
         console.log(user.id);
         try{
-             var result = await User.create({
-            id: user.id,
-            passwd: user.passwd,
-            stuNum: user.stuNum,
-            name: user.name,
-            gender: user.gender,
-            born: new Date(user.born).getTime(),
-            addrNum: user.addrNum,
-            addr: user.addr,
-            tel: user.tel,
-            mobile: user.mobile,
-            source: user.source,
-            carType: user.carType,
-            trainScore: user.trainScore,
-            examScore: user.examScore,
-            roadScore: user.roadScore,
-            memo: user.memo,
-            trainTimeId: user.trainTimeId,
-            teacher: user.teacher,
-            classType: user.classType,
-            seasonType: user.seasonType,
-            payment: user.payment,
-            payDate: new Date(user.payDate).getTime(),
-            trainId: '000'
-        });
-
+             var result = await userCreate(user);
         }catch(e){
             console.log(e);
         }

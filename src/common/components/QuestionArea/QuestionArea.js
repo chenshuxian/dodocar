@@ -23,8 +23,11 @@ function ansBtn(str, qID, fn, ans) {
     <span className='btnChoice'>
         <h3> 答題區: </h3>
         {arr.map((result, index) => {
-            //console.log(ans[qID-1] + "=" + result);
-            if (ans[qID-1] == result.substr(0,1))
+            console.log(ans[qID-1] + "=" + index);
+            console.log(result.includes(ans[qID-1]));
+            var btnIndex = index + 1;
+            if (ans[qID-1] == btnIndex)
+            //if(result.includes(ans[qID-1]))
             return (<Button color='success' key={index} onClick={fn(qID-1,index+1)}>{index+1}</Button>);
         else 
             return (<Button key={index} onClick={fn(qID-1,index+1)}>{index+1}</Button>);

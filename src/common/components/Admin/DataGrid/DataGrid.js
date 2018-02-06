@@ -58,10 +58,12 @@ class DataGrid extends React.Component {
 
     componentDidMount() {
         this.props.getUserData();
+        //console.log('reander1');
     }
         
     render() {
         console.log('render2');
+        //console.log(this.teacher);
         const options = {
             onRowClick: this.props.onRowClick,
             onSearchChange: this.props.onSearchChange, 

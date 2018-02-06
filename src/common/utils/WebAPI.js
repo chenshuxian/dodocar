@@ -49,13 +49,13 @@ var getInit = (dispatch) => {
     let formData = UserState.get('formData').toObject();
     formData.classType = TRAINBOOK.initExam;
     formData.teacher = TRAINBOOK.initTeacher;
-    dispatch(setFormData(formData))
     let dgData = JSON.parse(response.data.data),
     dgDataNew = JSON.parse(dgData.dgData),
     typeClass = JSON.parse(dgData.typeClass),
     teacher = JSON.parse(dgData.teacher),
     trainTime = JSON.parse(dgData.trainTime);
     localStorage.setItem('dataStore', dgData.dgData);
+    dispatch(setFormData(formData));
     dispatch(getDgData({dg:dgDataNew}));
     dispatch(getTeacher({teacher:teacher}));
     dispatch(setSeasonType(typeClass));

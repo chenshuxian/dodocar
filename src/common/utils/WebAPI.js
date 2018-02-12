@@ -74,9 +74,10 @@ export default {
       exPwd: password
     })
     .then((response) => {
-      if(response.data.success === false) {
+      if(response.data.success == "false") {
         //dispatch(login());
-        window.location.reload();        
+        alert('帳號密碼錯誤');
+        //window.location.reload();        
       } else {
       
           var token = response.data.token,

@@ -76,7 +76,7 @@ export default {
     .then((response) => {
       if(response.data.success == "false") {
         //dispatch(login());
-        alert('帳號密碼錯誤');
+        alert(response.data.message);
         //window.location.reload();        
       } else {
       

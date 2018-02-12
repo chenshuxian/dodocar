@@ -140,7 +140,10 @@ module.exports = {
                 where: {id: id}
             });
             console.log('user: ' + JSON.stringify(user));
-            return JSON.stringify(user);
+            if(user)
+                return JSON.stringify(user);
+            else
+                return false;
         }
         catch (e) {
             console.log('there was an error');

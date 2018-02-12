@@ -95,12 +95,15 @@ module.exports = {
                             success : 'false',
                             message : '使用者密碼錯誤' 
                         }
-
                 }
                 
                 ctx.rest(request);
             } else {
-                ctx.rest({success: 'false', message: '驗證失敗，使用者不存在'});
+                request = {
+                    success : 'false',
+                    message : '驗證失敗，使用者不存在' 
+                }
+                ctx.rest(request);
             }
 
         }

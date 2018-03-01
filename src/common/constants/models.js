@@ -1,7 +1,7 @@
 import Immutable from 'immutable';
 
 let today = new Date();
-today = `${today.getFullYear()}-${today.getMonth() < 9 ? "0" + (today.getMonth() + 1) : today.getMonth() +1}-${today.getDate()}`;
+today = `${today.getFullYear()}-${today.getMonth() < 9 ? "0" + (today.getMonth() + 1) : today.getMonth() +1}-${today.getDate() < 9 ? "0" + (today.getDate()) : today.getDate()}`;
 // initstate model
 export const UiState = Immutable.fromJS({
   checked: false,

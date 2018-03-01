@@ -87,13 +87,11 @@ export default connect(
       dispatch(setFieldValue(data));
     },
     newAdd: () => {
-      //let formData = UserState.get('formData').toObject();
-      //dispatch(setFormData(formData))
       WebAPI.getDataStore(dispatch);
       dispatch(changeFormState('insert'))
     },
     delScore: () => {
-      WebAPI.delScore();
+      WebAPI.delScore('test');
     }
   })
 )(AddForm);

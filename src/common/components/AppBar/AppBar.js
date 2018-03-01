@@ -2,6 +2,46 @@ import React from 'react';
 import { Link } from 'react-router'
 import { NAV, EXAM } from '../../constants/pageTitle';
 
+const DefautBar = () => (
+  <ul className="navbar-nav ml-auto">
+    <li className="nav-item">
+      <a className="nav-link js-scroll-trigger" href="#exam">{NAV.EXAM}</a>
+    </li>
+    <li className="nav-item">
+      <a className="nav-link js-scroll-trigger" href="#about">{NAV.ABOUT}</a>
+    </li>
+    <li className="nav-item">
+      <a className="nav-link js-scroll-trigger" href="#contact">{NAV.CONTACT}</a>
+    </li>
+  </ul>
+);
+
+const HomeBar = () => (
+    <ul className="navbar-nav ml-auto">
+      <li className="nav-item">
+        <a className="nav-link js-scroll-trigger" href="/">返回首頁</a>
+      </li>
+    </ul> 
+);
+
+const AdminBar = () => (
+  <ul className="navbar-nav ml-auto">
+    <li className="nav-item">
+      <a className="nav-link js-scroll-trigger" href="/teacher">教師管理</a>
+    </li>
+  </ul> 
+);
+
+function switchBar(page) {
+  var focusBar = <HomeBar />
+  if (page == 'admin'){
+    focusBar = ""
+  }else if (page == '/'){
+    focusBar = <DefautBar />
+  }
+  return focusBar;  
+}
+
 const AppBar = ({
   isAuthorized,
   userName,
@@ -16,32 +56,7 @@ const AppBar = ({
           <i className="fa fa-bars"></i>
         </button>
         <div className="collapse navbar-collapse" id="navbarResponsive">
-            { workpage == '/' ?
-              <ul className="navbar-nav ml-auto">
-                <li className="nav-item">
-                  <a className="nav-link js-scroll-trigger" href="#exam">{NAV.EXAM}</a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link js-scroll-trigger" href="#about">{NAV.ABOUT}</a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link js-scroll-trigger" href="#contact">{NAV.CONTACT}</a>
-                </li>
-                {/* <li className="nav-item">
-                  { isAuthorized == 0 ?
-                    <a className="nav-link js-scroll-trigger" onClick={onLogin}>登入</a>
-                    :
-                    <a className="nav-link js-scroll-trigger" >{userName}</a>
-                  }       
-                </li> */}
-              </ul>
-              :
-              <ul className="navbar-nav ml-auto">
-                <li className="nav-item">
-                  <a className="nav-link js-scroll-trigger" href="/">返回首頁</a>
-                </li>
-              </ul> 
-          }
+            { switchBar(workpage)}
         </div>
       </div>
     </nav>

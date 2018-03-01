@@ -65,8 +65,10 @@ module.exports = {
     'GET /api/trainBook': async (ctx, next) => {
         exam.trainBook();
     },
-    'DELETE /api/score': async (ctx, next) => {
-        exam.delScore();
+    'DELETE /api/score/:id': async (ctx, next) => {
+        console.log(`delete product ${ctx.params.id}...`);
+        let result = exam.delScore(ctx.params.id);
+        ctx.rest(result);
     },
     'POST /api/score': async (ctx, next) => {
         try {

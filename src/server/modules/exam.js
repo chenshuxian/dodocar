@@ -116,15 +116,21 @@ module.exports = {
             console.log(e);
         }
     },
-    delScore: async () => {
+    delScore: async (id) => {
         let result = {
             sucess: true,
             message:'建檔成功'
-        };
+        },
+        studentId = 'test';
+
+        if (id) {
+            studentId = id;
+        }
+        
         try{
             await Score.destroy({
                 where: {
-                    studentId: 'test'
+                    studentId: studentId 
                 }
             });
 

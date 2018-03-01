@@ -14,7 +14,8 @@ import {
     setFormData,
     changeFormState,
     getTrainTime,
-    setSelected
+    setSelected,
+    workpage
 } from '../../../actions';
 
 function dateFormat(date) {
@@ -51,6 +52,9 @@ export default connect(
     getUserData: () => {
       WebAPI.getDataStore(dispatch);
     },
+    onChangePage: () => {
+      dispatch(workpage('admin'));
+    },
     onRowClick: (row) => {
       // 取得老師的預約時間
       row.born = dateFormat(row.born);
@@ -64,8 +68,6 @@ export default connect(
       }
       //dispatch(setSelected(row.id))
       WebAPI.getTeacherTime(dispatch, row);
-   
-      //console.log(row);
       
     },
     onDeleteRow: (rows) => {
@@ -76,7 +78,10 @@ export default connect(
         { id:1, name:'test'}
       ];
       return data;
-    },  
+    }, 
+    delScore: (id) => () =>{
+      WebAPI.delScore(id);
+    },
     onSearchChange: (searchText, colInfos, multiColumnSearch) => {
       const text = searchText.trim();
       const initDG = JSON.parse(localStorage.getItem('dataStore'));

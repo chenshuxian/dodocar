@@ -287,8 +287,8 @@ export default {
       alert('刪除成功');
     })
   },
-  delScore: () => {
-    axios.delete('/api/score').then((response) => {
+  delScore: (id) => {
+    axios.delete(`/api/score/${id}`).then((response) => {
       alert('刪除成功');
     })
   }

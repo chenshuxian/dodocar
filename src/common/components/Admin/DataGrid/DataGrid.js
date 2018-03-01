@@ -4,29 +4,7 @@
 import React from 'react';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import { TRAINTIME } from '../../../constants/exam';
-
-const classType  = {
-    'ED10701': '第1期',
-    'ED10702': '第2期',
-    'ED10703': '第3期',
-    'ED10704': '第4期',
-    'ED10705': '第5期',
-    'ED10706': '第6期',
-    'ED10707': '第7期',
-    'ED10708': '第8期',
-    'ED10709': '第9期',
-    'ED10710': '第10期',
-    'ED10711': '第11期',
-    'ED10712': '第12期',
-    'ED10713': '第13期',
-    'ED10714': '第14期',
-    'ED10715': '第15期',
-    'ED10716': '第16期',
-    'ED10717': '第17期',
-    'ED10718': '第18期',
-    'ED10719': '第19期',
-    'ED10720': '第20期'
-};
+import WebAPI from '../../../utils/WebAPI';
 
 const genderType = {
     '1': '男',
@@ -54,10 +32,28 @@ function dgData() {
 }
 
 
+function fnFormat(cell, row, extraData) {
+    //console.log(extraData);
+    return (<FuncArea test={test(cell)}/>);
+}
+
+var test= (v) => () => {
+    WebAPI.delScore(v);
+};
+
+
+function FuncArea(props) {
+    return (
+        //<span className="glyphicon glyphicon-search" onClick={props.test}></span>
+        <span onClick={props.test}><i className="material-icons">autorenew</i></span>
+    )
+}
+
 class DataGrid extends React.Component {
 
     componentDidMount() {
         this.props.getUserData();
+        this.props.onChangePage();
         //console.log('reander1');
     }
         
@@ -78,12 +74,15 @@ class DataGrid extends React.Component {
             //clickToSelect: true  // enable click to select
         };
         const data = this.props.columns;
-        const seasonType =  this.props.seasonType.map((x) => x.name);
+        //const seasonType =  this.props.seasonType.map((x) => x.name);
+        // const seasonType = {} ;
+        // const obj = this.props.seasonType;
+        // obj.forEach((e) => {
+        //     console.log(`${e.name} ${e.id}`); // "a 5", "b 7", "c 9"
+        //     seasonType[e.id] = e.name;
+        // });
+        // console.log(`seasonType:${seasonType}`);
   
-        // for (var i in teacher) {
-        //     var t = {};
-        //     t[teacher[i].id] = teacher[i].name; 
-        // }
         return (
             <div>
             <BootstrapTable data={ data } version='4' selectRow={ selectRowProp } options={ options }
@@ -92,11 +91,12 @@ class DataGrid extends React.Component {
                 <TableHeaderColumn dataField='name'>姓名</TableHeaderColumn>
                 <TableHeaderColumn width="46"dataField='gender' dataFormat={ genderFn } formatExtraData={ genderType }
                 filterFormatted >性別</TableHeaderColumn>
-                <TableHeaderColumn dataField='seasonType' filter={ { type: 'SelectFilter', options:seasonType} }>期別</TableHeaderColumn>
+                <TableHeaderColumn dataField='seasonType'>期別</TableHeaderColumn>
                 <TableHeaderColumn dataField='teacher' dataFormat={ genderFn } formatExtraData={ teacher }
                 filterFormatted filter={ { type: 'SelectFilter', options: teacher } }>教練</TableHeaderColumn>
                 <TableHeaderColumn dataField='trainTimeId' dataFormat={ genderFn } formatExtraData={ PT } 
                 filterFormatted filter={ { type: 'SelectFilter', options: PT } }>練習時間</TableHeaderColumn>
+                <TableHeaderColumn dataField='id' dataFormat={ fnFormat }  width='60px'>功能</TableHeaderColumn>
             </BootstrapTable>
             </div>
         )

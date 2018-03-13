@@ -32,7 +32,8 @@ export default connect(
       classTypeIndex: state.getIn(['user','classTypeIndex']),
       teacherIndex : state.getIn(['user','teacherIndex']),
       formData: state.getIn(['user', 'formData']).toObject(),
-      formState: state.getIn(['ui','formState'])
+      formState: state.getIn(['ui','formState']),
+      seasonId: state.getIn(['user','formData','seasonType'])
     //isAuthorized: state.getIn(['user', 'isAuthorized']),
   }),
   (dispatch) => ({
@@ -92,6 +93,12 @@ export default connect(
     },
     delScore: () => {
       WebAPI.delScore('test');
+    },
+    csv: (seasonId) => () => {
+      WebAPI.csv(seasonId);
+    },
+    csvDownload: (sId) => () => {
+      WebAPI.csvDownload(sId);
     }
   })
 )(AddForm);

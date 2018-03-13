@@ -47,7 +47,7 @@ var getInit = (dispatch) => {
   axios.get('/api/init').then((response) => {
     //dispatch(workpage('examPage'));
     let formData = UserState.get('formData').toObject();
-    formData.classType = TRAINBOOK.initExam;
+    formData.seasonType = TRAINBOOK.initExam;
     formData.teacher = TRAINBOOK.initTeacher;
     let dgData = JSON.parse(response.data.data),
     dgDataNew = JSON.parse(dgData.dgData),
@@ -291,5 +291,25 @@ export default {
     axios.delete(`/api/score/${id}`).then((response) => {
       alert('刪除成功');
     })
+  },
+  csv: (seasonId) => {
+    axios.get('/api/csv',{
+      params: {
+        seasonId: seasonId
+      }
+    }).then((response) => {
+       alert(response.data.message);
+    })
+  },
+  csvDownload: (sId) => {
+    window.open("http://localhost:3000/static/download/"+sId+".zip");
+    // axios.get('/api/csvDownload',{
+    //   params: {
+    //     seasonId: sId
+    //   }
+    // }).then((response) => {
+    //    //alert(response.data.message);
+    //    window.
+    // })
   }
 };

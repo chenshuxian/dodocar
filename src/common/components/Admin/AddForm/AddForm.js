@@ -82,15 +82,20 @@ const AddForm = ({
     fieldChangeFn,
     newAdd,
     season,
+    seasonId,
     formState,
     seasonType,
-    delScore
+    delScore,
+    csv,
+    csvDownload
 }) => (
 <section className='examPage' id='exam'>
   <Container>
       <Row className='toolbar'>
-        <Col xs={6} md={3}><Button color="success" className="glyphicon glyphicon-user" onClick={newAdd}>新增學員資料</Button></Col>
-        <Col xs={6} md={3}><Button color="danger" className="glyphicon glyphicon-user" onClick={delScore}>刪除測試帳號成績</Button></Col>
+        <Col xs={3} md={3}><Button color="success" className="glyphicon glyphicon-user" onClick={newAdd}>新增學員資料</Button></Col>
+        <Col xs={3} md={3}><Button color="danger" className="glyphicon glyphicon-user" onClick={delScore}>刪除測試帳號成績</Button></Col>
+        <Col xs={3} md={3}><Button color="warning" className="glyphicon glyphicon-user" onClick={csv(seasonId)}>建立CSV档</Button></Col>
+        <Col xs={3} md={3}><Button color="info" className="glyphicon glyphicon-user" onClick={csvDownload(seasonId)}>CSV档案下载</Button></Col>
       </Row>
       <Row>
       <Col className='formCenter'>

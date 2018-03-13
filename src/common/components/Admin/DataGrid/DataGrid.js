@@ -92,7 +92,7 @@ class DataGrid extends React.Component {
                 <TableHeaderColumn width="46"dataField='gender' dataFormat={ genderFn } formatExtraData={ genderType }
                 filterFormatted >性別</TableHeaderColumn>
                 <TableHeaderColumn dataField='seasonType'>期別</TableHeaderColumn>
-                <TableHeaderColumn dataField='teacher' dataFormat={ genderFn } formatExtraData={ teacher }
+                <TableHeaderColumn dataField='teacherId' dataFormat={ genderFn } formatExtraData={ teacher }
                 filterFormatted filter={ { type: 'SelectFilter', options: teacher } }>教練</TableHeaderColumn>
                 <TableHeaderColumn dataField='trainTimeId' dataFormat={ genderFn } formatExtraData={ PT } 
                 filterFormatted filter={ { type: 'SelectFilter', options: PT } }>練習時間</TableHeaderColumn>

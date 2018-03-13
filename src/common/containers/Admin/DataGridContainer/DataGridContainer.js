@@ -73,12 +73,6 @@ export default connect(
     onDeleteRow: (rows) => {
       WebAPI.deleteRow(dispatch,rows);
     },
-    onExportToCSV: (row) => {
-      let data = [
-        { id:1, name:'test'}
-      ];
-      return data;
-    }, 
     delScore: (id) => () =>{
       WebAPI.delScore(id);
     },

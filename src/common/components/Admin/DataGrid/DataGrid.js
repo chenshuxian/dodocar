@@ -64,7 +64,6 @@ class DataGrid extends React.Component {
             onRowClick: this.props.onRowClick,
             onSearchChange: this.props.onSearchChange, 
             onDeleteRow: this.props.onDeleteRow,
-            onExportToCSV: this.props.onExportToCSV,
             clearSearch: true 
         };
         const selectRowProp = {
@@ -86,7 +85,7 @@ class DataGrid extends React.Component {
         return (
             <div>
             <BootstrapTable data={ data } version='4' selectRow={ selectRowProp } options={ options }
-            striped hover condensed scrollTop={ 'Bottom' } search multiColumnSearch pagination deleteRow exportCSV>
+            striped hover condensed scrollTop={ 'Bottom' } search multiColumnSearch pagination deleteRow>
                 <TableHeaderColumn isKey dataField='id'>身份證字號</TableHeaderColumn>
                 <TableHeaderColumn dataField='name'>姓名</TableHeaderColumn>
                 <TableHeaderColumn width="46"dataField='gender' dataFormat={ genderFn } formatExtraData={ genderType }

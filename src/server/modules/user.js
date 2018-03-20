@@ -13,32 +13,43 @@ let TB = model.TrainBook;
 let TrainTime = model.TrainTime;
 let TypeClass = model.ExamDate;
 
+var getTTID = (user) => {
+    return user.seasonType == '99999A' ? '1' : user.trainTimeId;
+}
+
 var userCreate = async (user) => {
-    User.create({
-        id: user.id,
-        passwd: user.passwd,
-        stuNum: user.stuNum,
-        name: user.name,
-        gender: user.gender,
-        born: new Date(user.born).getTime(),
-        addrNum: user.addrNum,
-        addr: user.addr,
-        tel: user.tel,
-        mobile: user.mobile,
-        source: user.source,
-        carType: user.carType,
-        trainScore: user.trainScore,
-        examScore: user.examScore,
-        roadScore: user.roadScore,
-        memo: user.memo,
-        trainTimeId: user.trainTimeId,
-        teacher: user.teacher,
-        classType: user.classType,
-        seasonType: user.seasonType,
-        payment: user.payment,
-        payDate: new Date(user.payDate).getTime(),
-        trainId: '000'
-    });
+    user.trainTimeId = getTTID(user);
+    console.log(`trainTimeId: ${user.trainTimeId}`);
+    try{ 
+        return await User.create({
+            id: user.id,
+            passwd: user.passwd,
+            stuNum: user.stuNum,
+            name: user.name,
+            gender: user.gender,
+            born: new Date(user.born).getTime(),
+            addrNum: user.addrNum,
+            addr: user.addr,
+            tel: user.tel,
+            mobile: user.mobile,
+            source: user.source,
+            carType: user.carType,
+            trainScore: user.trainScore,
+            examScore: user.examScore,
+            roadScore: user.roadScore,
+            memo: user.memo,
+            trainTimeId: user.trainTimeId,
+            teacherId: user.teacher,
+            classType: user.classType,
+            seasonType: user.seasonType,
+            payment: user.payment,
+            payDate: new Date(user.payDate).getTime(),
+            trainId: '000'
+        });
+    } catch(e) {
+        console.log(e);
+    }
+   
 }
 
 var haveUser = async (name) => {
@@ -154,7 +165,7 @@ module.exports = {
 
     allDgInit: async () => {
         
-        let dgData =  await User.findAll();
+        let dgData = await User.findAll();
         let teacher = await Teacher.findAll({attributes: ['name','id']});
         let typeClass = await TypeClass.findAll({attributes: {exclude:['createdAt', 'updatedAt', 'version']}});
         let tt = await getTrainTime();
@@ -212,10 +223,9 @@ module.exports = {
             console.log(e);
         }
        
-
         console.log("result:" + result);
 
-        if(result) {
+        if(result && user.seasonType !== '99999A') {
             // 修改 trainBook 
             let tbUpdate = await TB.update(
                 { studentId: user.id },
@@ -239,6 +249,7 @@ module.exports = {
 
     updateSingleUser: async (user) => {
 
+        user.trainTimeId = getTTID(user);
         try{
              var result = await User.update({
                 passwd: user.passwd,
@@ -257,7 +268,7 @@ module.exports = {
                 roadScore: user.roadScore,
                 memo: user.memo,
                 trainTimeId: user.trainTimeId,
-                teacher: user.teacher,
+                teacherId: user.teacher,
                 classType: user.classType,
                 seasonType: user.seasonType,
                 payment: user.payment,
@@ -276,7 +287,7 @@ module.exports = {
 
         console.log("result:" + result);
 
-        if(result) {
+        if(result  && user.seasonType !== '99999A') {
             // 刪除 舊的book
             await TB.update(
                 {studentId: ''},
@@ -301,9 +312,10 @@ module.exports = {
               console.log("TBUPDATE:" + JSON.stringify(tbUpdate));
             if(tbUpdate){
                 return {'success': true}
-            }
-           
+            }  
             
+        }else {
+            return {'success': true}
         }
     },
 

@@ -22,14 +22,14 @@ module.exports = {
         fs.exists(filePath, function (exists) {
             //util.debug(exists ? "it's there" : "no file!");
             if (exists) {
-                fs.writeFile(filePath + company + fileName + "_" + obj.type + ".csv", csv, (err) => {
+                fs.writeFile(filePath + company + fileName + "_" + obj.type + ".csv", csv, 'utf8', (err) => {
                     if (err) throw err;
                     console.log('file saved' + downloadPath);
                 });
             } else {
                 fs.mkdir(filePath ,'0777', function (err) {
                     if (err) throw err;
-                    fs.writeFile(filePath + company + fileName + "_" + obj.type + ".csv", csv, (err) => {
+                    fs.writeFile(filePath + company + fileName + "_" + obj.type + ".csv", csv, 'utf8', (err) => {
                         if (err) throw err;
                         console.log('file saved' + downloadPath);
                     });

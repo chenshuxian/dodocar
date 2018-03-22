@@ -89,15 +89,15 @@ async function start(seasonId) {
         'include': [
             {
                 'model': Teacher,
-                'attributes' : ['born','id']
+                'attributes' : ['id','born']
             }
         ],
-        attributes: ['id','born','name','mobile','stuNum','source','carType'],
+        attributes: ['id','born','name','tel','stuNum','source','carType'],
         where: {seasonType: seasonId}
     });
 
     csvJson = dateTransfer(csvJson);
-    const fields = ['id','born','name','mobile','stuNum','source','carType','tborn','tId'];
+    const fields = ['id','born','name','tel','stuNum','source','carType','tId','tborn'];
     const opts = {fields, header: false};
     const type = 'B';
 

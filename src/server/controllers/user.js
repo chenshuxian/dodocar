@@ -94,7 +94,7 @@ async function start(seasonId) {
         ],
         attributes: ['id','born','name','tel','stuNum','source','carType'],
         where: {seasonType: seasonId},
-        order: ['stuNum', 'DESC']
+        order: ['stuNum']
     });
 
     csvJson = dateTransfer(csvJson);
@@ -119,7 +119,7 @@ async function finish(seasonId) {
         ],
         attributes: ['id','born','carType'],
         where: {seasonType: seasonId},
-        order: ['stuNum', 'DESC']
+        order: ['stuNum']
     });
     csvJson = dateTransfer(csvJson);
     const fields = ['id','born','carType','tborn','tId'];
@@ -136,7 +136,7 @@ async function finish(seasonId) {
 async function exam(seasonId) {
     var csvJson = await User.findAll({
         attributes: ['seasonType','id','born'],
-        order: ['stuNum', 'DESC']
+        order: ['stuNum']
     });
 
     var examDate = await getExamDate(seasonId);
@@ -157,7 +157,7 @@ async function exam(seasonId) {
 async function road(seasonId) {
     var csvJson = await User.findAll({
         attributes: ['seasonType','id','born'],
-        order: ['stuNum', 'DESC']
+        order: ['stuNum']
     });
 
     var examDate = await getExamDate(seasonId);

@@ -35,8 +35,8 @@ async function getExamDate(seasonId) {
 function dateFormat(date) {
     var y = (date.getFullYear() - 1911);
     y = y < 100 ? "0"+y : y;
-    var m = date.getMonth();
-    m = m+1 < 10 ? "0" + m : m +1; 
+    var m = date.getMonth() + 1;
+    m = m < 10 ? "0" + m : m; 
     var d = date.getDate();
     d = d < 10 ? "0" + d : d;
     var newDate = y+""+m+""+d;
@@ -93,7 +93,8 @@ async function start(seasonId) {
             }
         ],
         attributes: ['id','born','name','tel','stuNum','source','carType'],
-        where: {seasonType: seasonId}
+        where: {seasonType: seasonId},
+        order: ['stuNum', 'DESC']
     });
 
     csvJson = dateTransfer(csvJson);
@@ -117,7 +118,8 @@ async function finish(seasonId) {
             }
         ],
         attributes: ['id','born','carType'],
-        where: {seasonType: seasonId}
+        where: {seasonType: seasonId},
+        order: ['stuNum', 'DESC']
     });
     csvJson = dateTransfer(csvJson);
     const fields = ['id','born','carType','tborn','tId'];
@@ -133,7 +135,8 @@ async function finish(seasonId) {
 //[上課期別代碼 3~6 碼],[身分證字號 10 碼],[出生日期 6~7 碼],[組別],[筆試日期 6~7 碼],[組序號 1~3 碼(必為數字 1~999)] 
 async function exam(seasonId) {
     var csvJson = await User.findAll({
-        attributes: ['seasonType','id','born']
+        attributes: ['seasonType','id','born'],
+        order: ['stuNum', 'DESC']
     });
 
     var examDate = await getExamDate(seasonId);
@@ -153,7 +156,8 @@ async function exam(seasonId) {
 //[上課期別代碼 3~6 碼][身分證字號 10 碼][出生日期 6~7 碼][組別][路考日期 6~7 碼][組序號 1~3 碼(必為數字 1~999)] [路考項目 1 碼 (1:只考道路考;2:場考+道路考;3:只考場考)] （使用逗號區隔）
 async function road(seasonId) {
     var csvJson = await User.findAll({
-        attributes: ['seasonType','id','born']
+        attributes: ['seasonType','id','born'],
+        order: ['stuNum', 'DESC']
     });
 
     var examDate = await getExamDate(seasonId);

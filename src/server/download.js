@@ -11,6 +11,7 @@ const company = '/260002';
 module.exports = {
     csv: async (obj, fileName) => {
         //const filePath = path.join(__dirname,`./static/download/`);
+        obj.opts.quote = '';
         const json2csvParser = new Parser(obj.opts);
         const JsonStr = JSON.stringify(obj.csvJson);
         const JsnoP = JSON.parse(JsonStr);

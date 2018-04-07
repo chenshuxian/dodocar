@@ -51,25 +51,20 @@ function dateTransfer(csvJson) {
         };
 
         for(var i in csvJson) {
-            console.log(csvJson[i].id + " : " +csvJson[i].born);
-            if (csvJson[i].born !== "NULL"){
+    
                 var date = new Date(csvJson[i].born);
                 csvJson[i].born= dateFormat(date);
                 csvJson[i].source = "A";
                 csvJson[i].carType = carType[csvJson[i].carType];
-            }       
+                
         }
 
         for(var i in csvJson) {
-            console.log(csvJson[i].id + " : " +csvJson[i].teacher.born);
-            try {
+    
                 var date = new Date(csvJson[i].teacher.born);
                 csvJson[i].dataValues['tborn']= dateFormat(date);
                 csvJson[i].dataValues['tId']= csvJson[i].teacher.id;
                 delete csvJson[i].dataValues.teacher;
-            } catch(e) {
-                console.log(e);
-            }
             
         }
 
@@ -215,7 +210,9 @@ module.exports = {
             //路考名单
             var roadObj = await road(seasonId);
             await download.csv(roadObj,seasonId);
+            console.log('await E csv');
             await download.zip(seasonId);
+            console.log('await zip');
 
             ctx.rest({message:'建档完成'});
 

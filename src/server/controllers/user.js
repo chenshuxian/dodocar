@@ -51,7 +51,7 @@ function dateTransfer(csvJson) {
         };
 
         for(var i in csvJson) {
-            if (csvJson[i].born !== null){
+            if (csvJson[i].born !== "NULL"){
                 var date = new Date(csvJson[i].born);
                 csvJson[i].born= dateFormat(date);
                 csvJson[i].source = "A";
@@ -60,7 +60,7 @@ function dateTransfer(csvJson) {
         }
 
         for(var i in csvJson) {
-            if (csvJson[i].teacher.born !== null){
+            if (csvJson[i].teacher.born !== "NULL"){
                 var date = new Date(csvJson[i].teacher.born);
                 csvJson[i].dataValues['tborn']= dateFormat(date);
                 csvJson[i].dataValues['tId']= csvJson[i].teacher.id;

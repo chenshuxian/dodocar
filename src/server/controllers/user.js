@@ -118,7 +118,7 @@ async function finish(seasonId) {
         'include': [
             {
                 'model': Teacher,
-                'attributes' : ['born','id']
+                'attributes' : ['id','born']
             }
         ],
         attributes: ['id','born','carType'],
@@ -126,7 +126,7 @@ async function finish(seasonId) {
         order: ['stuNum']
     });
     csvJson = dateTransfer(csvJson);
-    const fields = ['id','born','carType','tborn','tId'];
+    const fields = ['id','born','carType','tId','tborn'];
     const opts = {fields, header: false};
     const type = 'C';
 

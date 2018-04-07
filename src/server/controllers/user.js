@@ -62,12 +62,15 @@ function dateTransfer(csvJson) {
 
         for(var i in csvJson) {
             console.log(csvJson[i].id + " : " +csvJson[i].teacher.born);
-            if (csvJson[i].teacher.born !== "NULL"){
+            try {
                 var date = new Date(csvJson[i].teacher.born);
                 csvJson[i].dataValues['tborn']= dateFormat(date);
                 csvJson[i].dataValues['tId']= csvJson[i].teacher.id;
                 delete csvJson[i].dataValues.teacher;
-            } 
+            } catch(e) {
+                console.log(e);
+            }
+            
         }
 
     return csvJson;

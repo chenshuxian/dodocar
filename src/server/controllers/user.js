@@ -209,10 +209,12 @@ module.exports = {
             await download.csv(examObj,seasonId);
             //路考名单
             var roadObj = await road(seasonId);
-            await download.csv(roadObj,seasonId);
-            
-            await download.zip(seasonId);
-            console.log('await zip');
+            let ok = await download.csv(roadObj,seasonId);
+            if(ok){
+                await download.zip(seasonId);
+                console.log('await zip');
+            }
+           
 
             ctx.rest({message:'建档完成'});
 

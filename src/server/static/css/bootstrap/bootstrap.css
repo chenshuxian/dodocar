@@ -8376,7 +8376,7 @@ a.text-dark:focus, a.text-dark:hover {
 /*# sourceMappingURL=bootstrap.css.map */
 
 .examPage {
-  height: 800px;
+  min-height: 800px;
   margin-top: 20px;
 }
 

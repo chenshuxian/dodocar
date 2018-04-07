@@ -66,7 +66,7 @@ const Score = ({
                 <Fail score={score}/>
         }
     </div>
-    <BootstrapTable data={ data } version='4' striped hover condensed scrollTop={ 'Bottom' } pagination options={options}>
+    <BootstrapTable data={ data } version='4' striped hover condensed scrollTop={ 'Bottom' } >
                 <TableHeaderColumn isKey dataField='id' hidden>題號</TableHeaderColumn>
                 <TableHeaderColumn dataField='img' dataFormat={imgFn} width="20%">圖片</TableHeaderColumn>
                 <TableHeaderColumn dataField='q' dataFormat={questionFn} width="60%" tdStyle={ { whiteSpace: 'normal' } }>題目</TableHeaderColumn>

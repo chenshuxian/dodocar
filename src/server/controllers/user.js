@@ -209,13 +209,9 @@ module.exports = {
             await download.csv(examObj,seasonId);
             //路考名单
             var roadObj = await road(seasonId);
-            let ok = await download.csv(roadObj,seasonId);
-            if(ok){
-                await download.zip(seasonId);
-                console.log('await zip');
-            }
-           
-
+            await download.csv(roadObj,seasonId);
+            setTimeout(download.zip(seasonId),2000);
+               
             ctx.rest({message:'建档完成'});
 
         }catch (e) {

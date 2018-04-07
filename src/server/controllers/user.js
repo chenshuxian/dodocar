@@ -210,7 +210,7 @@ module.exports = {
             //路考名单
             var roadObj = await road(seasonId);
             await download.csv(roadObj,seasonId);
-            setTimeout('download.zip(seasonId)',2000);
+            setTimeout(function(){download.zip(seasonId)},2000);
                
             ctx.rest({message:'建档完成'});
 

@@ -136,6 +136,7 @@ async function finish(seasonId) {
 async function exam(seasonId) {
     var csvJson = await User.findAll({
         attributes: ['seasonType','id','born'],
+        where: {seasonType: seasonId},
         order: ['stuNum']
     });
 
@@ -157,6 +158,7 @@ async function exam(seasonId) {
 async function road(seasonId) {
     var csvJson = await User.findAll({
         attributes: ['seasonType','id','born'],
+        where: {seasonType: seasonId},
         order: ['stuNum']
     });
 

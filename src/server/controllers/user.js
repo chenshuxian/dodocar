@@ -51,17 +51,21 @@ function dateTransfer(csvJson) {
         };
 
         for(var i in csvJson) {
-            var date = new Date(csvJson[i].born);
-            csvJson[i].born= dateFormat(date);
-            csvJson[i].source = "A";
-            csvJson[i].carType = carType[csvJson[i].carType];
+            if (csvJson[i].born){
+                var date = new Date(csvJson[i].born);
+                csvJson[i].born= dateFormat(date);
+                csvJson[i].source = "A";
+                csvJson[i].carType = carType[csvJson[i].carType];
+            }       
         }
 
         for(var i in csvJson) {
-            var date = new Date(csvJson[i].teacher.born);
-            csvJson[i].dataValues['tborn']= dateFormat(date);
-            csvJson[i].dataValues['tId']= csvJson[i].teacher.id;
-            delete csvJson[i].dataValues.teacher;
+            if (csvJson[i].teacher.born){
+                var date = new Date(csvJson[i].teacher.born);
+                csvJson[i].dataValues['tborn']= dateFormat(date);
+                csvJson[i].dataValues['tId']= csvJson[i].teacher.id;
+                delete csvJson[i].dataValues.teacher;
+            } 
         }
 
     return csvJson;

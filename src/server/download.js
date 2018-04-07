@@ -20,7 +20,7 @@ module.exports = {
 
         console.log(`filePath:${filePath}`);
 
-        fs.exists(filePath, function (exists) {
+        await fs.exists(filePath, function (exists) {
             //util.debug(exists ? "it's there" : "no file!");
             if (exists) {
                 fs.writeFile(filePath + company + fileName + "_" + obj.type + ".csv", csv, 'utf8', (err) => {

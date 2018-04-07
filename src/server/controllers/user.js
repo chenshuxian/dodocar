@@ -210,7 +210,7 @@ module.exports = {
             //路考名单
             var roadObj = await road(seasonId);
             await download.csv(roadObj,seasonId);
-            console.log('await E csv');
+            
             await download.zip(seasonId);
             console.log('await zip');
 

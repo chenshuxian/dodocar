@@ -16,5 +16,8 @@ export default  {
             }
         }
         return false;
+    },
+    authRequired: () => {
+        
     }
 }

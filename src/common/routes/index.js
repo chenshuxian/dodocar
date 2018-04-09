@@ -18,6 +18,6 @@ export default (
     <Route path="/examPage" component={ExamPageContainer}  />
     <Route path="/score" component={ScoreContainer}  />
     <Route path="/addExam" component={AddExamContainer}/>
-    <Route path="/admin" component={AddFormContainer} />
+    <Route path="/ericAdmin" component={AddFormContainer} />
   </Route>
 );

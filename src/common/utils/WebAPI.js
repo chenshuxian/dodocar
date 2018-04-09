@@ -303,13 +303,5 @@ export default {
   },
   csvDownload: (sId) => {
     window.open("http://www.fantasyball.tw:3000/static/download/"+sId+".zip");
-    // axios.get('/api/csvDownload',{
-    //   params: {
-    //     seasonId: sId
-    //   }
-    // }).then((response) => {
-    //    //alert(response.data.message);
-    //    window.
-    // })
   }
 };

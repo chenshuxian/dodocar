@@ -83,7 +83,7 @@ export default connect(
       //console.log(event.target.selectedIndex);
     },
     fieldChangeFn: (e) => {
-      console.log(e.target.name + '' + e.target.value);
+      //console.log(e.target.name + '' + e.target.value);
       let data = { key: e.target.name, value: e.target.value};
       dispatch(setFieldValue(data));
     },

@@ -8,7 +8,7 @@ import ExamPageContainer from '../containers/ExamPageContainer';
 import ScoreContainer from '../containers/ScoreContainer';
 import AddExamContainer from '../containers/AddExamContainer';
 import AddFormContainer from '../containers/Admin/AddFormContainer';
-import auth from '../utils/auth';
+//import auth from '../utils/auth';
 import WebAPI from '../utils/WebAPI';
 
 export default (

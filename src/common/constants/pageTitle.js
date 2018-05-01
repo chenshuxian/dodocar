@@ -1,5 +1,5 @@
 export const HEADER = {
-    TITLE : '金门駕訓班',
+    TITLE : '金門駕訓班',
     SUBTITLE : '學車 - 考照 一次搞定'
 };
 export const NAV = {

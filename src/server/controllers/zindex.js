@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import routes from '../../common/routes';
 import configureStore from '../../common/store/configureStore';
 import Immutable, { fromJS } from 'immutable';
+import { HEADER } from '../../common/constants/pageTitle';
 
 // basic route handler
 const handleRender = (ctx) => {
@@ -92,7 +93,7 @@ const renderFullPage = (html, preloadedState, test) => (`
         <meta name="description" content="">
         <meta name="author" content="">
     
-        <title>Freelancer - Start Bootstrap Theme</title>
+        <title>${HEADER.TITLE}</title>
     
         <!-- Bootstrap core CSS -->
         <link href="static/css/bootstrap/bootstrap.css" rel="stylesheet">

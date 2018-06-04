@@ -60,7 +60,7 @@ const Score = ({
   <div className="container">
     <div className="col-lg-8 mx-auto" style={{textAlign: 'center'}}>
         {
-            score > 85 ?
+            score >= 85 ?
                 <Success score={score} />
             :
                 <Fail score={score}/>

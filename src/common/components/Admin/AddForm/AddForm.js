@@ -120,8 +120,7 @@ const AddForm = ({
                     <Field label="出生年月日:" type="date" name="born" styles={{width:'160px'}} value={formData} chFn={fieldChangeFn}/>
                 </FormGroup>
                 <FormGroup row>
-                    <Field label="身份證:" name="id" styles={{width:'120px'}} value={formData} chFn={fieldChangeFn} 
-                        readonly = {formState == "update" ? true : false}/>
+                    <Field label="身份證:" name="id" styles={{width:'120px'}} value={formData} chFn={fieldChangeFn} />
                     <Field label="郵地區號:" name="addrNum" value={formData} chFn={fieldChangeFn}/>
                 </FormGroup>
                 <FormGroup row>

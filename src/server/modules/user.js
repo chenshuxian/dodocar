@@ -19,7 +19,9 @@ var getTTID = (user) => {
 
 var userCreate = async (user) => {
     user.trainTimeId = getTTID(user);
-    console.log(`trainTimeId: ${user.trainTimeId}`);
+    user.payDate = user.payDate != undefined ? user.payDate : new Date();
+        console.log(`userPayDate: ${user.payDate}`);
+        console.log(`trainTimeId: ${user.trainTimeId}`);
     try{ 
         return await User.create({
             id: user.id,

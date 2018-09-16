@@ -28,7 +28,7 @@ const Body = () => (
 let props = {
   sectionId : 'contact',
   title: NAV.CONTACT,
-  hr: 'star-primary',
+  hr: 'star-light',
   body: <Body />,
   className: 'success'
 };

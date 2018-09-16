@@ -13,7 +13,15 @@ let list = [
 
 const Body = () => (
   <div className="col-lg-8 mx-auto">
-    <Form formName= 'sentMessage' formId= 'contactForm' list ={list} />
+    {/* <Form formName= 'sentMessage' formId= 'contactForm' list ={list} /> */}
+    <p style={{marginLeft : 290}}>
+      地址：金門縣金寧鄉盤果西路6號 <br/>
+      Email：service@km-driving.com.tw  <br/>
+      報名專線：082329881  <br/>
+      營業時間：週一至週四 7:00-18:00  <br/>
+      例假日 7:00-18:00  <br/>
+      <a target="_blank" href="https://www.facebook.com/kinmen.driving.school/"><img style={{width: 150}} src="static/images/fb.png" /></a>
+    </p>
   </div>
 );
 

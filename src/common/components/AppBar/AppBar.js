@@ -7,9 +7,9 @@ const DefautBar = () => (
     <li className="nav-item">
       <a className="nav-link js-scroll-trigger" href="#exam">{NAV.EXAM}</a>
     </li>
-    <li className="nav-item">
+    {/* <li className="nav-item">
       <a className="nav-link js-scroll-trigger" href="#about">{NAV.ABOUT}</a>
-    </li>
+    </li> */}
     <li className="nav-item">
       <a className="nav-link js-scroll-trigger" href="#contact">{NAV.CONTACT}</a>
     </li>

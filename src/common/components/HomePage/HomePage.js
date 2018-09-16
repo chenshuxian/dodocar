@@ -11,7 +11,7 @@ const HomePage = ({
   <div>        
     <HeaderContainer />
     <ExamContainer />
-    <AboutContainer />
+    {/* <AboutContainer /> */}
     <ContactContainer />
   </div>
 );

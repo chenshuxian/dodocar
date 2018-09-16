@@ -29,7 +29,8 @@ let props = {
   sectionId : 'contact',
   title: NAV.CONTACT,
   hr: 'star-primary',
-  body: <Body />
+  body: <Body />,
+  className: 'success'
 };
 
 const Contact = ({

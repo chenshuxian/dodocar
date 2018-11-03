@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "exam": "NODE_ENV=exam nodemon src/server/index.js",
-    "start": "NODE_ENV=test nodemon src/server/index.js",
+    "start": "NODE_ENV=test node src/server/index.js",
     "initDB": "NODE_ENV=test node src/server/init-db.js"
   },
   "dependencies": {

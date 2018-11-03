@@ -43,6 +43,12 @@ function getCookie(keyName) {
   return "";
 }
 
+// 进行期别格式转换
+function seasonTransfer(seasonObj,year) {
+  var b = seasonObj.filter(function(item){ return item.year == year });
+  //console.log(`2017season ${b}`);
+  return b;
+}
 var getInit = (dispatch) => {
   axios.get('/api/init').then((response) => {
     //dispatch(workpage('examPage'));
@@ -55,6 +61,8 @@ var getInit = (dispatch) => {
     teacher = JSON.parse(dgData.teacher),
     trainTime = JSON.parse(dgData.trainTime);
     localStorage.setItem('dataStore', dgData.dgData);
+    localStorage.setItem('seasonType', dgData.typeClass);
+    typeClass = seasonTransfer(typeClass, 2017);
     dispatch(setFormData(formData));
     dispatch(getDgData({dg:dgDataNew}));
     dispatch(getTeacher({teacher:teacher}));
@@ -112,6 +120,32 @@ export default {
     //alert(data);
     if(data) {
       axios.post('/api/exams',data,{
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+        })
+      .then((response) => {
+        if(response.data.success === false) {
+          //dispatch(authError()); 
+        } else {
+          //dispatch(modal());
+          alert("上傳成功");
+        }
+      })
+      .catch(function (error) {
+        dispatch(authError());
+      });
+    } else {
+      alert('請選擇上傳檔案');
+    }  
+  },
+  addSeason: (dispatch) => {
+    var files = document.getElementById('seasonFile').files[0];
+    var data = new FormData();
+    data.append('data', files);
+    //alert(data);
+    if(data) {
+      axios.post('/api/season',data,{
         headers: {
           'Content-Type': 'multipart/form-data'
         }

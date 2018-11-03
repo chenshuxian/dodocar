@@ -4,7 +4,8 @@ import AddExam from '../../components/AddExam';
 
 import {
     addExam,
-    addUser
+    addUser,
+    addSeason
 } from '../../actions';
 
 export default connect(
@@ -19,6 +20,9 @@ export default connect(
     addStu: () => {
       //var user = document.getElementById('stuFile').files[0];
       dispatch(addUser(dispatch))
+    },
+    addSeason: () => {
+      dispatch(addSeason(dispatch))
     }
   })
 )(AddExam);

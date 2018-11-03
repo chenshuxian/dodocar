@@ -227,5 +227,52 @@ module.exports = {
         }
 
         return result;
+    },
+    createSeason: async (url) => {
+        let result = {
+            sucess: true,
+            message:'建檔成功'
+        };
+        try {
+            fs.readFile(path.resolve(__dirname, url), async function(err, data){
+                var season = JSON.parse(data);
+                //console.log('seasonID:' + season[1].id);
+                var d = new Date();
+                var y = d.getFullYear();
+                // var seasonId = season[1].id;
+                // //let success;
+                // // 若題庫存在，就先殺除
+                // await ExamDate.destroy({
+                //     where: {
+                //         id: seasonId
+                //     }
+                // });
+                console.log(`season :${season}`);
+                for(var i in season){
+                    try {
+                        await ExamDate.create({
+                            id: `ED${y}${i}`,
+                            year: season[i].year,
+                            name: season[i].name,
+                            startDate: season[i].startDate,
+                            finishDate: season[i].finishDate,
+                            examDate: season[i].examDate
+                        })
+                    }catch (e) {
+                        console.log(e);
+                        console.log('fails');
+                    }
+                     
+                }
+            })
+            console.log('create success');
+        }
+        catch (e) {
+            console.log('there was an error');
+            console.log(e);
+            result.message = '建檔失敗';
+        }
+
+        return result;
     }
 };

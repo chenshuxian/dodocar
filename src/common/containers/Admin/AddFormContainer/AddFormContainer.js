@@ -15,7 +15,8 @@ import {
     changeTeacherIndex,
     setFormData,
     setFieldValue,
-    changeFormState
+    changeFormState,
+    setSeasonType
 } from '../../../actions';
 
 export default connect(
@@ -27,6 +28,9 @@ export default connect(
       carType: [{id:'1',name:'自排'},{id:'2',name:'手排'}],
       teachers: state.getIn(['user','teacher']),
       classType: [{id:'1',name:'普小'}],
+      year: [{id:'2017',name:'2017'},{id:'2018',name:'2018'},{id:'2019',name:'2019'}],
+      //seasonType: {"2017" :[{id:'2017',name:'2017a'},{id:'2017b',name:'2017b'}],"2018" :[{id:'2018',name:'2018a'},{id:'2018b',name:'2018 b'}]},
+      yearType : state.getIn(['user','formData','yearType']),
       seasonType: state.getIn(['user','seasonType']),
       season: state.getIn(['user','classType','season']),
       classTypeIndex: state.getIn(['user','classTypeIndex']),
@@ -82,8 +86,18 @@ export default connect(
       WebAPI.getTrainTime(dispatch,tId, examId);
       //console.log(event.target.selectedIndex);
     },
+    seasonTypeFn: (e) =>{
+      //localStorage.setItem('classType', event.target.value);
+      let data = { key: e.target.name, value: e.target.value};
+      dispatch(setFieldValue(data));
+      //设定 seasonType
+      let seasonTotal = JSON.parse(localStorage.getItem('seasonType'));
+      console.log(`seasonTotal : ${seasonTotal}`);
+      let st = seasonTotal.filter(function(item){ return item.year == data.value });
+      dispatch(setSeasonType(st));
+    },
     fieldChangeFn: (e) => {
-      //console.log(e.target.name + '' + e.target.value);
+      console.log(e.target.name + '' + e.target.value);
       let data = { key: e.target.name, value: e.target.value};
       dispatch(setFieldValue(data));
     },

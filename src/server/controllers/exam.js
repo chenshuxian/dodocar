@@ -62,6 +62,27 @@ module.exports = {
         ctx.rest(result);
 
     },
+    'POST /api/season': async (ctx, next) => {
+
+        let result = { success: false }
+        let serverFilePath = path.join(__dirname, '../static/')
+    
+        // 上传文件事件
+        try{
+            result = await uploadFile( ctx, {
+                fileType: 'json',
+                path: serverFilePath
+            })
+
+            result = await exam.createSeason('../static/json/' + result.fileName);
+        }catch(e) {
+            console.log(e);
+        }
+        
+
+        ctx.rest(result);
+
+    },
     'GET /api/trainBook': async (ctx, next) => {
         exam.trainBook();
     },

@@ -169,7 +169,10 @@ module.exports = {
         
         let dgData = await User.findAll({order:['stuNum']});
         let teacher = await Teacher.findAll({attributes: ['name','id']});
-        let typeClass = await TypeClass.findAll({attributes: {exclude:['createdAt', 'updatedAt', 'version']}});
+        let typeClass = await TypeClass.findAll(
+            {
+                attributes: {exclude:['createdAt', 'updatedAt', 'version']}
+            });
         let tt = await getTrainTime();
 
         let data = {

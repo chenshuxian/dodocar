@@ -7,6 +7,7 @@ import { addUser } from '../../actions/index';
   
 const AddExam = ({
     addExam,
+    addSeason,
     addStu,
     handleUploadData
 }) => (
@@ -44,6 +45,23 @@ const AddExam = ({
               <li><b> name: 帳號 </b></li>
               <li><b> passwd: 密碼 </b></li>
               <li><b> email: 可有可無 </b></li>
+              </ul>
+          </FormGroup>
+          <hr />
+          <FormGroup row>
+              <Label for="exampleFile">学期管理</Label>
+              <Input type="file" name="seasonfile" id="seasonFile" />
+              <Button onClick={addSeason}>建立</Button> 
+          </FormGroup>
+          <p> 上傳格式說明: <a href="/static/sql/user.json" target="_blank">season 範例檔</a></p>
+          <FormGroup row>
+              <img src='/static/images/seasonJson.png' />
+              <ul>
+              <li><b> year: 年  </b></li>
+              <li><b> name: 期别 </b></li>
+              <li><b> start: 期别开始 </b></li>
+              <li><b> finish: 期别结束  </b></li>
+              <li><b> exam: 考试日期 </b></li>
               </ul>
           </FormGroup>
         </Form>

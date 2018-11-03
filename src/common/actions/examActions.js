@@ -29,4 +29,5 @@ export const setModalMsg = createAction('SET_MODALMSG');
 export const setModalTit = createAction('SET_MODALTIT');
 export const workpage = createAction('WORKPAGE');
 export const addExam = createAction('ADDEXAM',WebAPI.addExam);
+export const addSeason = createAction('ADDSEASON', WebAPI.addSeason);
 export const finishData = createAction('FINISHDATA');

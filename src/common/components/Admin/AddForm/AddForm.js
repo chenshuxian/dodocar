@@ -76,18 +76,21 @@ const AddForm = ({
     teacherFn,
     classTypeFn,
     classType,
+    yearType,
     classTypeIndex,
     teacherIndex,
     formData,
     fieldChangeFn,
     newAdd,
     season,
+    year,
     seasonId,
     formState,
     seasonType,
     delScore,
     csv,
-    csvDownload
+    csvDownload,
+    seasonTypeFn
 }) => (
 <section className='examPage' id='exam'>
   <Container>
@@ -102,6 +105,7 @@ const AddForm = ({
             <Form id="adduser">
                 <FormGroup row>
                     <FieldSelect label="訓練班別:" name="classType"  options={classType} chFn={fieldChangeFn} value={formData} />
+                    <FieldSelect label="訓練年度:" name="yearType"  options={year} chFn={seasonTypeFn} value={formData} />
                     <FieldSelectSeason label="訓練期別:" name="seasonType"  options={seasonType} chFn={classTypeFn(teachers[teacherIndex] ? teachers[teacherIndex].id : '' )} 
                     value={formData}/>
                 </FormGroup>

@@ -62,7 +62,7 @@ var getInit = (dispatch) => {
     trainTime = JSON.parse(dgData.trainTime);
     localStorage.setItem('dataStore', dgData.dgData);
     localStorage.setItem('seasonType', dgData.typeClass);
-    typeClass = seasonTransfer(typeClass, 2017);
+    typeClass = seasonTransfer(typeClass, 107);
     dispatch(setFormData(formData));
     dispatch(getDgData({dg:dgDataNew}));
     dispatch(getTeacher({teacher:teacher}));

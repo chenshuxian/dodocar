@@ -236,7 +236,7 @@ module.exports = {
         try {
             fs.readFile(path.resolve(__dirname, url), async function(err, data){
                 var season = JSON.parse(data);
-                //console.log('seasonID:' + season[1].id);
+                console.log('seasonID:' + season[1].id);
                 var d = new Date();
                 var y = d.getFullYear();
                 // var seasonId = season[1].id;

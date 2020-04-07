@@ -134,7 +134,7 @@ const AddForm = ({
                     <Field label="行動電話:" name="tel" value={formData} chFn={fieldChangeFn}/>
                     <Field label="住家電話:" name="mobile" value={formData} chFn={fieldChangeFn}/>
                     <FieldSelect label="來源:" name="source" options={source} value={formData} chFn={fieldChangeFn}/>
-                    <FieldSelect label="教練姓名:" name="teacher" options={teachers} chFn={teacherFn(seasonType[classTypeIndex] ? seasonType[classTypeIndex].name : '' )} 
+                    <FieldSelect label="教練姓名:" name="teacherId" options={teachers} chFn={teacherFn(seasonType[classTypeIndex] ? seasonType[classTypeIndex].name : '' )} 
                     value={formData}/>
                     <FieldSelect label="選訓時間:" name="trainTimeId" options={trainTime} styles={{width:'120px'}} 
                     value={formData} chFn={fieldChangeFn}/>

@@ -1,6 +1,7 @@
 import db from '../db';
+import examDate from './ExamDate';
 
-module.exports = db.defineModel('users', {
+var dbx = db.defineModel('users', {
     stuNum: db.STRING(16),
     passwd: db.STRING(100),
     name: db.STRING(100),
@@ -22,5 +23,10 @@ module.exports = db.defineModel('users', {
     addrNum: {allowNull: true, type: db.STRING(16)},
     payment: {allowNull: true, type: db.BIGINT(20)},
     payDate: {allowNull: true, type: db.BIGINT(20)},
-    seasonType: db.STRING(15)
+    seasonType: db.STRING(15),
+    yearType: db.BIGINT(20)
 });
+
+dbx.hasOne(examDate,{foreignKey: 'name'});
+
+module.exports = dbx;

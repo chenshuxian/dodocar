@@ -8,6 +8,7 @@ import ExamPageContainer from '../containers/ExamPageContainer';
 import ScoreContainer from '../containers/ScoreContainer';
 import AddExamContainer from '../containers/AddExamContainer';
 import AddFormContainer from '../containers/Admin/AddFormContainer';
+import ManagmentCar from '../containers/MCar/AddFormContainer';
 //import auth from '../utils/auth';
 import WebAPI from '../utils/WebAPI';
 
@@ -19,5 +20,6 @@ export default (
     <Route path="/score" component={ScoreContainer}  />
     <Route path="/addExam" component={AddExamContainer}/>
     <Route path="/ericAdmin" component={AddFormContainer} />
+    <Route path="/mCar" component={ManagmentCar} />
   </Route>
 );

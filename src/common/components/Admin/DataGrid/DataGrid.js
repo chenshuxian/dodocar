@@ -11,14 +11,7 @@ const genderType = {
     '2': '女'
 };
 
-const teacher = {
-    'W100097559': '薛朝元',
-    'W100389785': '吳子祺',
-    'W100152304': '何清寬',
-    'W100168900': '陳清江',
-    'H122085541': '吳國良',
-    'F125784192': '洪詩評'
-};
+const teacher = {"A223851606":"徐思綺","W100124542":"周國隆","W100158684":"黃邦培","W100229257":"薛海平","W100356062":"何正傑","W100364582":"李焯燦","W100371863":"薛逸華"}
 
 const PT = TRAINTIME;
 
@@ -53,7 +46,6 @@ class DataGrid extends React.Component {
     componentDidMount() {
         this.props.getUserData();
         this.props.onChangePage();
-        //console.log('reander1');
     }
         
     render() {
@@ -61,7 +53,7 @@ class DataGrid extends React.Component {
         //console.log(this.teacher);
         const options = {
             onRowClick: this.props.onRowClick,
-            onSearchChange: this.props.onSearchChange, 
+            //onSearchChange: this.props.onSearchChange, 
             onDeleteRow: this.props.onDeleteRow,
             clearSearch: true 
         };
@@ -72,6 +64,9 @@ class DataGrid extends React.Component {
             //clickToSelect: true  // enable click to select
         };
         const data = this.props.columns;
+       
+
+       // console.log("dgt=" + JSON.stringify(this.props.teacher));
         //const seasonType =  this.props.seasonType.map((x) => x.name);
         // const seasonType = {} ;
         // const obj = this.props.seasonType;
@@ -84,14 +79,14 @@ class DataGrid extends React.Component {
         return (
             <div>
             <BootstrapTable data={ data } version='4' selectRow={ selectRowProp } options={ options }
-            striped hover condensed scrollTop={ 'Bottom' } search multiColumnSearch pagination deleteRow>
+            striped hover condensed scrollTop={ 'Bottom' } search={true} multiColumnSearch pagination deleteRow>
                 <TableHeaderColumn isKey dataField='id'>身份證字號</TableHeaderColumn>
                 <TableHeaderColumn dataField='name'>姓名</TableHeaderColumn>
                 <TableHeaderColumn width="46"dataField='gender' dataFormat={ genderFn } formatExtraData={ genderType }
                 filterFormatted >性別</TableHeaderColumn>
                 <TableHeaderColumn dataField='seasonType'>期別</TableHeaderColumn>
                 <TableHeaderColumn dataField='teacherId' dataFormat={ genderFn } formatExtraData={ teacher }
-                filterFormatted filter={ { type: 'SelectFilter', options: teacher } }>教練</TableHeaderColumn>
+                filterFormatted filter={ { type: 'SelectFilter', options: teacher }}>教練</TableHeaderColumn>
                 <TableHeaderColumn dataField='trainTimeId' dataFormat={ genderFn } formatExtraData={ PT } 
                 filterFormatted filter={ { type: 'SelectFilter', options: PT } }>練習時間</TableHeaderColumn>
                 <TableHeaderColumn dataField='id' dataFormat={ fnFormat }  width='60px'>功能</TableHeaderColumn>

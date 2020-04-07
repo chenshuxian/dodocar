@@ -11,32 +11,36 @@ const company = '/260002';
 module.exports = {
     csv: async (obj, fileName) => {
         //const filePath = path.join(__dirname,`./static/download/`);
-        obj.opts.quote = '';
-        const json2csvParser = new Parser(obj.opts);
-        const JsonStr = JSON.stringify(obj.csvJson);
-        const JsnoP = JSON.parse(JsonStr);
-        const csv = await json2csvParser.parse(JsnoP);
-        const filePath = downloadPath + fileName;
+        if(obj.csvJson == ""){
+           console.log('建档失敗檔案為空');
+        }else{
+            obj.opts.quote = '';
+            const json2csvParser = new Parser(obj.opts);
+            const JsonStr = JSON.stringify(obj.csvJson);
+            const JsnoP = JSON.parse(JsonStr);
+            const csv = await json2csvParser.parse(JsnoP);
+            const filePath = downloadPath + fileName;
 
-        console.log(`filePath:${filePath}`);
+            console.log(`filePath:${filePath}`);
 
-        await fs.exists(filePath, function (exists) {
-            //util.debug(exists ? "it's there" : "no file!");
-            if (exists) {
-                fs.writeFile(filePath + company + fileName + "_" + obj.type + ".csv", csv, 'utf8', (err) => {
-                    if (err) throw err;
-                    console.log('file saved' + downloadPath);
-                });
-            } else {
-                fs.mkdir(filePath ,'0777', function (err) {
-                    if (err) throw err;
+            await fs.exists(filePath, function (exists) {
+                //util.debug(exists ? "it's there" : "no file!");
+                if (exists) {
                     fs.writeFile(filePath + company + fileName + "_" + obj.type + ".csv", csv, 'utf8', (err) => {
                         if (err) throw err;
                         console.log('file saved' + downloadPath);
                     });
-                });
-            }
-          });
+                } else {
+                    fs.mkdir(filePath ,'0777', function (err) {
+                        if (err) throw err;
+                        fs.writeFile(filePath + company + fileName + "_" + obj.type + ".csv", csv, 'utf8', (err) => {
+                            if (err) throw err;
+                            console.log('file saved' + downloadPath);
+                        });
+                    });
+                }
+            });
+        }
 
        
     },

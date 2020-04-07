@@ -56,8 +56,8 @@ var readyExam = async (studId) => {
     }),
     arr;
     arr = examAT(area);
-    if ( arr.length == 0 )
-	arr = [1];
+    // if ( arr.length == 0 )
+	// arr = [1];
 
     console.log('readyExam:' + JSON.stringify(arr));
     if (arr.length == 0) 
@@ -69,19 +69,30 @@ var readyExam = async (studId) => {
 //若題庫只有一題，直接返回，不進行亂數
 //@params 題庫
 //return 題庫id
-var curExamId = (examArr) => {
+var curExamId = (examArr,stuId) => {
     var len = examArr.length,
         index = Math.floor((Math.random() * len));
 
+        //如果只剩一題，學員考題清空
+        if(len == 1)
+        {
+            Score.destroy({
+                where: {
+                    studentId: stuId 
+                }
+            });
+        }
+
     return examArr[index];
 }
+
 
 module.exports = {
     // 取得考題，examId從題庫中的examId進行亂數取得
     getExam: async (studId) => {
         var re = await readyExam(studId),
             ea = await examArea(re),
-            examId = await curExamId(ea);
+            examId = await curExamId(ea,studId);
 
         try {
             let exam = await Exam.findAll({

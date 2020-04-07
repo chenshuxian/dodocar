@@ -37,6 +37,7 @@ export const UserState = Immutable.fromJS({
     addr : '',
     tel : '',
     mobile : '',
+    teacherId:'',
     source : '',
     carType : '',
     trainScore : '',
@@ -73,5 +74,21 @@ export const ExamState = Immutable.fromJS({
   modalMsg: '是否提前結束考試',
   modalTitle: '提示',
   finishData: []
+});
+
+//car 
+export const CarState = Immutable.fromJS({
+  formData: {
+    car_number: '',
+    car_maker: '',
+    engin_id: '',
+    born_date: '',
+    ins_date: '',
+    cc: '',
+    color: '',
+    lic_status: '',
+    hand_auto: '',
+    road_car:''
+  }
 });
 

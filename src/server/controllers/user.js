@@ -7,6 +7,7 @@ import auth from '../modules/auth';
 import download from '../download';
 import send from 'koa-send';
 import fs from 'fs';
+import { isNull } from 'util';
 
 
 
@@ -199,7 +200,8 @@ module.exports = {
         const seasonId = ctx.request.query.seasonId;
         try {
             //开训名单
-            var startObj = await start(seasonId);
+            
+            var startObj = await start(seasonId);           
             await download.csv(startObj,seasonId);
             //结训名单
             var finishObj = await finish(seasonId);

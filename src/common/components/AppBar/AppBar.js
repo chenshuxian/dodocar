@@ -16,10 +16,10 @@ const DefautBar = () => (
   </ul>
 );
 
-const HomeBar = () => (
+const HomeBar = (props) => (
     <ul className="navbar-nav ml-auto">
       <li className="nav-item">
-        <a className="nav-link js-scroll-trigger" href="/">返回首頁</a>
+        <a className="nav-link js-scroll-trigger" onClick={props.goExam}>繼續考試</a>
       </li>
     </ul> 
 );
@@ -32,8 +32,8 @@ const AdminBar = () => (
   </ul> 
 );
 
-function switchBar(page) {
-  var focusBar = <HomeBar />
+function switchBar(page, goExam) {
+  var focusBar = <HomeBar goExam={goExam}/>
   if (page == 'admin'){
     focusBar = ""
   }else if (page == '/'){
@@ -46,7 +46,7 @@ const AppBar = ({
   isAuthorized,
   userName,
   workpage,
-  onLogin
+  goExam
 }) => (
   <nav className="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
       <div className="container">
@@ -56,7 +56,7 @@ const AppBar = ({
           <i className="fa fa-bars"></i>
         </button>
         <div className="collapse navbar-collapse" id="navbarResponsive">
-            { switchBar(workpage)}
+            { switchBar(workpage, goExam)}
         </div>
       </div>
     </nav>

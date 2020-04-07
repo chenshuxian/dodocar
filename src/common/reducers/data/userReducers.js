@@ -2,22 +2,6 @@ import { handleActions } from 'redux-actions';
 import { UserState } from '../../constants/models';
 import { fromJS } from 'immutable';
 
-import {
-  AUTH_START,
-  AUTH_COMPLETE,
-  AUTH_ERROR,
-  LOGOUT_START,
-  SET_USER,
-  ADD_USER,
-  GETDGDATA,
-  GETTEACHER,
-  GET_TRAIN_TIME,
-  SET_FORM_DATA,
-  SET_FIELD_VALUE,
-  FIX_TRAIN_TIME,
-  SET_SEASON_TYPE
-} from '../../constants/actionTypes';
-
 const userReducers = handleActions({
   AUTH_START: (state) => (
     state.merge({
@@ -86,7 +70,7 @@ const userReducers = handleActions({
   SET_FIELD_VALUE: (state, { payload }) => {
     let key = payload.key,
         value = payload.value;
-        //console.log(state);
+        //console.log("admin:" + state);
     return state.mergeIn(['formData',key], value);
   },
   FIX_TRAIN_TIME: (state, { payload }) => (

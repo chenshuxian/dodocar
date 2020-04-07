@@ -1,9 +1,9 @@
 export const HEADER = {
-    TITLE : '陽明駕訓班',
+    TITLE : '金门駕訓班',
     SUBTITLE : '學車 - 考照 一次搞定'
 };
 export const NAV = {
-    TITLE : '陽明駕訓班',
+    TITLE : '金门駕訓班',
     EXAM : '考試專區',
     ABOUT : '關於我們',
     CONTACT : '聯絡我們'

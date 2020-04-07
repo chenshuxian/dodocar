@@ -41,9 +41,10 @@ var userCreate = async (user) => {
             roadScore: user.roadScore,
             memo: user.memo,
             trainTimeId: user.trainTimeId,
-            teacherId: user.teacher,
+            teacherId: user.teacherId,
             classType: user.classType,
             seasonType: user.seasonType,
+            yearType: user.yearType,
             payment: user.payment,
             payDate: new Date(user.payDate).getTime(),
             trainId: '000'
@@ -237,7 +238,7 @@ module.exports = {
                 { 
                     where: { 
                         examDateId: user.seasonType,
-                        teacherId: user.teacher,
+                        teacherId: user.teacherId,
                         trainTimeId: user.trainTimeId
                     }
                 } /* where criteria */
@@ -273,9 +274,10 @@ module.exports = {
                 roadScore: user.roadScore,
                 memo: user.memo,
                 trainTimeId: user.trainTimeId,
-                teacherId: user.teacher,
+                teacherId: user.teacherId,
                 classType: user.classType,
                 seasonType: user.seasonType,
+                yearType: user.yearType,
                 payment: user.payment,
                 payDate: new Date(user.payDate).getTime(),
                 trainId: '000'
@@ -308,7 +310,7 @@ module.exports = {
                 { 
                     where: { 
                         examDateId: user.seasonType,
-                        teacherId: user.teacher,
+                        teacherId: user.teacherId,
                         trainTimeId: user.trainTimeId
                     }
                 } /* where criteria */

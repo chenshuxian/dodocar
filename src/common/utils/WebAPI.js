@@ -25,7 +25,11 @@ import {
   changeClassType,
   changeFormState,
   finishData,
-  setSeasonType
+  setSeasonType,
+  resetTime,
+  resetQId,
+  restartExam,
+  setTeacherDg
 } from '../actions';
 
 function getCookie(keyName) {
@@ -49,6 +53,24 @@ function seasonTransfer(seasonObj,year) {
   //console.log(`2017season ${b}`);
   return b;
 }
+
+function arrToOne(arr) {
+    
+  console.log("arrToOne:" + JSON.stringify(arr));
+  var c = arr.map(function(item) { 
+      var rObj = {};
+      rObj[item.id] = item.name;
+      return rObj;
+   });
+  var str = JSON.stringify(c);
+  var one = str.replace(/},{/g,",");
+  one = one.replace("[","");
+  one = one.replace("]","");
+  
+  return one;
+
+}
+
 var getInit = (dispatch) => {
   axios.get('/api/init').then((response) => {
     //dispatch(workpage('examPage'));
@@ -62,6 +84,8 @@ var getInit = (dispatch) => {
     trainTime = JSON.parse(dgData.trainTime);
     localStorage.setItem('dataStore', dgData.dgData);
     localStorage.setItem('seasonType', dgData.typeClass);
+  
+    
     typeClass = seasonTransfer(typeClass, 107);
     dispatch(setFormData(formData));
     dispatch(getDgData({dg:dgDataNew}));
@@ -72,6 +96,14 @@ var getInit = (dispatch) => {
   }).catch((error) => {
     console.log(error);
   });
+}
+
+var getSeason = (year) => {
+  let seasonTotal = JSON.parse(localStorage.getItem('seasonType'));
+    console.log(`seasonTotal : ${seasonTotal}`);
+    let st = seasonTotal.filter(function(item){ return item.year == year });
+
+    return st;
 }
 
 export default {
@@ -258,6 +290,9 @@ export default {
         localStorage.setItem('examId', exam[0].examId);
         dispatch(getExam());
         dispatch(startExam());
+        dispatch(resetTime());
+        dispatch(resetQId());
+        dispatch(restartExam());
         dispatch(workpage('examPage'));
         browserHistory.push('/examPage');
       }
@@ -309,6 +344,7 @@ export default {
         dispatch(getTrainTime(JSON.parse(response.data.data)));
         dispatch(changeFormState('update'));
         dispatch(setFormData(row));
+        dispatch(setSeasonType(getSeason(row.yearType)));
         // 設定考期時間
         dispatch(changeClassType(row.classType.substr(-1) -1));
     })
@@ -337,5 +373,9 @@ export default {
   },
   csvDownload: (sId) => {
     window.open("http://www.fantasyball.tw:3000/static/download/"+sId+".zip");
+  },
+  getSeason: (year) => {
+    
+    return getSeason(year);
   }
 };

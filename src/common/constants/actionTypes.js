@@ -39,3 +39,12 @@ export const FIX_TRAIN_TIME = 'FIX_TRAIN_TIME';
 export const SET_SELECTED = 'SET_SELECTED';
 export const FINISHDATA = 'FINISHDATA';
 export const SET_SEASON_TYPE = 'SET_SEASON_TYPE';
+export const RESET_TIME = 'RESET_TIME';
+export const RESET_QID = 'RESET_QID';
+export const RESTART_EXAM = 'RESTART_EXAM';
+
+// MCar 
+
+export const ADD_CAR = 'ADD_CAR';
+export const DEL_CAR = 'DEL_CAR';
+export const UPD_CAR = 'UPD_CAR';

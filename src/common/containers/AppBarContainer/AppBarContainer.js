@@ -9,6 +9,7 @@ import {
   setUi,
   login
 } from '../../actions';
+import WebAPI from '../../utils/WebAPI';
 
 export default connect(
   (state) => ({
@@ -23,6 +24,9 @@ export default connect(
     ),
     onLogin: () => {
       dispatch(login())
+    },
+    goExam: (event) => {
+      WebAPI.getExam(dispatch);
     }
   })
 )(AppBar);

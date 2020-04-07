@@ -13,9 +13,32 @@ export const TRAINTIME = {
     11: "15:20~16:10",
     12: "16:10~17:00",
     13: "17:00~17:50",
-    14: "17:50~18:40"
+    14: "17:50~18:40",
+    15: "17:00~17:50",
+    16: "17:50~18:40"
 };
 export const TRAINBOOK = {
     initTeacher: 'A223851606',
     initExam: '10241B'
-}
+};
+
+export const CARTYPE = {
+    1:'手排',
+    2:'自排'
+};
+
+export const COLOR = {
+    1:'白色',
+    2:'銀色'
+};
+
+export const YN = {
+    1:'是',
+    2:'否'
+};
+
+export const LIC = {
+    1:'本區新領',
+    2:'停駛轉繳銷',
+    3:'外區移入-過戶'
+};

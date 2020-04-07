@@ -90,9 +90,7 @@ export default connect(
       let data = { key: e.target.name, value: e.target.value};
       dispatch(setFieldValue(data));
       //设定 seasonType
-      let seasonTotal = JSON.parse(localStorage.getItem('seasonType'));
-      console.log(`seasonTotal : ${seasonTotal}`);
-      let st = seasonTotal.filter(function(item){ return item.year == data.value });
+      let st = WebAPI.getSeason(data.value);
       dispatch(setSeasonType(st));
     },
     fieldChangeFn: (e) => {

@@ -14,7 +14,10 @@ import {
     SET_MODALTIT,
     WORKPAGE,
     ADDEXAM,
-    FINISHDATA
+    FINISHDATA,
+    RESET_TIME,
+    RESET_QID,
+    RESTART_EXAM
 } from '../constants/actionTypes';
 
 export const createQ = createAction('CREATE_Q');
@@ -31,3 +34,6 @@ export const workpage = createAction('WORKPAGE');
 export const addExam = createAction('ADDEXAM',WebAPI.addExam);
 export const addSeason = createAction('ADDSEASON', WebAPI.addSeason);
 export const finishData = createAction('FINISHDATA');
+export const resetTime = createAction('RESET_TIME');
+export const resetQId = createAction('RESET_QID');
+export const restartExam = createAction('RESTART_EXAM');

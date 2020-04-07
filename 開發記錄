@@ -1,0 +1,47 @@
+車輛維修管理系統
+1.維修管理
+  a.新增
+  b.修改
+  c.刪除
+
+  a.新增
+  欄位(車號、入廠日期、出廠日期、)
+
+   報表用每台車輛去 list
+
+
+2.車輛管理(點進去後，展出目前車輛)
+需要的欄位(車號、廠牌、引擎號碼、出廠年月、保險日期、排氣量、顏色、牌照狀態、手/自排、道駕車)
+車牌---英文與數字，但會有 - 號，如：ABC-1234
+廠牌---中英文
+引擎號碼---英文與數字連續，如：K11GLA43708
+出廠年月---西元年月，如：200201
+保險日期---西元年月日，如：20191018
+排氣量---千位數，如：1275
+顏色---中文字，如：白
+牌照狀態---中文，如：本區新領、停駛轉繳銷、外區移入-過戶、
+手/自排---中文，兩個選項：手排/自排
+道駕車---中文，兩個選項：是/否
+
+開發步驟:
+1. 建立車輛管理表
+create table mCar(
+   id VARCHAR(50) NOT NULL,
+   car_number VARCHAR(100) NOT NULL,
+   car_maker VARCHAR(40) NOT NULL,
+   engin_id VARCHAR(40) NOT NULL,
+   born_date bigint(20) NOT NULL,
+   ins_date bigint(20) NOT NULL,
+   cc bigint(20) NOT NULL,
+   color VARCHAR(10) NOT NULL,
+   lic_status VARCHAR(100) NOT NULL,
+   hand_auto VARCHAR(40) NOT NULL,
+   road_car int(10) NOT NULL,
+   PRIMARY KEY ( id )
+);
+2. 建立服務接口
+   1. 建立controllers
+   2. 建立models
+   3. 建立modules
+3. 建立前端頁面
+  

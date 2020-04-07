@@ -11,7 +11,10 @@ import {
     SET_MODALMSG,
     SET_MODALTIT,
     START_EXAM,
-    FINISHDATA
+    FINISHDATA,
+    RESET_TIME,
+    RESET_QID,
+    RESTART_EXAM
 } from '../../constants/actionTypes';
 
 const examReducers = handleActions({
@@ -42,6 +45,9 @@ const examReducers = handleActions({
   FINISH_EXAM: (state) => {
     return state.set('finishExam', true);
   },
+  RESTART_EXAM: (state) => (
+    state.set('finishExam', false)
+  ),
   SCORE: (state, {payload}) => (
     state.set('score', payload)
   ),
@@ -56,6 +62,12 @@ const examReducers = handleActions({
   ),
   FINISHDATA: (state, { payload }) => (
     state.set('finishData' , payload)
+  ),
+  RESET_TIME: (state) => (
+    state.set('time', 1800)
+  ),
+  RESET_QID: (state) => (
+    state.set('questionID', 1)
   )
 }, ExamState);
 

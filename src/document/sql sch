@@ -76,3 +76,22 @@ create table exam (
     answer varchar(50),
     primary key(id)
 ) engine=innodb;
+
+1. 建立車輛管理表
+create table mCar(
+   id VARCHAR(50) NOT NULL,
+   car_number VARCHAR(100) NOT NULL,
+   car_maker VARCHAR(40) NOT NULL,
+   engin_id VARCHAR(40) NOT NULL,
+   born_date bigint(20) NOT NULL,
+   ins_date bigint(20) NOT NULL,
+   cc bigint(20) NOT NULL,
+   color VARCHAR(10) NOT NULL,
+   lic_status VARCHAR(100) NOT NULL,
+   hand_auto VARCHAR(40) NOT NULL,
+   road_car int(10) NOT NULL,
+   createdAt bigint not null,
+   updatedAt bigint not null,
+   version bigint not null,
+   PRIMARY KEY ( id )
+);

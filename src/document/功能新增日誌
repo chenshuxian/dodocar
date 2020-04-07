@@ -65,3 +65,38 @@ Server
    users, trainBook, teachers, trainTime, examDate
 3. modules
 
+2020/04/01
+車輛維修管理系統
+1.維修管理
+  a.新增
+  b.修改
+  c.刪除
+
+  a.新增
+  欄位(車號、入廠日期、出廠日期、)
+
+   報表用每台車輛去 list
+
+
+2.車輛管理(點進去後，展出目前車輛)
+需要的欄位(車號、廠牌、引擎號碼、出廠年月、保險日期、排氣量、顏色、牌照狀態、手/自排、道駕車)
+車牌---英文與數字，但會有 - 號，如：ABC-1234
+廠牌---中英文
+引擎號碼---英文與數字連續，如：K11GLA43708
+出廠年月---西元年月，如：200201
+保險日期---西元年月日，如：20191018
+排氣量---千位數，如：1275
+顏色---中文字，如：白
+牌照狀態---中文，如：本區新領、停駛轉繳銷、外區移入-過戶、
+手/自排---中文，兩個選項：手排/自排
+道駕車---中文，兩個選項：是/否
+
+2020/04/06
+bug: 修改學員數據時訓練年度沒有變更
+原因: 之前數據庫沒有存儲年度的欄位
+修改: 於 table 中加欄位
+step :
+1. alter table users add yearType bigint(20);
+2. Server models Users add yearType
+3. Server modules user insert and update function
+add yearType

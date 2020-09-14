@@ -10,16 +10,16 @@ import AddExamContainer from '../containers/AddExamContainer';
 import AddFormContainer from '../containers/Admin/AddFormContainer';
 import ManagmentCar from '../containers/MCar/AddFormContainer';
 //import auth from '../utils/auth';
-import WebAPI from '../utils/WebAPI';
+import CarAPI from '../utils/WebAPI';
 
 export default (
   <Route path='/' component={Main}>
     <IndexRoute component={HomePageContainer} />
-    <Route path="/notice" component={NoticePageContainer}  />
-    <Route path="/examPage" component={ExamPageContainer}  />
-    <Route path="/score" component={ScoreContainer}  />
-    <Route path="/addExam" component={AddExamContainer}/>
-    <Route path="/ericAdmin" component={AddFormContainer} />
-    <Route path="/mCar" component={ManagmentCar} />
+    <Route path='/notice' component={NoticePageContainer} />
+    <Route path='/examPage' component={ExamPageContainer} />
+    <Route path='/score' component={ScoreContainer} />
+    <Route path='/addExam' component={AddExamContainer} />
+    <Route path='/ericAdmin' component={AddFormContainer} />
+    <Route path='/mCar' component={ManagmentCar} />
   </Route>
 );

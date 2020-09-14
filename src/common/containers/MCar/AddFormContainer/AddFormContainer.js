@@ -3,48 +3,118 @@ import { connect } from 'react-redux';
 import AddForm from '../../../components/MCar/AddForm';
 import serialize from 'form-serialize';
 import CarAPI from '../../../utils/CarAPI';
-import { UserState } from '../../../constants/models';
-
+import { UserState, CarState } from '../../../constants/models';
 
 import {
   setCarValue,
+  setCarDetailValue,
   setCarData,
-  changeFormState
+  changeFormState,
 } from '../../../actions';
 
 export default connect(
   (state) => ({
-      carType: [{id:'1',name:'手排'},{id:'2',name:'自排'}],
-      color: [{id:'1',name:'白色'},{id:'2',name:'銀色'}],
-      rc: [{id:'1',name:'是'},{id:'2',name:'否'}],
-      lic: [{id:'1',name:'本區新領'},{id:'2',name:'停駛轉繳銷'},,{id:'3',name:'外區移入-過戶'}],
-      formData: state.getIn(['car', 'formData']).toObject(),
-      formState: state.getIn(['ui','formState']),
+    carType: [
+      { id: '1', name: '手排' },
+      { id: '2', name: '自排' },
+    ],
+    color: [
+      { id: '1', name: '白色' },
+      { id: '2', name: '銀色' },
+    ],
+    rc: [
+      { id: '1', name: '是' },
+      { id: '2', name: '否' },
+    ],
+    lic: [
+      { id: '1', name: '本區新領' },
+      { id: '2', name: '停駛轉繳銷' },
+      ,
+      { id: '3', name: '外區移入-過戶' },
+    ],
+    formData: state.getIn(['car', 'formData']).toObject(),
+    detailFormData: state.getIn(['car', 'detailFormData']).toObject(),
+    formState: state.getIn(['ui', 'formState']),
+    mCarState: state.getIn(['ui', 'mCarState']),
+    store: 'detailFormData',
+    teacher: state.getIn(['user', 'teacher']),
+    car: state.getIn(['car', 'carNum']),
+    fixStore: state.getIn(['car', 'fixStore']),
+    //car: JSON.parse(localStorage.getItem('car')),
   }),
   (dispatch) => ({
-    fieldChangeFn: (e) => {
-      console.log(e.target.name + '' + e.target.value);
-      let data = { key: e.target.name, value: e.target.value};
+    fieldChangeFn: (store) => () => {
+      console.log(event.target.name + '' + event.target.value);
+      let key = event.target.name,
+        value = event.target.value;
+
+      // 改變車號時取得對映的數據
+      if (key == 'car_id') {
+        CarAPI.getDetailStore(dispatch);
+      }
+      let data = {
+        key,
+        value,
+        store: store || 'formData',
+      };
       dispatch(setCarValue(data));
+      // 小計計算
+      if (key == 'num' || key == 'salary' || key == 'price') {
+        let num = Number(document.querySelector('#num').value),
+          salary = Number(document.querySelector('#salary').value),
+          price = Number(document.querySelector('#price').value),
+          count = num * price + salary;
+        let totalPrice = {
+          key: 'totalPrice',
+          value: count,
+          store: store || 'formData',
+        };
+        dispatch(setCarValue(totalPrice));
+        document.querySelector('#totalPrice').value = count;
+      }
     },
     handleSubmit: (e) => {
       e.preventDefault();
       var form = document.querySelector('#addcar'),
-          data = serialize(form, { hash: true });
-      console.log(data);
+        data = serialize(form, { hash: true });
+      console.log(`AddFormCon_addCar : ${data}`);
       CarAPI.addSingleCar(data, dispatch);
     },
     handleUpdate: (e) => {
       e.preventDefault();
       var form = document.querySelector('#addcar'),
-          data = serialize(form, { hash: true });
+        data = serialize(form, { hash: true });
       console.log(data);
-      CarAPI.updateCar(data,dispatch);
+      CarAPI.updateCar(data, dispatch);
+      //dispatch(addSingleUser(data, dispatch));
+    },
+    detailSubmit: (e) => {
+      e.preventDefault();
+      var form = document.querySelector('#detail'),
+        data = serialize(form, { hash: true });
+      console.log(`detaildata: ${data}`);
+      CarAPI.addDetailCar(data, dispatch);
+    },
+    detailUpdate: (e) => {
+      e.preventDefault();
+      var form = document.querySelector('#detail'),
+        data = serialize(form, { hash: true });
+      console.log(`detaildata: ${data}`);
+      CarAPI.updateDetail(data, dispatch);
       //dispatch(addSingleUser(data, dispatch));
     },
     newAdd: () => {
       CarAPI.getDataStore(dispatch);
-      dispatch(changeFormState('insert'))
+      dispatch(changeFormState('insert'));
+    },
+    excel: () => {
+      CarAPI.getReport();
+    },
+    report: () => {
+      let filename = localStorage.getItem('excelName');
+      window.open(
+        `http://localhost:3000/static/download/${filename}/${filename}.xlsx`
+      );
     },
   })
 )(AddForm);

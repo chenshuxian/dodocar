@@ -44,4 +44,48 @@ create table mCar(
    2. 建立models
    3. 建立modules
 3. 建立前端頁面
+
+汽車維修管理
+1. 建立管理頁面
+   1.1 建立 components / mCar (Bootstrap custom edit)
+   1.2 建立 container / mCar fn and mCar
+2. Redux 資料
+   2.1 建立 action
+   2.2 建立 constants / models Redux store 
+   2.4 建立 reducers / carReducers
+3. WebAPI 設定
+4. DB 設計
+   4.1 create table
+   create table mCarDetail(
+   id VARCHAR(50) NOT NULL,
+   car_id VARCHAR(100) NOT NULL,
+   teacher_id VARCHAR(50) NOT NULL,
+   fix_date bigint(20) NOT NULL,
+   fix_store VARCHAR(50) NOT NULL,
+   device VARCHAR(40) NOT NULL,
+   num int(10) NOT NULL,
+   price int(10) NOT NULL,
+   salary int(10),
+   totalPrice int(10) NOT NULL,
+   createdAt bigint(20) NOT NULL,
+   updatedAt bigint(20) NOT NULL,
+   version int(10),
+   PRIMARY KEY ( id )
+);
+
+  create table fixStore(
+   id VARCHAR(50) NOT NULL,
+   name VARCHAR(50) NOT NULL,
+   PRIMARY KEY ( id )
+);
+5. Server 開發
+   5.1 查出所有車輛id 
+      select distinct car_number from mCar;
+   5.２ 查出所有教師
+      select name from teachers; 
+   5.3 建立新增維護資料接口
+      1. server / controllers mcar.js
+      2. server / models 建立DB 模型
+      3. server / modules 建立 
   
+  insert into fixStore values('1','銘將');

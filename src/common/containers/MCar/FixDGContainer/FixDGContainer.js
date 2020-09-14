@@ -1,43 +1,42 @@
 import { connect } from 'react-redux';
-import DataGrid from '../../../components/MCar/DataGrid';
+import FixDG from '../../../components/MCar/FixDG';
 import CarAPI from '../../../utils/CarAPI';
 
 import {
   getDgData,
   workpage,
+  changeMCarState,
   setCarData,
-  changeFormState,
+  setCarDetailData,
 } from '../../../actions';
 
 export default connect(
   (state) => ({
-    columns: state.getIn(['car', 'dgData']),
-    selected: state.getIn(['user', 'selected']),
-    seasonType: state.getIn(['user', 'seasonType']),
-    teacher: state.getIn(['user', 'teacher']),
-    //isAuthorized: state.getIn(['user', 'isAuthorized']),
+    columns: state.getIn(['car', 'dgDetailData']),
   }),
   (dispatch) => ({
-    getCarData: () => {
-      CarAPI.getDataStore(dispatch);
-    },
+    // getDetailData: () => {
+    //   CarAPI.getDetailStore(dispatch);
+    // },
     onChangePage: () => {
       dispatch(workpage('admin'));
     },
     onRowClick: (row) => {
       for (const [key, value] of Object.entries(row)) {
-        //console.log(`${key} : ${value}`); // "a 5", "b 7", "c 9"
+        console.log(`${key} : ${value}`); // "a 5", "b 7", "c 9"
         if (value == null) {
           row[key] = '';
         }
         //document.getElementById[key].value = value;
       }
-      dispatch(changeFormState('update'));
-      let data = { store: row, storeName: 'formData' };
+      //row.detialId = row.id;
+      document.querySelector('#detailId').value = row.id;
+      dispatch(changeMCarState('update'));
+      let data = { store: row, storeName: 'detailFormData' };
       dispatch(setCarData(data));
     },
     onDeleteRow: (rows) => {
-      CarAPI.deleteRow(dispatch, rows);
+      CarAPI.deleteDetailRow(dispatch, rows);
     },
     onSearchChange: (searchText, colInfos, multiColumnSearch) => {
       const text = searchText.trim();
@@ -93,4 +92,4 @@ export default connect(
       dispatch(getDgData({ dg: data }));
     },
   })
-)(DataGrid);
+)(FixDG);

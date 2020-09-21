@@ -32,6 +32,25 @@ export default connect(
       ,
       { id: '3', name: '外區移入-過戶' },
     ],
+    year: [
+      { id: '1', name: '全部' },
+      { id: '2020', name: '2020' },
+    ],
+    month: [
+      { id: '0', name: '全部' },
+      { id: '01', name: '01' },
+      { id: '02', name: '02' },
+      { id: '03', name: '03' },
+      { id: '04', name: '04' },
+      { id: '05', name: '05' },
+      { id: '06', name: '06' },
+      { id: '07', name: '07' },
+      { id: '08', name: '08' },
+      { id: '09', name: '09' },
+      { id: '10', name: '10' },
+      { id: '11', name: '11' },
+      { id: '12', name: '12' },
+    ],
     formData: state.getIn(['car', 'formData']).toObject(),
     detailFormData: state.getIn(['car', 'detailFormData']).toObject(),
     formState: state.getIn(['ui', 'formState']),
@@ -49,7 +68,7 @@ export default connect(
         value = event.target.value;
 
       // 改變車號時取得對映的數據
-      if (key == 'car_id') {
+      if (key == 'car_id' || key == 'year' || key == 'month') {
         CarAPI.getDetailStore(dispatch);
       }
       let data = {

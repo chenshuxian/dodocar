@@ -66,19 +66,25 @@ var getInit = (dispatch) => {
       dispatch(setFixStore({ fixStore: fixStore }));
 
       //取得第一筆車號維修數據
-      let carId = { car_id: carNum[0].id };
-      getDetail(dispatch, carId);
+      //let carId = { car_id: carNum[0].id };
+      getDetail(dispatch);
     })
     .catch((error) => {
       console.log(error);
     });
 };
 
-var getDetail = (dispatch, data) => {
-  console.log(`getDetail: ${data.car_id}`);
+var getDetail = (dispatch) => {
+  //console.log(`getDetail: ${data.car_id}`);
+
+  let data = { car_id: document.querySelector('#car_id').value };
+  data.year = document.querySelector('#year').value;
+  data.month = document.querySelector('#month').value;
 
   axios
-    .get('/api/detail/', { params: { id: data.car_id } })
+    .get('/api/detail/', {
+      params: { id: data.car_id, year: data.year, month: data.month },
+    })
     .then((response) => {
       //console.log(response.data.data);
       let dgData = JSON.parse(response.data.data),
@@ -153,8 +159,7 @@ export default {
             //dispatch(modal());
             //取得當前car num
             //this.getDetailStore(dispatch);
-            let data = { car_id: document.querySelector('#car_id').value };
-            getDetail(dispatch, data);
+            getDetail(dispatch);
             alert('新增成功');
           }
         })
@@ -177,8 +182,7 @@ export default {
     if (data) {
       axios.put('/api/detail', { data: data }).then((response) => {
         if (response.data.success === true) {
-          let data = { car_id: document.querySelector('#car_id').value };
-          getDetail(dispatch, data);
+          getDetail(dispatch);
           dispatch(changeMCarState('insert'));
           dispatch(setCarData(data2));
           alert('更新成功');
@@ -190,8 +194,7 @@ export default {
     getInit(dispatch);
   },
   getDetailStore: (dispatch) => {
-    let data = { car_id: document.querySelector('#car_id').value };
-    getDetail(dispatch, data);
+    getDetail(dispatch);
   },
   deleteRow: (dispatch, rows) => {
     axios
@@ -224,18 +227,26 @@ export default {
     return dateFormat(date);
   },
   getReport: () => {
-    axios.get('/api/xls').then((response) => {
-      //alert('下載成功');
-      let filename = response.data.fileName;
-      console.log(`CarAPI: ${filename}`);
-      if (filename) {
-        localStorage.setItem('excelName', filename);
-        window.setTimeout(() => {
-          window.open(
-            `http://www.fantasyball.tw:3000/static/download/${filename}/${filename}.xlsx`
-          );
-        }, 3000);
-      }
-    });
+    let data = { car_id: document.querySelector('#car_id').value };
+    data.year = document.querySelector('#year').value;
+    data.month = document.querySelector('#month').value;
+
+    axios
+      .get('/api/xls', {
+        params: { id: data.car_id, year: data.year, month: data.month },
+      })
+      .then((response) => {
+        //alert('下載成功');
+        let filename = response.data.fileName;
+        console.log(`CarAPI: ${filename}`);
+        if (filename) {
+          localStorage.setItem('excelName', filename);
+          window.setTimeout(() => {
+            window.open(
+              `http://www.fantasyball.tw:3000/static/download/${filename}/${filename}.xlsx`
+            );
+          }, 3000);
+        }
+      });
   },
 };

@@ -103,6 +103,8 @@ export const CarState = Immutable.fromJS({
     price: '0',
     salary: '0',
     totalPrice: '0',
+    year: '1',
+    month: '0',
   },
   carNum: [],
   fixStore: [],

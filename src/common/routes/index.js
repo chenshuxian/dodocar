@@ -10,7 +10,7 @@ import AddExamContainer from '../containers/AddExamContainer';
 import AddFormContainer from '../containers/Admin/AddFormContainer';
 import ManagmentCar from '../containers/MCar/AddFormContainer';
 //import auth from '../utils/auth';
-import CarAPI from '../utils/WebAPI';
+import WebAPI from '../utils/WebAPI';
 
 export default (
   <Route path='/' component={Main}>
@@ -19,7 +19,11 @@ export default (
     <Route path='/examPage' component={ExamPageContainer} />
     <Route path='/score' component={ScoreContainer} />
     <Route path='/addExam' component={AddExamContainer} />
-    <Route path='/ericAdmin' component={AddFormContainer} />
+    <Route
+      path='/ericAdmin'
+      component={AddFormContainer}
+      onEnter={WebAPI.checkIP}
+    />
     <Route path='/mCar' component={ManagmentCar} />
   </Route>
 );

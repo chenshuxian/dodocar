@@ -1,5 +1,7 @@
 // store user as database:
 import model from '../model';
+//const { Op, sequelize } = require('sequelize');
+import { seq } from '../db';
 //import JSON2CSVAsyncParser from 'json2csv/JSON2CSVAsyncParser';
 
 let MCar = model.MCar;
@@ -54,7 +56,7 @@ module.exports = {
 
     [...new Set(dgData)];
 
-    let carNum = [];
+    let carNum = [{ id: 1, name: '全部' }];
     dgData.forEach(function (item, index, array) {
       carNum.push({ id: item.id, name: item.car_number });
     });
@@ -68,13 +70,42 @@ module.exports = {
     return JSON.stringify(data);
   },
 
-  dataStoreDetail: async (carId) => {
-    let dgData = await MCarDetail.findAll({ where: { car_id: carId } });
+  dataStoreDetail: async (carId, y, m) => {
+    let fixdate = '%';
+    let car = {};
+
+    //查詢某特定年資料
+    if (y != 1) {
+      fixdate = `%${y}%`;
+      //查詢某特定年月資料
+      if (m != 0) {
+        fixdate = `%${y}-${m}%`;
+      }
+    }
+
+    if (carId != 1) {
+      car = { car_id: carId };
+    }
+
+    let dgData = await MCarDetail.findAll({
+      where: seq.and(
+        seq.where(
+          seq.fn('FROM_UNIXTIME', seq.literal('fix_date' + '/1000')),
+          'like',
+          fixdate
+        ),
+        car
+      ),
+    });
 
     let data = {
       dgData: JSON.stringify(dgData),
     };
     return JSON.stringify(data);
+  },
+
+  test: async () => {
+    console.log('test');
   },
 
   addSingleCar: async (user) => {

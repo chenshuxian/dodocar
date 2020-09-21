@@ -113,6 +113,8 @@ const AddForm = ({
   count,
   report,
   excel,
+  year,
+  month,
 }) => (
   <section className='examPage' id='exam'>
     <Container>
@@ -225,6 +227,20 @@ const AddForm = ({
         <Button color='danger' onClick={excel}>
           建立EXCEL檔案
         </Button>
+        <FieldSelect
+          label='年:'
+          name='year'
+          options={year}
+          value={detailFormData}
+          chFn={fieldChangeFn(store)}
+        />
+        <FieldSelect
+          label='月:'
+          name='month'
+          options={month}
+          value={detailFormData}
+          chFn={fieldChangeFn(store)}
+        />
       </Row>
       <Row style={{ marginTop: 10 }}>
         <Col className='formCenter' xs='auto'>

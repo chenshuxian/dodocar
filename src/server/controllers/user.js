@@ -6,20 +6,13 @@ import path from 'path';
 import auth from '../modules/auth';
 import download from '../download';
 import send from 'koa-send';
-import fs from 'fs';
-import { isNull } from 'util';
-import { setFixStore } from '../../common/actions';
-
-import { sql2 } from '../db';
-import sequelize from 'sequelize';
+import mcar from '../modules/mcar';
 
 const User = model.Users;
 const Teacher = model.Teachers;
 const ExamDate = model.ExamDate;
 const MCarDetail = model.MCarDetail;
 const MCar = model.MCar;
-const FixStore = model.FixStore;
-const downloadPath = path.join(__dirname, '../static/download/');
 
 //ExamDate.hasMany(User);
 Teacher.hasMany(User);
@@ -264,46 +257,44 @@ module.exports = {
     const q = ctx.request.query;
     let xlsJson, c, t, fileName;
     let d = new Date();
+    let y = q.year;
+    let m = q.month;
+    let carId = q.id;
 
     try {
-      //取得維修數據
-      if (Object.keys(q).length == 0) {
-        xlsJson = await MCarDetail.findAll();
+      //依選擇取得對映數
+      //查詢某特定年資料
 
-        c = await MCar.findAll({ attributes: ['id', ['car_number', 'name']] });
-        c = await arr2obj(c);
+      let data = await mcar.dataStoreDetail(carId, y, m);
+      data = JSON.parse(data);
+      xlsJson = JSON.parse(data.dgData);
 
-        t = await Teacher.findAll({ attributes: ['id', 'name'] });
-        t = await arr2obj(t);
+      c = await MCar.findAll({ attributes: ['id', ['car_number', 'name']] });
+      c = await arr2obj(c);
 
-        fileName = dateFormat(d) + '_FIX';
+      t = await Teacher.findAll({ attributes: ['id', 'name'] });
+      t = await arr2obj(t);
 
-        // console.log(c);
-        // console.log(t);
-        // console.log(JSON.stringify(xlsJson));
+      fileName = dateFormat(d) + '_FIX';
 
-        // let c = carTrans();
-        // let t = teacherTrans();
-        for (var i in xlsJson) {
-          //console.log(`i : ${i}`);
-          var date = new Date(xlsJson[i].fix_date);
-          xlsJson[i].fix_date = dateFormat(date);
-          xlsJson[i].car_id = c[xlsJson[i].car_id];
-          xlsJson[i].teacher_id = t[xlsJson[i].teacher_id];
-        }
-        let jsonfile = JSON.stringify(xlsJson);
-        await download.xls(JSON.parse(jsonfile), fileName);
-        await download.zip(fileName);
-        //await  ctx.body (download.send(ctx, fileName));
-        // return (ctx.body = send(ctx, fileName + '.zip', {
-        //   root: downloadPath,
-        // }));
-      } else {
-        //依選擇取得對映數據
+      // console.log(c);
+      // console.log(t);
+      // console.log(JSON.stringify(xlsJson));
+
+      // let c = carTrans();
+      // let t = teacherTrans();
+      for (var i in xlsJson) {
+        //console.log(`i : ${i}`);
+        var date = new Date(xlsJson[i].fix_date);
+        xlsJson[i].fix_date = dateFormat(date);
+        xlsJson[i].car_id = c[xlsJson[i].car_id];
+        xlsJson[i].teacher_id = t[xlsJson[i].teacher_id];
       }
+      let jsonfile = JSON.stringify(xlsJson);
+      await download.xls(JSON.parse(jsonfile), fileName);
+      await download.zip(fileName);
+
       ctx.rest({ fileName: fileName });
-      //return (ctx.body = download.send(ctx, fileName));
-      //download.xls(xlsJson,'test');
     } catch (e) {
       console.log('there was an error');
       console.log(e);

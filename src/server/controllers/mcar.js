@@ -61,9 +61,11 @@ module.exports = {
   },
   'GET /api/detail': async (ctx, next) => {
     var carId = ctx.request.query.id;
+    var year = ctx.request.query.year;
+    var month = ctx.request.query.month;
     console.log(`/api/Detail ${carId}`);
     try {
-      var result = await mcar.dataStoreDetail(carId);
+      var result = await mcar.dataStoreDetail(carId, year, month);
     } catch (e) {
       console.log(e);
     }

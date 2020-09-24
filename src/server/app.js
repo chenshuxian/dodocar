@@ -22,15 +22,20 @@ const app = new Koa();
 
 // log request URL:
 app.use(async (ctx, next) => {
-    console.log(`Process ${ctx.request.method} ${ctx.request.url}...`);
-    await next();
+  console.log(`Process ${ctx.request.method} ${ctx.request.url}...`);
+  await next();
 });
 
 // Use this middleware to set up hot module reloading via webpack.
 if (process.env.NODE_ENV == 'test') {
-    const compiler = webpack(webpackConfig);
-    app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: webpackConfig.output.publicPath }));
-    app.use(webpackHotMiddleware(compiler));
+  const compiler = webpack(webpackConfig);
+  app.use(
+    webpackDevMiddleware(compiler, {
+      noInfo: true,
+      publicPath: webpackConfig.output.publicPath,
+    })
+  );
+  app.use(webpackHotMiddleware(compiler));
 }
 
 // static file support:
@@ -42,7 +47,7 @@ app.use(bodyParser());
 
 //無需進行驗證的頁面
 let path = [/^\/api\/login/, /^\/api\/register/, /^\//];
-app.use(jwtm({secret: config.secret}).unless({path:path}));
+app.use(jwtm({ secret: config.secret }).unless({ path: path }));
 
 // bind .rest() for ctx:
 app.use(rest.restify());

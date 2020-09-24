@@ -63,7 +63,8 @@ module.exports = {
     var carId = ctx.request.query.id;
     var year = ctx.request.query.year;
     var month = ctx.request.query.month;
-    console.log(`/api/Detail ${carId}`);
+
+    console.log(`/api/Detail ${carId} y: ${year} m: ${month}`);
     try {
       var result = await mcar.dataStoreDetail(carId, year, month);
     } catch (e) {

@@ -98,6 +98,45 @@ function dateExamRoad(csvJson, examDate) {
   return csvJson;
 }
 
+// [身分證字號10碼],[出生日期6~7碼],[姓名],[電話10碼],,,,,,,[郵地區號],[地址],[E-mail]
+async function apply(seasonId) {
+  var csvJson = await User.findAll({
+    include: [
+      {
+        model: Teacher,
+        attributes: ['id', 'born'],
+      },
+    ],
+    attributes: ['id', 'born', 'name', 'tel', 'addrNum', 'addr', 'memo'],
+    where: { seasonType: seasonId },
+    order: ['stuNum'],
+  });
+
+  csvJson = dateTransfer(csvJson);
+  const fields = [
+    'id',
+    'born',
+    'name',
+    'tel',
+    ,
+    ,
+    ,
+    ,
+    ,
+    'addrNum',
+    'addr',
+    'memo',
+  ];
+  const opts = { fields, header: false };
+  const type = 'A';
+
+  return {
+    csvJson,
+    opts,
+    type,
+  };
+}
+
 // [身分證字號10碼],[出生日期6~7碼],[姓名],[電話10碼],[學號7碼以下],[來源 1 碼],[手自排 1 碼],[教練身分證字號 10 碼],[教練生日 6~7 碼]
 async function start(seasonId) {
   var csvJson = await User.findAll({
@@ -227,8 +266,10 @@ module.exports = {
 
     const seasonId = ctx.request.query.seasonId;
     try {
+      //申報資料
+      var appObj = await apply(seasonId);
+      await download.csv(appObj, seasonId);
       //开训名单
-
       var startObj = await start(seasonId);
       await download.csv(startObj, seasonId);
       //结训名单

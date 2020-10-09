@@ -400,8 +400,8 @@ export default {
     axios.get('https://api.ipify.org?format=json').then((response) => {
       //console.log(`checkIP : ${response.data.ip}`);
       let ip = response.data.ip;
-      if (ip != '114.35.176.22') {
-        location.replace('http://localhost:3000');
+      if (ip != '114.35.176.22' || ip != '163.44.174.17') {
+        location.replace('http://www.fantasyball.tw:3000');
       }
     });
   },

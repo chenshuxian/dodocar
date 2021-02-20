@@ -8,7 +8,7 @@
     "initDB": "NODE_ENV=test node src/server/init-db.js"
   },
   "dependencies": {
-    "axios": "^0.13.1",
+    "axios": "^0.21.1",
     "bcrypt": "^0.8.7",
     "body-parser": "^1.15.2",
     "busboy": "^0.2.14",

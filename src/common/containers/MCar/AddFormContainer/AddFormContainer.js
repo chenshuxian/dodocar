@@ -12,6 +12,21 @@ import {
   changeFormState,
 } from '../../../actions';
 
+const years = [
+  { id: '1', name: '全部' },
+];
+
+let startYear = 2020;
+let nowYear = new Date().getFullYear();
+let sumYear = nowYear - startYear;
+
+for(let i = 0; i <= sumYear; i++) {
+  years.push({id : startYear + i, name: startYear + i});
+}
+
+// console.log(years);
+
+
 export default connect(
   (state) => ({
     carType: [
@@ -32,10 +47,7 @@ export default connect(
       ,
       { id: '3', name: '外區移入-過戶' },
     ],
-    year: [
-      { id: '1', name: '全部' },
-      { id: '2020', name: '2020' },
-    ],
+    year: years,
     month: [
       { id: '0', name: '全部' },
       { id: '01', name: '01' },

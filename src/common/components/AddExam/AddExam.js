@@ -54,6 +54,7 @@ const AddExam = ({
               <Button onClick={addSeason}>建立</Button> 
           </FormGroup>
           <p> 上傳格式說明: <a href="/static/sql/user.json" target="_blank">season 範例檔</a></p>
+          <p> 建立全年課表: <a href="http://www.km-driving.com.tw:3000/api/trainBook" target="_blank">建立年度課表</a></p>
           <FormGroup row>
               <img src='/static/images/seasonJson.png' />
               <ul>

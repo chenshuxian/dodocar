@@ -55,6 +55,7 @@ export default connect(
       { id: '107', name: '107' },
       { id: '108', name: '108' },
       { id: '109', name: '109' },
+      { id: '110', name: '110' },
     ],
     yearType: state.getIn(['user', 'formData', 'yearType']),
     seasonType: state.getIn(['user', 'seasonType']),

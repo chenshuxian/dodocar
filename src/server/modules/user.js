@@ -172,7 +172,8 @@ module.exports = {
         let teacher = await Teacher.findAll({attributes: ['name','id']});
         let typeClass = await TypeClass.findAll(
             {
-                attributes: {exclude:['createdAt', 'updatedAt', 'version']}
+                attributes: {exclude:['createdAt', 'updatedAt', 'version']},
+                order: ['createdAt']
             });
         let tt = await getTrainTime();
 

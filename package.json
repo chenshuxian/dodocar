@@ -16,7 +16,7 @@
     "debug": "~2.2.0",
     "easy-zip": "0.0.4",
     "ejs": "~2.4.1",
-    "express": "^4.13.4",
+    "express": "^4.17.3",
     "form-serialize": "^0.7.2",
     "formidable": "^1.1.1",
     "fs-sync": "^1.0.4",
